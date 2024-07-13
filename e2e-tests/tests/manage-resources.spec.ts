@@ -60,3 +60,21 @@ test("invalid resource form", async ({ page }) => {
 	// check if the success message is visible
 	await expect(page.getByText("Error adding resource")).toBeVisible();
 });
+
+test("should display users resources", async ({ page }) => {
+	// navigate to the resources page
+	await page.goto(`${url}/my-resources`);
+
+	// get the resource data
+	await expect(page.getByText("Test Resource")).toBeVisible();
+	await expect(page.getByText("This is a test description")).toBeVisible();
+	await expect(page.getByText("Test Location")).toBeVisible();
+	await expect(page.getByText("Bar")).toBeVisible();
+	await expect(page.getByText("120 minutes max")).toBeVisible();
+	await expect(page.getByText("20 person(s) max")).toBeVisible();
+	await expect(page.getByText("09:00 - 17:00")).toBeVisible();
+
+	// get the view details and add resource links
+	await expect(page.getByRole("link", { name: "View Details" })).toBeVisible();
+	await expect(page.getByRole("link", { name: "Add Resource" })).toBeVisible();
+});

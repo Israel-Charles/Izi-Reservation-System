@@ -7,6 +7,7 @@ import AddResource from "./pages/AddResource";
 import { useAppContext } from "./contexts/AppContext";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
+import MyResources from "./pages/MyResources";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -58,6 +59,14 @@ const App = () => {
 							element={
 								<Layout>
 									<AddResource />
+								</Layout>
+							}
+						/>
+						<Route
+							path="/my-resources"
+							element={
+								<Layout>
+									<MyResources />
 								</Layout>
 							}
 						/>

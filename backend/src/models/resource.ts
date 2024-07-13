@@ -1,20 +1,5 @@
 import mongoose from "mongoose";
-
-export type ResourceType = {
-	_id: string;
-	userId: string;
-	name: string;
-	location: string;
-	description: string;
-	maxResLen: number;
-	maxResSize: number;
-	type: string;
-	open: string;
-	close: string;
-	days: string[];
-	imageFiles: string[];
-	lastUpdated: Date;
-};
+import { ResourceType } from "../shared/types";
 
 const resourceSchema = new mongoose.Schema<ResourceType>({
 	userId: { type: String, required: true },

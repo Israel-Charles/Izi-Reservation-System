@@ -1,15 +1,5 @@
 import mongoose from "mongoose";
-
-export type ReservationType = {
-	_id: string;
-	userId: string;
-	resourceId: string;
-	comment: string;
-	groupSize: number;
-	start: Date;
-	end: Date;
-	lastUpdated: Date;
-};
+import { ReservationType } from "../shared/types";
 
 const reservationSchema = new mongoose.Schema<ReservationType>({
 	userId: { type: String, required: true },

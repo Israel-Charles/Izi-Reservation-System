@@ -9,9 +9,17 @@ const Header = () => {
 		<header className="flex justify-between items-center bg-background_alt p-6">
 			<LogoButton />
 			<div className="flex flex-row items-center gap-6">
-				{/* <ThemeButton /> */}
 				{isLoggedIn ? (
-					<SignOutButton />
+					<>
+						<ThemeButton />
+						<Link to="/my-reservations" className="text-tertiary px-3 py-2 font-bold bg-primary hover:bg-secondary">
+							My Reservations
+						</Link>
+						<Link to="/my-resources" className="text-tertiary px-3 py-2 font-bold bg-primary hover:bg-secondary">
+							My Resources
+						</Link>
+						<SignOutButton />
+					</>
 				) : (
 					<nav>
 						<div className="hidden md:flex gap-x-6 ">

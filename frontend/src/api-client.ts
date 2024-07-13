@@ -1,5 +1,6 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
+import { ResourceType } from "../../backend/src/shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -71,6 +72,18 @@ export const addMyResource = async (resourceFormData: FormData) => {
 
 	if (!response.ok) {
 		throw new Error("Failed to add resource");
+	}
+
+	return response.json();
+};
+
+export const getMyResources = async (): Promise<ResourceType[]> => {
+	const response = await fetch(`${API_BASE_URL}/api/my-resources`, {
+		credentials: "include",
+	});
+
+	if (!response.ok) {
+		throw new Error("Error fetching resources");
 	}
 
 	return response.json();

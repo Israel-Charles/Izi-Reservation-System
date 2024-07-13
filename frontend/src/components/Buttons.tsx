@@ -58,7 +58,7 @@ export const SignOutButton = () => {
 	};
 
 	return (
-		<button onClick={handleClick} className="text-primary px-3 font-bold bg-tertiary hover:bg-secondary">
+		<button onClick={handleClick} className="text-primary px-3 py-2 font-bold bg-med_orange hover:bg-dark_orange">
 			Sign Out
 		</button>
 	);
