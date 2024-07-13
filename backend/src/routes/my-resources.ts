@@ -11,7 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
 	storage: storage,
 	limits: {
-		fileSize: 5 * 1024 * 1024, // 5MB
+		fileSize: 5 * 1024 * 1024,
 	},
 });
 
@@ -22,7 +22,13 @@ router.post(
 		body("name").notEmpty().withMessage("Name is required"),
 		body("location").notEmpty().withMessage("Location is required"),
 		body("description").notEmpty().withMessage("Description is required"),
+		body("maxResLen").isInt({ min: 1 }).withMessage("Max Resource Length must be a positive integer"),
+		body("maxResSize").isInt({ min: 1 }).withMessage("Max Resource Size must be a positive integer"),
 		body("type").notEmpty().withMessage("Type is required"),
+		body("open").notEmpty().withMessage("Open time is required"),
+		body("close").notEmpty().withMessage("Close time is required"),
+		body("days").isArray({ min: 1 }).withMessage("Days must be an array with at least one element"),
+		body("lastUpdated").isISO8601().toDate().withMessage("Last updated must be a valid ISO8601 date"),
 	],
 	upload.array("imageFiles", 6),
 	async (req: Request, res: Response) => {

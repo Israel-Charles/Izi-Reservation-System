@@ -16,6 +16,7 @@ const TypeSection = () => {
 			<div className="grid grid-cols-4 gap-2">
 				{resourceTypes.map((type) => (
 					<label
+						key={type}
 						className={
 							typeWatch === type
 								? "cursor-pointer rounded-lg bg-med_orange text-sm text-primary px-4 py-2 font-semibold"

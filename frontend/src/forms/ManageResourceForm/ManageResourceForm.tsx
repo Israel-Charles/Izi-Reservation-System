@@ -13,8 +13,8 @@ export type ResourceFormData = {
 	maxResLen: number;
 	maxResSize: number;
 	type: string;
-	open: Date;
-	close: Date;
+	open: string;
+	close: string;
 	days: string[];
 	imageFiles: string[];
 	lastUpdated: Date;
@@ -37,8 +37,8 @@ const ManageResourceForm = ({ onSave, isLoading }: Props) => {
 		formData.append("maxResLen", formDataJson.maxResLen.toString());
 		formData.append("maxResSize", formDataJson.maxResSize.toString());
 		formData.append("type", formDataJson.type);
-		formData.append("open", formDataJson.open.toISOString());
-		formData.append("close", formDataJson.close.toISOString());
+		formData.append("open", formDataJson.open);
+		formData.append("close", formDataJson.close);
 		formData.append("days", JSON.stringify(formDataJson.days));
 		Array.from(formDataJson.imageFiles).forEach((imageFile) => {
 			formData.append(`imageFiles`, imageFile);

@@ -2,10 +2,12 @@ import { test, expect } from "@playwright/test";
 
 const url = "http://localhost:5173";
 
-test("successful sign in with username", async ({ page }) => {
+test.beforeEach(async ({ page }) => {
 	// go to base url
 	await page.goto(url);
+});
 
+test("sign in with username", async ({ page }) => {
 	// get the sign in button
 	await page.getByRole("link", { name: "Sign In" }).click();
 
@@ -26,10 +28,7 @@ test("successful sign in with username", async ({ page }) => {
 	await expect(page.getByRole("button", { name: "Sign Out" })).toBeVisible();
 });
 
-test("successful sign in with email", async ({ page }) => {
-	// go to base url
-	await page.goto(url);
-
+test("sign in with email", async ({ page }) => {
 	// get the sign in button
 	await page.getByRole("link", { name: "Sign In" }).click();
 
@@ -51,9 +50,6 @@ test("successful sign in with email", async ({ page }) => {
 });
 
 test("invalid credentials", async ({ page }) => {
-	// go to base url
-	await page.goto(url);
-
 	// get the sign in button
 	await page.getByRole("link", { name: "Sign In" }).click();
 
@@ -71,15 +67,12 @@ test("invalid credentials", async ({ page }) => {
 	await expect(page.getByText("Invalid Credentials")).toBeVisible();
 });
 
-test("successful sign up", async ({ page }) => {
+test("sign up", async ({ page }) => {
 	// generate a random test username for the test user.
 	const testUserName = `test_userName_${Math.floor(Math.random() * 90000) + 10000}`;
 
 	// generate a random test email for the test user.
 	const testEmail = `test_register_${Math.floor(Math.random() * 90000) + 10000}@test.com`;
-
-	// got to base url
-	await page.goto(url);
 
 	// get the register button
 	await page.getByRole("link", { name: "Register" }).click();
@@ -106,9 +99,6 @@ test("successful sign up", async ({ page }) => {
 });
 
 test("prevent duplicate username", async ({ page }) => {
-	// got to base url
-	await page.goto(url);
-
 	// get the register button
 	await page.getByRole("link", { name: "Register" }).click();
 
@@ -131,9 +121,6 @@ test("prevent duplicate username", async ({ page }) => {
 });
 
 test("prevent duplicate email", async ({ page }) => {
-	// got to base url
-	await page.goto(url);
-
 	// get the register button
 	await page.getByRole("link", { name: "Register" }).click();
 

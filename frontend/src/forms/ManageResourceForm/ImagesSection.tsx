@@ -19,12 +19,8 @@ const ImagesSection = () => {
 					{...register("imageFiles", {
 						validate: (imageFiles) => {
 							const totalLength = imageFiles.length;
-							if (totalLength === 0) {
-								return "Please select at least one image";
-							}
-							if (totalLength > 6) {
-								return "You can only upload a maximum of 6 images";
-							}
+							if (totalLength === 0) return "Please select at least one image";
+							if (totalLength > 6) return "You can only upload a maximum of 6 images";
 							return true;
 						},
 					})}
