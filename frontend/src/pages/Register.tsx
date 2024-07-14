@@ -45,58 +45,73 @@ const Register = () => {
 	});
 
 	return (
-		<div className="flex">
-			<div className="p-6 flex-1 md:flex-none">
-				<div className="flex flex-col mt-20">
-					<h2 className="text-4xl font-extrabold leading-9 tracking-tight text-med_orange mb-1">
-						Start Here.
-					</h2>
-					<span className="leading-6 text-primary font-bold">
-						Already have an account?{" "}
-						<Link
-							to="/sign-in"
-							className="text-link hover:text-link_hover hover:underline transition-all">
-							Sign In
-						</Link>
-					</span>
-					<form className="my-6 flex flex-col gap-y-4" onSubmit={onSubmit}>
-						<div className="flex flex-col md:flex-row gap-5">
-							<label className="text-primary font-bold">
+		<div className="flex justify-center">
+			{/* <div className="relative hidden md:block">
+				<img
+					alt="login image"
+					className="absolute inset-0 object-cover "
+					src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+				/>
+			</div> */}
+			<div className="md:w-128 lg:w-160">
+				<div className="p-6 flex flex-col">
+					<form className="flex flex-col gap-y-8 mt-14" onSubmit={onSubmit}>
+						<div>
+							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">
+								Start Here.
+							</h2>
+							<span className="text-primary font-bold">
+								Already a member?{" "}
+								<Link
+									to="/sign-in"
+									className="text-link hover:text-link_hover hover:underline transition-all">
+									Sign In
+								</Link>
+							</span>
+						</div>
+						<div className="flex flex-row gap-x-4">
+							<label className="text-primary font-bold flex-1">
 								First name
-								<input
-									type="text"
-									placeholder="first name"
-									className={
-										!errors.firstName
-											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-											: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
-									}
-									{...register("firstName", {
-										required: "First name is required",
-									})}
-								/>
+								<div className="relative">
+									<input
+										type="text"
+										placeholder="first name"
+										autoComplete="given-name"
+										className={
+											!errors.firstName
+												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
+												: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+										}
+										{...register("firstName", {
+											required: "First name is required",
+										})}
+									/>
+								</div>
 								{errors.firstName && (
-									<span className="text-error text-sm">
+									<span className="absolute text-error text-sm">
 										{errors.firstName.message}
 									</span>
 								)}
 							</label>
-							<label className="text-primary font-bold">
+							<label className="text-primary font-bold flex-1">
 								Last name
-								<input
-									type="text"
-									placeholder="last name"
-									className={
-										!errors.lastName
-											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-											: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
-									}
-									{...register("lastName", {
-										required: "Last name is required",
-									})}
-								/>
+								<div className="relative">
+									<input
+										type="text"
+										placeholder="last name"
+										autoComplete="family-name"
+										className={
+											!errors.lastName
+												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
+												: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+										}
+										{...register("lastName", {
+											required: "Last name is required",
+										})}
+									/>
+								</div>
 								{errors.lastName && (
-									<span className="text-error text-sm">
+									<span className="absolute text-error text-sm">
 										{errors.lastName.message}
 									</span>
 								)}
@@ -104,40 +119,53 @@ const Register = () => {
 						</div>
 						<label className="text-primary font-bold">
 							User name
-							<input
-								type="text"
-								placeholder="user name"
-								className={
-									!errors.userName
-										? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-										: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
-								}
-								{...register("userName", {
-									required: "User name is required",
-								})}
-							/>
+							<div className="relative">
+								<input
+									type="text"
+									placeholder="user name"
+									autoComplete="username"
+									className={
+										!errors.userName
+											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
+											: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+									}
+									{...register("userName", {
+										required: "User name is required",
+									})}
+								/>
+							</div>
 							{errors.userName && (
-								<span className="text-error text-sm">
+								<span className="absolute text-error text-sm">
 									{errors.userName.message}
 								</span>
 							)}
 						</label>
 						<label className="text-primary font-bold">
 							Email address
-							<input
-								type="email"
-								placeholder="email address"
-								className={
-									!errors.email
-										? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-										: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
-								}
-								{...register("email", {
-									required: "Email address is required",
-								})}
-							/>
+							<div className="relative">
+								<input
+									type="email"
+									placeholder="email address"
+									autoComplete="email"
+									className={
+										!errors.email
+											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
+											: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+									}
+									{...register("email", {
+										required: "Email address is required",
+										validate: (value) => {
+											return (
+												/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+													value
+												) || "Invalid email address"
+											);
+										},
+									})}
+								/>
+							</div>
 							{errors.email && (
-								<span className="text-error text-sm">
+								<span className="absolute text-error text-sm">
 									{errors.email.message}
 								</span>
 							)}
@@ -148,6 +176,7 @@ const Register = () => {
 								<input
 									type={showPassword ? "text" : "password"}
 									placeholder="password"
+									autoComplete="off"
 									className={
 										!errors.password
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -156,8 +185,10 @@ const Register = () => {
 									{...register("password", {
 										required: "Password is required",
 										validate: (value) => {
-											if (value.length < 6)
-												return "Password must be at least 6 characters";
+											return (
+												value.length >= 6 ||
+												"Password must be at least 6 characters long"
+											);
 										},
 									})}
 								/>
@@ -177,7 +208,7 @@ const Register = () => {
 								</button>
 							</div>
 							{errors.password && (
-								<span className="text-error text-sm">
+								<span className="absolute text-error text-sm">
 									{errors.password.message}
 								</span>
 							)}
@@ -188,18 +219,18 @@ const Register = () => {
 								<input
 									type={showConfirmPassword ? "text" : "password"}
 									placeholder="confirm password"
+									autoComplete="off"
 									className={
 										!errors.confirmPassword
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
 											: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1 pr-12"
 									}
 									{...register("confirmPassword", {
+										required: "Confirm password is required",
 										validate: (value) => {
-											if (!value) {
-												return "Confirm password is required";
-											} else if (watch("password") !== value) {
-												return "Your passwords do not match";
-											}
+											return (
+												value === watch("password") || "Passwords do not match"
+											);
 										},
 									})}
 								/>
@@ -219,14 +250,14 @@ const Register = () => {
 								</button>
 							</div>
 							{errors.confirmPassword && (
-								<span className="text-error text-sm">
+								<span className="absolute text-error text-sm">
 									{errors.confirmPassword.message}
 								</span>
 							)}
 						</label>
 						<button
 							type="submit"
-							className="mt-3 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-1.5 font-bold text-primary shadow-sm transition-all duration-200 hover:gap-x-4 border-2 border-background hover:border-primary">
+							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background hover:border-primary">
 							Create Account
 							<FaArrowRightLong className="text-primay" />
 						</button>

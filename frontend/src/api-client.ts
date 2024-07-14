@@ -70,11 +70,13 @@ export const addMyResource = async (resourceFormData: FormData) => {
 		body: resourceFormData,
 	});
 
+	const responseBody = await response.json();
+
 	if (!response.ok) {
-		throw new Error("Failed to add resource");
+		throw new Error(responseBody.message);
 	}
 
-	return response.json();
+	return responseBody;
 };
 
 export const getMyResources = async (): Promise<ResourceType[]> => {

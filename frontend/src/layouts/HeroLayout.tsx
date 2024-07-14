@@ -8,12 +8,12 @@ interface Props {
 
 const HeroLayout = ({ children }: Props) => {
 	return (
-		<div className="flex flex-col min-h-screen bg-background">
+		<>
 			<Header />
 			<Hero />
-			<div className="mx-auto py-10 flex-1">{children}</div>
+			<main className="flex-1 bg-background">{children}</main>
 			<Footer />
-		</div>
+		</>
 	);
 };
 

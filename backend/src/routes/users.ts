@@ -12,7 +12,9 @@ router.post(
 		check("lastName", "Last name is required").notEmpty(),
 		check("userName", "Username is required").notEmpty(),
 		check("email", "Please enter a valid email").isEmail(),
-		check("password", "Password must be at least 6 characters long").isLength({ min: 6 }),
+		check("password", "Password must be at least 6 characters long").isLength({
+			min: 6,
+		}),
 	],
 	async (req: Request, res: Response) => {
 		const errors = validationResult(req);
@@ -21,7 +23,10 @@ router.post(
 		}
 		try {
 			let user = await User.findOne({ email: req.body.email });
-			if (user) return res.status(400).json({ message: "Email belongs to an existing account" });
+			if (user)
+				return res
+					.status(400)
+					.json({ message: "Email belongs to an existing account" });
 
 			user = await User.findOne({ userName: req.body.userName });
 			if (user) return res.status(400).json({ message: "Username is taken" });
@@ -29,8 +34,16 @@ router.post(
 			user = new User(req.body);
 			await user.save();
 
-			const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY as string, { expiresIn: "1d" });
-			res.cookie("auth_token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 86400000 });
+			const token = jwt.sign(
+				{ userId: user._id },
+				process.env.JWT_SECRET_KEY as string,
+				{ expiresIn: "1d" }
+			);
+			res.cookie("auth_token", token, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === "production",
+				maxAge: 86400000,
+			});
 			return res.status(200).send({ message: "User registered successfully" });
 		} catch (error) {
 			console.log(error);

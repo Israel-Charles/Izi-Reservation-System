@@ -23,17 +23,32 @@ router.post(
 		body("name").notEmpty().withMessage("Name is required"),
 		body("location").notEmpty().withMessage("Location is required"),
 		body("description").notEmpty().withMessage("Description is required"),
-		body("maxResLen").isInt({ min: 1 }).withMessage("Max Resource Length must be a positive integer"),
-		body("maxResSize").isInt({ min: 1 }).withMessage("Max Resource Size must be a positive integer"),
+		body("maxResLen")
+			.isInt({ min: 1 })
+			.withMessage("Max Resource Length must be a positive integer"),
+		body("maxResSize")
+			.isInt({ min: 1 })
+			.withMessage("Max Resource Size must be a positive integer"),
 		body("type").notEmpty().withMessage("Type is required"),
 		body("open").notEmpty().withMessage("Open time is required"),
 		body("close").notEmpty().withMessage("Close time is required"),
-		body("days").isArray({ min: 1 }).withMessage("Days must be an array with at least one element"),
-		body("lastUpdated").isISO8601().toDate().withMessage("Last updated must be a valid ISO8601 date"),
+		body("days")
+			.isArray({ min: 1 })
+			.withMessage("Days must be an array with at least one element"),
+		body("lastUpdated")
+			.isISO8601()
+			.toDate()
+			.withMessage("Last updated must be a valid ISO8601 date"),
 	],
 	upload.array("imageFiles", 6),
 	async (req: Request, res: Response) => {
 		try {
+			let resource = await Resource.findOne({ name: req.body.name });
+			if (resource)
+				return res
+					.status(400)
+					.json({ message: "Resource of this name already exists" });
+
 			const imageFiles = req.files as Express.Multer.File[];
 			const newResource: ResourceType = req.body;
 
@@ -49,11 +64,11 @@ router.post(
 			newResource.lastUpdated = new Date();
 			newResource.userId = req.userId;
 
-			const resource = new Resource(newResource);
+			resource = new Resource(newResource);
 			await resource.save();
 			res.status(201).send(resource);
 		} catch (error) {
-			console.log("Error creating resource: ", error);
+			console.log(error);
 			res.status(500).json({ message: "Something went wrong" });
 		}
 	}

@@ -3,6 +3,10 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
+			width: {
+				128: "32rem",
+				160: "40rem",
+			},
 			colors: {
 				// static
 				light_neutral: "rgba(var(--light-neutral))",
