@@ -12,10 +12,10 @@ const Header = () => {
 				{isLoggedIn ? (
 					<>
 						<ThemeButton />
-						<Link to="/my-reservations" className="text-tertiary px-3 py-2 font-bold bg-primary hover:bg-secondary">
+						<Link to="/my-reservations" className="text-background px-3 py-2 font-bold bg-primary hover:bg-secondary">
 							My Reservations
 						</Link>
-						<Link to="/my-resources" className="text-tertiary px-3 py-2 font-bold bg-primary hover:bg-secondary">
+						<Link to="/my-resources" className="text-background px-3 py-2 font-bold bg-primary hover:bg-secondary">
 							My Resources
 						</Link>
 						<SignOutButton />

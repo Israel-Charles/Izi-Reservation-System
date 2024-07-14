@@ -8,6 +8,7 @@ import { useAppContext } from "./contexts/AppContext";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MyResources from "./pages/MyResources";
+import About from "./pages/About";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -37,10 +38,10 @@ const App = () => {
 					}
 				/>
 				<Route
-					path="/register"
+					path="/about"
 					element={
 						<Layout>
-							<Register />
+							<About />
 						</Layout>
 					}
 				/>
@@ -49,6 +50,14 @@ const App = () => {
 					element={
 						<Layout>
 							<SignIn />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/register"
+					element={
+						<Layout>
+							<Register />
 						</Layout>
 					}
 				/>

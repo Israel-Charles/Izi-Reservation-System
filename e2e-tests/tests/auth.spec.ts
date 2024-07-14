@@ -12,7 +12,9 @@ test("sign in with username", async ({ page }) => {
 	await page.getByRole("link", { name: "Sign In" }).click();
 
 	// check if the sign in form is visible
-	await expect(page.getByRole("heading", { name: "Welcome Back." })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Welcome Back." })
+	).toBeVisible();
 
 	// fill in the form with valid credentials
 	await page.locator("[name=identifier]").fill("username");
@@ -33,7 +35,9 @@ test("sign in with email", async ({ page }) => {
 	await page.getByRole("link", { name: "Sign In" }).click();
 
 	// check if the sign in form is visible
-	await expect(page.getByRole("heading", { name: "Welcome Back." })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Welcome Back." })
+	).toBeVisible();
 
 	// fill in the form with valid credentials
 	await page.locator("[name=identifier]").fill("test@example.com");
@@ -54,7 +58,9 @@ test("invalid credentials", async ({ page }) => {
 	await page.getByRole("link", { name: "Sign In" }).click();
 
 	// check if the sign in form is visible
-	await expect(page.getByRole("heading", { name: "Welcome Back." })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Welcome Back." })
+	).toBeVisible();
 
 	// fill in the form with invalid credentials
 	await page.locator("[name=identifier]").fill("random");
@@ -68,17 +74,23 @@ test("invalid credentials", async ({ page }) => {
 });
 
 test("sign up", async ({ page }) => {
-	// generate a random test username for the test user.
-	const testUserName = `test_userName_${Math.floor(Math.random() * 90000) + 10000}`;
+	// generate a random test username for the test user
+	const testUserName = `test_userName_${
+		Math.floor(Math.random() * 90000) + 10000
+	}`;
 
-	// generate a random test email for the test user.
-	const testEmail = `test_register_${Math.floor(Math.random() * 90000) + 10000}@test.com`;
+	// generate a random test email for the test user
+	const testEmail = `test_register_${
+		Math.floor(Math.random() * 90000) + 10000
+	}@test.com`;
 
 	// get the register button
 	await page.getByRole("link", { name: "Register" }).click();
 
 	// check if the sign up form is visible
-	await expect(page.getByRole("heading", { name: "Create an account" })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Start Here." })
+	).toBeVisible();
 
 	// fill in the form with valid credentials
 	await page.locator("[name=firstName]").fill("test_firstName");
@@ -103,7 +115,9 @@ test("prevent duplicate username", async ({ page }) => {
 	await page.getByRole("link", { name: "Register" }).click();
 
 	// check if the sign up form is visible
-	await expect(page.getByRole("heading", { name: "Create an account" })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Start Here." })
+	).toBeVisible();
 
 	// fill in the form with valid credentials
 	await page.locator("[name=firstName]").fill("test_firstName");
@@ -125,7 +139,9 @@ test("prevent duplicate email", async ({ page }) => {
 	await page.getByRole("link", { name: "Register" }).click();
 
 	// check if the sign up form is visible
-	await expect(page.getByRole("heading", { name: "Create an account" })).toBeVisible();
+	await expect(
+		page.getByRole("heading", { name: "Start Here." })
+	).toBeVisible();
 
 	// fill in the form with valid credentials
 	await page.locator("[name=firstName]").fill("test_firstName");
@@ -139,5 +155,7 @@ test("prevent duplicate email", async ({ page }) => {
 	await page.getByRole("button", { name: "Create Account" }).click();
 
 	// check if the success message is visible
-	await expect(page.getByText("Email belongs to an existing account")).toBeVisible();
+	await expect(
+		page.getByText("Email belongs to an existing account")
+	).toBeVisible();
 });
