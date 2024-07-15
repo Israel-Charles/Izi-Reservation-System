@@ -29,11 +29,6 @@ export default {
 				tertiary: "rgba(var(--tertiary))",
 			},
 		},
-		// container: {
-		// 	padding: {
-		// 		md: "2rem",
-		// 	},
-		// },
 	},
 	plugins: [],
 };

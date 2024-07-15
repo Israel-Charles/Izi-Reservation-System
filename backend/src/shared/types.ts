@@ -20,7 +20,7 @@ export type ResourceType = {
 	open: string;
 	close: string;
 	days: string[];
-	imageFiles: string[];
+	imageUrls: string[];
 	lastUpdated: Date;
 };
 
@@ -29,8 +29,8 @@ export type ReservationType = {
 	userId: string;
 	resourceId: string;
 	comment: string;
-	groupSize: number;
 	start: Date;
 	end: Date;
+	groupSize: number;
 	lastUpdated: Date;
 };

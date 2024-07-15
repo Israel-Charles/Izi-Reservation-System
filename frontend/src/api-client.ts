@@ -90,3 +90,37 @@ export const getMyResources = async (): Promise<ResourceType[]> => {
 
 	return response.json();
 };
+
+export const getMyResourceById = async (
+	resourceId: string
+): Promise<ResourceType> => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/my-resources/${resourceId}`,
+		{
+			credentials: "include",
+		}
+	);
+
+	if (!response.ok) {
+		throw new Error("Error fetching resource");
+	}
+
+	return response.json();
+};
+
+export const updateMyResourceById = async (resourceFormData: FormData) => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/my-resources/${resourceFormData.get("resourceId")}`,
+		{
+			method: "PUT",
+			credentials: "include",
+			body: resourceFormData,
+		}
+	);
+
+	if (!response.ok) {
+		throw new Error("Failed to update resource");
+	}
+
+	return response.json();
+};

@@ -22,12 +22,21 @@ const TypeSection = () => {
 								? "cursor-pointer rounded-lg bg-med_orange text-sm text-primary px-4 py-2 font-semibold"
 								: "cursor-pointer rounded-lg bg-primary text-sm px-4 py-2 font-semibold"
 						}>
-						<input type="radio" value={type} {...register("type", { required: "Type is required" })} className="hidden" />
+						<input
+							type="radio"
+							value={type}
+							{...register("type", { required: "Type is required" })}
+							className="hidden"
+						/>
 						<span>{type}</span>
 					</label>
 				))}
 			</div>
-			{errors.type && <span className="text-sm text-error font-bold">{errors.type.message}</span>}
+			{errors.type && (
+				<span className="text-sm text-error font-bold">
+					{errors.type.message}
+				</span>
+			)}
 		</div>
 	);
 };

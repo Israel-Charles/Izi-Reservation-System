@@ -18,7 +18,12 @@ const AddResource = () => {
 	const handleSave = (resourceFormData: FormData) => {
 		mutate(resourceFormData);
 	};
-	return <ManageResourceForm onSave={handleSave} isLoading={isLoading} />;
+	return (
+		<div>
+			<h1 className="text-3xl text-primary font-bold mb-3">Add Resource</h1>
+			<ManageResourceForm onSave={handleSave} isLoading={isLoading} />;
+		</div>
+	);
 };
 
 export default AddResource;

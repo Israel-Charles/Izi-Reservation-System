@@ -11,20 +11,25 @@ test.beforeEach(async ({ page }) => {
 		page.getByRole("heading", { name: "Welcome Back." })
 	).toBeVisible();
 	await page.locator("[name=identifier]").fill("username");
-	await page.locator("[name=password]").fill("password");
+	await page.locator("[name=password]").fill("test_password");
 	await page.getByRole("button", { name: "Login" }).click();
 	await expect(page.getByText("Sign in successful!")).toBeVisible();
 
-	// navigate to the add resource page
-	await page.goto(`${url}/add-resource`);
+	// navigate to my-resources page
+	await page.goto(`${url}/my-resources`);
 });
 
 test("create new resource", async ({ page }) => {
-	// create a test name for the resource
-	const testName = `test_resource_${Math.floor(Math.random() * 90000) + 10000}`;
+	// get the add resource link
+	await page.getByRole("link", { name: "Add Resource" }).click();
+
+	// check if the add resource form is visible
+	await expect(
+		page.getByRole("heading", { name: "Add Resource" })
+	).toBeVisible();
 
 	// fill in the form with valid data
-	await page.locator("[name=name]").fill(testName);
+	await page.locator("[name=name]").fill("test_resource");
 	await page.locator("[name=location]").fill("test_location");
 	await page
 		.locator("[name=description]")
@@ -53,9 +58,17 @@ test("create new resource", async ({ page }) => {
 });
 
 test("invalid resource form", async ({ page }) => {
+	// get the add resource link
+	await page.getByRole("link", { name: "Add Resource" }).click();
+
+	// check if the add resource form is visible
+	await expect(
+		page.getByRole("heading", { name: "Add Resource" })
+	).toBeVisible();
+
 	// fill in the form with invalid data (same name)
-	await page.locator("[name=name]").fill("test resource");
-	await page.locator("[name=location]").fill("Test Location");
+	await page.locator("[name=name]").fill("test_resource");
+	await page.locator("[name=location]").fill("new location");
 	await page.locator("[name=description]").fill("This is a test resource.");
 	await page.locator("[name=maxResLen]").fill("120");
 	await page.locator("[name=maxResSize]").fill("20");
@@ -75,23 +88,50 @@ test("invalid resource form", async ({ page }) => {
 	await page.getByRole("button", { name: "Save" }).click();
 
 	// check if the success message is visible
-	await expect(page.getByText("Error adding resource")).toBeVisible();
+	await expect(
+		page.getByText("Resource of this name already exists")
+	).toBeVisible();
 });
 
 test("should display users resources", async ({ page }) => {
-	// navigate to the resources page
-	await page.goto(`${url}/my-resources`);
+	// check if the users resources are visible
+	await expect(page.getByText("My Resources")).toBeVisible();
 
 	// get the resource data
-	await expect(page.getByText("test resource")).toBeVisible();
-	await expect(page.getByText("test location")).toBeVisible();
-	await expect(page.getByText("test description")).toBeVisible();
-	await expect(page.getByText("Restaurant")).toBeVisible();
-	await expect(page.getByText("30 minutes max")).toBeVisible();
-	await expect(page.getByText("3 person(s) max")).toBeVisible();
-	await expect(page.getByText("11:00 - 12:00")).toBeVisible();
+	await expect(page.getByText("test_resource")).toBeVisible();
+	await expect(page.getByText("test_location")).toBeVisible();
+	await expect(page.getByText("Lorem ipsum dolor")).toBeVisible();
+	await expect(page.getByText("Bar")).toBeVisible();
+	await expect(page.getByText("120 minutes max")).toBeVisible();
+	await expect(page.getByText("20 person(s) max")).toBeVisible();
+	await expect(page.getByText("09:00 - 17:00")).toBeVisible();
+});
 
-	// get the view details and add resource links
-	// await expect(page.getByRole("link", { name: "View Details" })).toBeVisible();
-	await expect(page.getByRole("link", { name: "Add Resource" })).toBeVisible();
+test("should edit a resource", async ({ page }) => {
+	// get the edit resource link
+	await page.getByRole("link", { name: "Edit Resource" }).click();
+
+	// check if the edit resource form is visible
+	await expect(
+		page.getByRole("heading", { name: "Edit Resource" })
+	).toBeVisible();
+
+	// fill in the form with updated data
+	await page.waitForSelector('[name="name"]', { state: "attached" });
+	await expect(page.locator('[name="name"]')).toHaveValue("test_resource");
+	await page.locator('[name="location"]').fill("updated location");
+
+	// get the save button
+	await page.getByRole("button", { name: "Save" }).click();
+
+	// check if the success message is visible
+	await expect(page.getByText("Resource updated successfully!")).toBeVisible();
+
+	// reload the page
+	await page.reload();
+
+	// check if the updated data is visible
+	await expect(page.locator('[name="location"]')).toHaveValue(
+		"updated location"
+	);
 });

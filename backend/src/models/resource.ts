@@ -12,7 +12,7 @@ const resourceSchema = new mongoose.Schema<ResourceType>({
 	open: { type: String, required: true },
 	close: { type: String, required: true },
 	days: { type: [String], required: true },
-	imageFiles: { type: [String], required: true },
+	imageUrls: { type: [String], required: true },
 	lastUpdated: { type: Date, required: true },
 });
 

@@ -3,6 +3,9 @@ import DetailsSection from "./DetailsSection";
 import TypeSection from "./TypeSection";
 import HoursSection from "./HoursSection";
 import ImagesSection from "./ImagesSection";
+import { ResourceType } from "../../../../backend/src/shared/types";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export type ResourceFormData = {
 	_id: string;
@@ -16,21 +19,29 @@ export type ResourceFormData = {
 	open: string;
 	close: string;
 	days: string[];
-	imageFiles: string[];
-	lastUpdated: Date;
+	imageFiles: FileList;
+	imageUrls: string[];
 };
 
 type Props = {
+	resource?: ResourceType;
 	onSave: (resourceFormData: FormData) => void;
 	isLoading: boolean;
 };
 
-const ManageResourceForm = ({ onSave, isLoading }: Props) => {
+const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 	const formMethods = useForm<ResourceFormData>();
-	const { handleSubmit } = formMethods;
+	const { handleSubmit, reset } = formMethods;
+
+	useEffect(() => {
+		reset(resource);
+	}, [resource, reset]);
 
 	const onSubmit = handleSubmit((formDataJson: ResourceFormData) => {
 		const formData = new FormData();
+		if (resource) {
+			formData.append("resourceId", resource._id);
+		}
 		formData.append("name", formDataJson.name);
 		formData.append("location", formDataJson.location);
 		formData.append("description", formDataJson.description);
@@ -39,7 +50,14 @@ const ManageResourceForm = ({ onSave, isLoading }: Props) => {
 		formData.append("type", formDataJson.type);
 		formData.append("open", formDataJson.open);
 		formData.append("close", formDataJson.close);
-		formData.append("days", JSON.stringify(formDataJson.days));
+		formDataJson.days.forEach((day, index) => {
+			formData.append(`days[${index}]`, day);
+		});
+		if (formDataJson.imageUrls) {
+			formDataJson.imageUrls.forEach((url, index) => {
+				formData.append(`imageUrls[${index}]`, url);
+			});
+		}
 		Array.from(formDataJson.imageFiles).forEach((imageFile) => {
 			formData.append(`imageFiles`, imageFile);
 		});
@@ -49,13 +67,20 @@ const ManageResourceForm = ({ onSave, isLoading }: Props) => {
 	return (
 		<FormProvider {...formMethods}>
 			<form className="flex flex-col gap-10" onSubmit={onSubmit}>
-				<h1 className="text-3xl text-primary font-bold mb-3">Add Resource</h1>
 				<DetailsSection />
 				<TypeSection />
 				<HoursSection />
 				<ImagesSection />
-				<span className="flex justify-end">
-					<button disabled={isLoading} type="submit" className="bg-med_orange text-primary p-2 font-bold hover:bg-dark_orange text-xl disabled:bg-tertiary disabled:text-secondary">
+				<span className="flex justify-between">
+					<Link
+						to="/my-resources"
+						className="flex bg-med_orange text-primary text-xl font-bold p-2 hover:bg-dark_orange">
+						Back
+					</Link>
+					<button
+						disabled={isLoading}
+						type="submit"
+						className="bg-med_orange text-primary p-2 font-bold hover:bg-dark_orange text-xl disabled:bg-tertiary disabled:text-secondary">
 						{isLoading ? "Saving..." : "Save"}
 					</button>
 				</span>

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
 import HeroLayout from "./layouts/HeroLayout";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
@@ -9,6 +14,7 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MyResources from "./pages/MyResources";
 import About from "./pages/About";
+import EditResource from "./pages/EditResource";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -29,6 +35,7 @@ const App = () => {
 						)
 					}
 				/>
+				{/* do i want the search here? */}
 				<Route
 					path="/search"
 					element={
@@ -76,6 +83,14 @@ const App = () => {
 							element={
 								<Layout>
 									<MyResources />
+								</Layout>
+							}
+						/>
+						<Route
+							path="/edit-resource/:resourceId"
+							element={
+								<Layout>
+									<EditResource />
 								</Layout>
 							}
 						/>
