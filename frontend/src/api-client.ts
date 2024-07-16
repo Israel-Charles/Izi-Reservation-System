@@ -1,13 +1,15 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
-import { ResourceType } from "../../backend/src/shared/types";
+import {
+	ResourceSearchResponse,
+	ResourceType,
+} from "../../backend/src/shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const register = async (formData: RegisterFormData) => {
 	const response = await fetch(`${API_BASE_URL}/api/users/register`, {
 		method: "POST",
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -120,6 +122,57 @@ export const updateMyResourceById = async (resourceFormData: FormData) => {
 
 	if (!response.ok) {
 		throw new Error("Failed to update resource");
+	}
+
+	return response.json();
+};
+
+// export const deleteMyResourceById = async (resourceId: string) => {
+// 	const response = await fetch(
+// 		`${API_BASE_URL}/api/my-resources/${resourceId}`,
+// 		{
+// 			method: "DELETE",
+// 			credentials: "include",
+// 		}
+// 	);
+
+// 	if (!response.ok) {
+// 		throw new Error("Failed to delete resource");
+// 	}
+// };
+
+export type SearchParams = {
+	name?: string;
+	location?: string;
+	maxResLen?: number;
+	maxResSize?: number;
+	type?: string;
+	open?: string;
+	close?: string;
+	days?: string[];
+	page?: string;
+};
+
+export const searchResources = async (
+	searchParams: SearchParams
+): Promise<ResourceSearchResponse> => {
+	const queryParams = new URLSearchParams();
+	queryParams.append("name", searchParams.name || "");
+	queryParams.append("location", searchParams.location || "");
+	queryParams.append("maxResLen", searchParams.maxResLen.toString() || "");
+	queryParams.append("maxResSize", searchParams.maxResSize.toString() || "");
+	queryParams.append("type", searchParams.type || "");
+	queryParams.append("open", searchParams.open || "");
+	queryParams.append("close", searchParams.close || "");
+	queryParams.append("days", searchParams.days.join(",") || "");
+	queryParams.append("page", searchParams.page || "");
+
+	const response = await fetch(
+		`${API_BASE_URL}/api/resources/search?${queryParams}`
+	);
+
+	if (!response.ok) {
+		throw new Error("Failed to search resources");
 	}
 
 	return response.json();

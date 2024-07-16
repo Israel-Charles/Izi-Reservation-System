@@ -29,7 +29,7 @@ const EditResource = () => {
 	};
 
 	return (
-		<div>
+		<div className="container mx-auto px-6 my-14">
 			<h1 className="text-3xl text-primary font-bold mb-3">Edit Resource</h1>
 			<ManageResourceForm
 				resource={resource}

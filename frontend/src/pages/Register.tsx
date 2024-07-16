@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
+import { BiSolidError } from "react-icons/bi";
 
 export type RegisterFormData = {
 	firstName: string;
@@ -16,7 +17,6 @@ export type RegisterFormData = {
 };
 
 const Register = () => {
-	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const { showToast } = useAppContext();
 	const [showPassword, setShowPassword] = useState(false);
@@ -31,9 +31,7 @@ const Register = () => {
 
 	const mutation = useMutation(apiClient.register, {
 		onSuccess: async () => {
-			showToast({ message: "Registration Successful!", type: "SUCCESS" });
-			await queryClient.invalidateQueries("validateToken");
-			navigate("/");
+			navigate("/verify-email");
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });
@@ -45,7 +43,7 @@ const Register = () => {
 	});
 
 	return (
-		<div className="flex justify-center">
+		<div className="container mx-auto max-w-3xl">
 			{/* <div className="relative hidden md:block">
 				<img
 					alt="login image"
@@ -53,9 +51,11 @@ const Register = () => {
 					src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
 				/>
 			</div> */}
-			<div className="md:w-128 lg:w-160">
-				<div className="p-6 flex flex-col">
-					<form className="flex flex-col gap-y-8 mt-14" onSubmit={onSubmit}>
+			<div className="">
+				<div className="px-6 flex flex-col">
+					<form
+						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg"
+						onSubmit={onSubmit}>
 						<div>
 							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">
 								Start Here.
@@ -88,7 +88,8 @@ const Register = () => {
 									/>
 								</div>
 								{errors.firstName && (
-									<span className="absolute text-error text-sm">
+									<span className="flex items-center gap-x-1 absolute text-error">
+										<BiSolidError size={16} />
 										{errors.firstName.message}
 									</span>
 								)}
@@ -111,7 +112,8 @@ const Register = () => {
 									/>
 								</div>
 								{errors.lastName && (
-									<span className="absolute text-error text-sm">
+									<span className="flex items-center gap-x-1 absolute text-error">
+										<BiSolidError size={16} />
 										{errors.lastName.message}
 									</span>
 								)}
@@ -135,7 +137,8 @@ const Register = () => {
 								/>
 							</div>
 							{errors.userName && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.userName.message}
 								</span>
 							)}
@@ -165,7 +168,8 @@ const Register = () => {
 								/>
 							</div>
 							{errors.email && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.email.message}
 								</span>
 							)}
@@ -208,7 +212,8 @@ const Register = () => {
 								</button>
 							</div>
 							{errors.password && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.password.message}
 								</span>
 							)}
@@ -250,7 +255,8 @@ const Register = () => {
 								</button>
 							</div>
 							{errors.confirmPassword && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.confirmPassword.message}
 								</span>
 							)}

@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
+import SearchBar from "../components/SearchBar";
 
 interface Props {
 	children: React.ReactNode;
@@ -11,6 +12,7 @@ const HeroLayout = ({ children }: Props) => {
 		<>
 			<Header />
 			<Hero />
+			<SearchBar />
 			<main className="flex-1 bg-background">{children}</main>
 			<Footer />
 		</>

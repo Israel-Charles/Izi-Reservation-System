@@ -3,13 +3,6 @@
 @tailwind utilities;
 
 :root {
-	/* default dark mode for now */
-	--background: 31, 41, 55;
-	--background-alt: 17, 24, 39;
-	--primary: 250, 250, 250;
-	--secondary: 200, 200, 200;
-	--tertiary: 100, 100, 100;
-
 	--light-neutral: 250, 250, 250;
 	--dark-neutral: 5, 5, 5;
 	--dark-orange: 255, 60, 0;
@@ -27,7 +20,7 @@
 	--background: 250, 250, 250;
 	--background-alt: 229, 231, 235;
 	--primary: 18, 18, 18;
-	--secondary: 29, 29, 29;
+	--secondary: 60, 60, 60;
 	--tertiary: 170, 170, 170;
 }
 

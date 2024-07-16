@@ -28,6 +28,9 @@ router.post(
 			if (!user)
 				return res.status(400).json({ message: "Invalid Credentials" });
 
+			if (!user.verified)
+				return res.status(400).json({ message: "Please verify your email" });
+
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch)
 				return res.status(400).json({ message: "Invalid Credentials" });

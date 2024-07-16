@@ -65,27 +65,32 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 	});
 
 	return (
-		<FormProvider {...formMethods}>
-			<form className="flex flex-col gap-10" onSubmit={onSubmit}>
-				<DetailsSection />
-				<TypeSection />
-				<HoursSection />
-				<ImagesSection />
-				<span className="flex justify-between">
-					<Link
-						to="/my-resources"
-						className="flex bg-med_orange text-primary text-xl font-bold p-2 hover:bg-dark_orange">
-						Back
-					</Link>
-					<button
-						disabled={isLoading}
-						type="submit"
-						className="bg-med_orange text-primary p-2 font-bold hover:bg-dark_orange text-xl disabled:bg-tertiary disabled:text-secondary">
-						{isLoading ? "Saving..." : "Save"}
-					</button>
-				</span>
-			</form>
-		</FormProvider>
+		<div className="rounded-lg bg-background_alt p-6">
+			<FormProvider {...formMethods}>
+				<form className="flex flex-col gap-10" onSubmit={onSubmit}>
+					<DetailsSection />
+					<div className="border-b-2 border-background" />
+					<TypeSection />
+					<div className="border-b-2 border-background" />
+					<HoursSection />
+					<div className="border-b-2 border-background" />
+					<ImagesSection />
+					<span className="flex justify-between">
+						<Link
+							to="/my-resources"
+							className="rounded text-xl text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all">
+							Back
+						</Link>
+						<button
+							disabled={isLoading}
+							type="submit"
+							className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-light_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all">
+							{isLoading ? "Saving..." : "Save"}
+						</button>
+					</span>
+				</form>
+			</FormProvider>
+		</div>
 	);
 };
 

@@ -5,7 +5,7 @@ export type UserType = {
 	userName: string;
 	email: string;
 	password: string;
-	imageUrl: string;
+	verified: boolean;
 };
 
 export type ResourceType = {
@@ -22,6 +22,15 @@ export type ResourceType = {
 	days: string[];
 	imageUrls: string[];
 	lastUpdated: Date;
+};
+
+export type ResourceSearchResponse = {
+	data: ResourceType[];
+	pagination: {
+		total: number;
+		page: number;
+		pages: number;
+	};
 };
 
 export type ReservationType = {

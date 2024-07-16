@@ -11,10 +11,11 @@ import Layout from "./layouts/Layout";
 import AddResource from "./pages/AddResource";
 import { useAppContext } from "./contexts/AppContext";
 import Home from "./pages/Home";
-import Landing from "./pages/Landing";
 import MyResources from "./pages/MyResources";
 import About from "./pages/About";
 import EditResource from "./pages/EditResource";
+import Search from "./pages/Search";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -24,23 +25,16 @@ const App = () => {
 				<Route
 					path="/"
 					element={
-						isLoggedIn ? (
-							<Layout>
-								<Home />
-							</Layout>
-						) : (
-							<HeroLayout>
-								<Landing />
-							</HeroLayout>
-						)
+						<HeroLayout>
+							<Home />
+						</HeroLayout>
 					}
 				/>
-				{/* do i want the search here? */}
 				<Route
 					path="/search"
 					element={
 						<Layout>
-							<p>Search Page</p>
+							<Search />
 						</Layout>
 					}
 				/>
@@ -65,6 +59,14 @@ const App = () => {
 					element={
 						<Layout>
 							<Register />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/verify-email"
+					element={
+						<Layout>
+							<VerifyEmail />
 						</Layout>
 					}
 				/>

@@ -4,6 +4,7 @@ import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { BiSolidError } from "react-icons/bi";
 import { useState } from "react";
 
 export type SignInFormData = {
@@ -39,10 +40,12 @@ const SignIn = () => {
 	});
 
 	return (
-		<div className="flex justify-center">
-			<div className="md:w-96 lg:w-128">
-				<div className="p-6 flex flex-col">
-					<form className="flex flex-col gap-y-8 mt-14" onSubmit={onSubmit}>
+		<div className="container mx-auto max-w-xl">
+			<div className="">
+				<div className="px-6 flex flex-col">
+					<form
+						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg"
+						onSubmit={onSubmit}>
 						<div>
 							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">
 								Welcome Back.
@@ -74,13 +77,21 @@ const SignIn = () => {
 								/>
 							</div>
 							{errors.identifier && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.identifier.message}
 								</span>
 							)}
 						</label>
 						<label className="text-primary font-bold">
-							Password
+							<div className="flex justify-between">
+								Password
+								<Link
+									to="/register"
+									className="text-link hover:text-link_hover hover:underline transition-all">
+									Forgot password?
+								</Link>
+							</div>
 							<div className="relative">
 								<input
 									type={showPassword ? "text" : "password"}
@@ -111,7 +122,8 @@ const SignIn = () => {
 								</button>
 							</div>
 							{errors.password && (
-								<span className="absolute text-error text-sm">
+								<span className="flex items-center gap-x-1 absolute text-error">
+									<BiSolidError size={16} />
 									{errors.password.message}
 								</span>
 							)}
