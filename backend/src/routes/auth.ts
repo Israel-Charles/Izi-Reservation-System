@@ -26,14 +26,16 @@ router.post(
 				$or: [{ email: identifier }, { userName: identifier }],
 			});
 			if (!user)
-				return res.status(400).json({ message: "Invalid Credentials" });
+				return res.status(400).json({ message: "Invalid credentials" });
 
 			if (!user.verified)
-				return res.status(400).json({ message: "Please verify your email" });
+				return res
+					.status(400)
+					.json({ message: "Please confirm your email to login" });
 
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch)
-				return res.status(400).json({ message: "Invalid Credentials" });
+				return res.status(400).json({ message: "Invalid credentials" });
 
 			const token = jwt.sign(
 				{ userId: user._id },

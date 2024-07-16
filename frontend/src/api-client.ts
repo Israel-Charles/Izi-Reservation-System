@@ -21,7 +21,21 @@ export const register = async (formData: RegisterFormData) => {
 	if (!response.ok) {
 		throw new Error(responseBody.message);
 	}
+
+	return responseBody;
 };
+
+// export const confirmEmail = async () => {
+// 	const response = await fetch(`${API_BASE_URL}/api/users/confirm-email`, {
+//         credentials: "include",
+//     });
+
+//     if (!response.ok) {
+//         throw new Error("Email confirmation failed");
+//     }
+
+//     return response.json();
+// };
 
 export const signIn = async (formData: SignInFormData) => {
 	const response = await fetch(`${API_BASE_URL}/api/auth/login`, {

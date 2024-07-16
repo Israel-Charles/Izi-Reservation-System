@@ -26,7 +26,6 @@ const SignIn = () => {
 
 	const mutation = useMutation(apiClient.signIn, {
 		onSuccess: async () => {
-			showToast({ message: "Sign in successful!", type: "SUCCESS" });
 			await queryClient.invalidateQueries("validateToken");
 			navigate("/");
 		},
@@ -130,7 +129,7 @@ const SignIn = () => {
 						</label>
 						<button
 							type="submit"
-							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background hover:border-primary">
+							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary">
 							Login
 							<FaArrowRightLong className="text-primay" />
 						</button>

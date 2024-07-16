@@ -6,6 +6,7 @@ export type UserType = {
 	email: string;
 	password: string;
 	verified: boolean;
+	verificationToken: string;
 };
 
 export type ResourceType = {

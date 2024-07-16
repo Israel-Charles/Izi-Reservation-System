@@ -30,8 +30,9 @@ const Register = () => {
 	} = useForm<RegisterFormData>();
 
 	const mutation = useMutation(apiClient.register, {
-		onSuccess: async () => {
-			navigate("/verify-email");
+		onSuccess: async (responseBody) => {
+			showToast({ message: responseBody.message, type: "SUCCESS" });
+			navigate("/sign-in");
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });
@@ -44,13 +45,6 @@ const Register = () => {
 
 	return (
 		<div className="container mx-auto max-w-3xl">
-			{/* <div className="relative hidden md:block">
-				<img
-					alt="login image"
-					className="absolute inset-0 object-cover "
-					src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-				/>
-			</div> */}
 			<div className="">
 				<div className="px-6 flex flex-col">
 					<form
@@ -263,12 +257,11 @@ const Register = () => {
 						</label>
 						<button
 							type="submit"
-							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background hover:border-primary">
+							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary">
 							Create Account
 							<FaArrowRightLong className="text-primay" />
 						</button>
 					</form>
-					{/* OAuth */}
 				</div>
 			</div>
 		</div>

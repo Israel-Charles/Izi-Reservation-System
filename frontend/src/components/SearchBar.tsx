@@ -79,10 +79,10 @@ const SearchBar = () => {
 					</label>
 				</div>
 				<div className="flex gap-2">
-					<button className="rounded w-2/3 bg-success text-light_neutral h-full p-1.5 font-bold text-xl hover:bg-success_background transition-all">
+					<button className="rounded w-2/3 bg-light_neutral text-med_orange h-full p-1.5 font-bold text-xl hover:bg-secondary transition-all">
 						Search
 					</button>
-					<button className="rounded w-1/3 bg-error text-light_neutral h-full p-1.5 font-bold text-xl hover:bg-error_background transition-all">
+					<button className="rounded w-1/3 bg-background_alt text-light_neutral h-full p-1.5 font-bold text-xl hover:bg-background transition-all">
 						Clear
 					</button>
 				</div>

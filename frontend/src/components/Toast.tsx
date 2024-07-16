@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { MdCheckCircle, MdError } from "react-icons/md";
 
 type ToastProps = {
 	message: string;
@@ -17,12 +18,19 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
 
 	const styles =
 		type === "SUCCESS"
-			? "fixed top-4 right-4 z-50 p-4 rounded-md bg-success_background text-success max-w-md"
-			: "fixed top-4 right-4 z-50 p-4 rounded-md bg-error_background text-error max-w-md";
+			? "fixed top-4 right-4 z-50 p-4 rounded-md bg-success text-light_neutral max-w-md"
+			: "fixed top-4 right-4 z-50 p-4 rounded-md bg-error text-light_neutral max-w-md";
 
 	return (
 		<div className={styles} onClick={onClose}>
-			<div className="flex justify-center items-center">
+			<div className="flex justify-center items-center gap-x-2">
+				<span className="text-primary">
+					{type === "SUCCESS" ? (
+						<MdCheckCircle className="h-8 w-8" />
+					) : (
+						<MdError className="h-8 w-8" />
+					)}
+				</span>
 				<span className="text-lg font-semibold">{message}</span>
 			</div>
 		</div>
