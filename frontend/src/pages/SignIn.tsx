@@ -25,8 +25,9 @@ const SignIn = () => {
 	} = useForm<SignInFormData>();
 
 	const mutation = useMutation(apiClient.signIn, {
-		onSuccess: async () => {
-			await queryClient.invalidateQueries("validateToken");
+		onSuccess: async (responseBody) => {
+			await queryClient.invalidateQueries("authenticate");
+			showToast({ message: responseBody.message, type: "SUCCESS" });
 			navigate("/");
 		},
 		onError: (error: Error) => {
@@ -134,16 +135,8 @@ const SignIn = () => {
 							<FaArrowRightLong className="text-primay" />
 						</button>
 					</form>
-					{/* OAuth */}
 				</div>
 			</div>
-			{/* <div className="relative hidden md:block">
-				<img
-					alt="login image"
-					className="absolute inset-0 object-cover "
-					src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-				/>
-			</div> */}
 		</div>
 	);
 };

@@ -2,13 +2,14 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import authRoutes from "./routes/auth";
-import userRoutes from "./routes/users";
 import cookieParser from "cookie-parser";
 import path from "path";
+import connectDB from "./config/db";
 import { v2 as cloudinary } from "cloudinary";
-import myResourceRoutes from "./routes/my-resources";
-import resourceRoutes from "./routes/resources";
+import authRoutes from "./routes/auth";
+import reservationsRoutes from "./routes/reservations";
+import resourcesRoutes from "./routes/resources";
+import usersRoutes from "./routes/users";
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,7 +17,7 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-mongoose.connect(process.env.MONGODB_URI as string);
+connectDB();
 
 const app = express();
 app.use(cookieParser());
@@ -32,9 +33,9 @@ app.use(
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/my-resources", myResourceRoutes);
-app.use("/api/resources", resourceRoutes);
+app.use("/api/reservations", reservationsRoutes);
+app.use("/api/resources", resourcesRoutes);
+app.use("/api/users", usersRoutes);
 
 app.get("*", (req: Request, res: Response) => {
 	res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));

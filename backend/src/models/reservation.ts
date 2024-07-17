@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { ReservationType } from "../shared/types";
+import { ReservationType } from "../types/reservation";
 
 const reservationSchema = new mongoose.Schema<ReservationType>({
-	userId: { type: String, required: true },
-	resourceId: { type: String, required: true },
+	userId: { type: String, required: true, index: true },
+	resourceId: { type: String, required: true, index: true },
 	comment: { type: String, required: true },
 	start: { type: Date, required: true },
 	end: { type: Date, required: true },

@@ -7,8 +7,8 @@ const AddResource = () => {
 	const { showToast } = useAppContext();
 
 	const { mutate, isLoading } = useMutation(apiClient.addMyResource, {
-		onSuccess: () => {
-			showToast({ message: "Resource added successfully!", type: "SUCCESS" });
+		onSuccess: (responseBody) => {
+			showToast({ message: responseBody.message, type: "SUCCESS" });
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });

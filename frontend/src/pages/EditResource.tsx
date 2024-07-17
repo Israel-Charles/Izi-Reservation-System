@@ -16,8 +16,8 @@ const EditResource = () => {
 	);
 
 	const { mutate, isLoading } = useMutation(apiClient.updateMyResourceById, {
-		onSuccess: () => {
-			showToast({ message: "Resource updated successfully!", type: "SUCCESS" });
+		onSuccess: (responseBody) => {
+			showToast({ message: responseBody.message, type: "SUCCESS" });
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });

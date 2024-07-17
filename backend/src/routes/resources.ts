@@ -1,33 +1,20 @@
-import express, { Request, Response } from "express";
-import Resource from "../models/resource";
+import express from "express";
+import {
+	addResource,
+	getAllResources,
+	getResourceById,
+	updateResource,
+	deleteResource,
+} from "../controllers/resources";
+import authenticate from "../middleware/authenticate";
+import { validateResource } from "../middleware/resource.validation";
 
 const router = express.Router();
 
-router.get("/search", async (req: Request, res: Response) => {
-	try {
-		const pageSize = 5;
-		const pageNumber = parseInt(
-			req.query.page ? req.query.page.toString() : "1"
-		);
-		const skip = (pageNumber - 1) * pageSize;
-
-		const resources = await Resource.find().skip(skip).limit(pageSize);
-		const total = await Resource.countDocuments();
-
-		const response = {
-			data: resources,
-			pagination: {
-				total,
-				page: pageNumber,
-				pages: Math.ceil(total / pageSize),
-			},
-		};
-
-		res.json(response);
-	} catch (error) {
-		console.log("error", error);
-		res.status(500).json({ message: "Something went wrong" });
-	}
-});
+router.post("/api/resources", authenticate, validateResource, addResource);
+router.get("/api/resources", getAllResources);
+router.get("/api/resources/:resourceId", getResourceById);
+router.put("/api/resources/:resourceId", updateResource);
+router.delete("/api/resources/:resourceId", deleteResource);
 
 export default router;

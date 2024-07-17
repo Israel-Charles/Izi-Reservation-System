@@ -1,69 +1,29 @@
 import express, { Request, Response } from "express";
-import { check, validationResult } from "express-validator";
-import User from "../models/user";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import verifyToken from "../middleware/auth";
+import {
+	register,
+	verifyEmail,
+	login,
+	logout,
+	forgotPassword,
+	resetPassword,
+} from "../controllers/auth";
+import {
+	validateLogin,
+	validateRegister,
+	validateResetPassword,
+} from "../middleware/user.validation";
+import authenticate from "../middleware/authenticate";
 
 const router = express.Router();
 
-router.post(
-	"/login",
-	[
-		check("identifier", "Login is required").isString(),
-		check("password", "Password is required").isString(),
-	],
-	async (req: Request, res: Response) => {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ message: errors.array() });
-		}
-
-		const { identifier, password } = req.body;
-
-		try {
-			const user = await User.findOne({
-				$or: [{ email: identifier }, { userName: identifier }],
-			});
-			if (!user)
-				return res.status(400).json({ message: "Invalid credentials" });
-
-			if (!user.verified)
-				return res
-					.status(400)
-					.json({ message: "Please confirm your email to login" });
-
-			const isMatch = await bcrypt.compare(password, user.password);
-			if (!isMatch)
-				return res.status(400).json({ message: "Invalid credentials" });
-
-			const token = jwt.sign(
-				{ userId: user._id },
-				process.env.JWT_SECRET_KEY as string,
-				{ expiresIn: "1d" }
-			);
-			res.cookie("auth_token", token, {
-				httpOnly: true,
-				secure: process.env.NODE_ENV === "production",
-				maxAge: 86400000,
-			});
-			return res.status(200).json({ userId: user._id });
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({ message: "Something went wrong" });
-		}
-
-		res.sendStatus(200);
-	}
-);
-
-router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
-	res.status(200).send({ userId: req.userId });
+router.get("/", authenticate, (req: Request, res: Response) => {
+	res.status(200).json({ message: "Authenticated", userId: req.userId });
 });
-
-router.post("/logout", (req: Request, res: Response) => {
-	res.cookie("auth_token", "", { expires: new Date(0) });
-	res.send();
-});
+router.post("/register", validateRegister, register);
+router.get("/verify-email/:verificationToken", verifyEmail);
+router.post("/login", validateLogin, login);
+router.get("/logout", logout);
+router.post("/forgot-password", forgotPassword);
+router.put("/reset-password/:resetToken", validateResetPassword, resetPassword);
 
 export default router;

@@ -4,7 +4,7 @@ const Hero = () => {
 			<div className="container mx-auto gap-2 mt-8 px-6">
 				<h1 className="text-5xl md:text-6xl lg:text-7xl text-primary font-semibold tracking-tight">
 					Booking made
-					<span className="bg-gradient-to-r from-dark_orange to-light_orange text-transparent bg-clip-text font-extrabold italic p-1">
+					<span className="bg-gradient-to-r from-dark_orange to-light_orange text-transparent bg-clip-text font-bold italic p-1">
 						{" "}
 						BETTER
 					</span>

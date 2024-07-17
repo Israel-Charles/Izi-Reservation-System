@@ -78,6 +78,7 @@ const Register = () => {
 										}
 										{...register("firstName", {
 											required: "First name is required",
+											maxLength: { value: 50, message: "Max 50 characters" },
 										})}
 									/>
 								</div>
@@ -102,6 +103,7 @@ const Register = () => {
 										}
 										{...register("lastName", {
 											required: "Last name is required",
+											maxLength: { value: 50, message: "Max 50 characters" },
 										})}
 									/>
 								</div>
@@ -127,6 +129,8 @@ const Register = () => {
 									}
 									{...register("userName", {
 										required: "User name is required",
+										minLength: { value: 5, message: "Min 5 characters" },
+										maxLength: { value: 50, message: "Max 50 characters" },
 									})}
 								/>
 							</div>
@@ -182,10 +186,12 @@ const Register = () => {
 									}
 									{...register("password", {
 										required: "Password is required",
+										minLength: { value: 8, message: "Min 8 characters" },
+										maxLength: { value: 50, message: "Max 50 characters" },
 										validate: (value) => {
 											return (
-												value.length >= 6 ||
-												"Password must be at least 6 characters long"
+												/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,50}/.test(value) ||
+												"Must contain at least one letter and one number"
 											);
 										},
 									})}

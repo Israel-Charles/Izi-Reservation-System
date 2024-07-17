@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import * as apiClient from "../api-client";
 import {
@@ -9,15 +9,33 @@ import {
 	FaCalendarAlt,
 } from "react-icons/fa";
 import { LuTimer } from "react-icons/lu";
+import { useAppContext } from "../contexts/AppContext";
 
 const MyResources = () => {
+	const { showToast } = useAppContext();
+
 	const { data: resourceData } = useQuery(
 		"getMyResources",
 		apiClient.getMyResources,
 		{
-			onError: () => {},
+			onError: (error: Error) => {
+				showToast({ message: error.message, type: "ERROR" });
+			},
 		}
 	);
+
+	const { mutate, isLoading } = useMutation(apiClient.deleteResource, {
+		onSuccess: (responseBody) => {
+			showToast({ message: responseBody.message, type: "SUCCESS" });
+		},
+		onError: (error: Error) => {
+			showToast({ message: error.message, type: "ERROR" });
+		},
+	});
+
+	const handleDelete = async (resourceId: string) => {
+		mutate(resourceId);
+	};
 
 	return (
 		<div className="container mx-auto px-6 my-14 space-y-5">
@@ -69,9 +87,10 @@ const MyResources = () => {
 							</div>
 							<span className="flex justify-between">
 								<button
-									// onClick={handleDeleteResource}
+									disabled={isLoading}
+									onClick={() => handleDelete(resource._id)}
 									className="rounded text-xl text-error bg-background font-bold px-3 py-2 hover:bg-error hover:text-light_neutral hover:shadow-lg transition-all">
-									Delete
+									{isLoading ? "Deleting..." : "Delete"}
 								</button>
 								<div className="flex items-center gap-4">
 									<Link

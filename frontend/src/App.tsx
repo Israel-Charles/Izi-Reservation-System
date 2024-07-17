@@ -15,6 +15,7 @@ import MyResources from "./pages/MyResources";
 import About from "./pages/About";
 import EditResource from "./pages/EditResource";
 import Search from "./pages/Search";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -58,6 +59,14 @@ const App = () => {
 					element={
 						<Layout>
 							<Register />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/verify-email/:verificationToken"
+					element={
+						<Layout>
+							<VerifyEmail />
 						</Layout>
 					}
 				/>

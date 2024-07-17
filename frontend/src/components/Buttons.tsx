@@ -26,9 +26,9 @@ export const SignOutButton = () => {
 	const { showToast } = useAppContext();
 
 	const mutation = useMutation(apiClient.signOut, {
-		onSuccess: async () => {
-			await queryClient.invalidateQueries("validateToken");
-			showToast({ message: "Signed out", type: "SUCCESS" });
+		onSuccess: async (responseBody) => {
+			await queryClient.invalidateQueries("authenticate");
+			showToast({ message: responseBody.message, type: "SUCCESS" });
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });

@@ -24,7 +24,7 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
 	return (
 		<div className={styles} onClick={onClose}>
 			<div className="flex justify-center items-center gap-x-2">
-				<span className="text-primary">
+				<span className="text-light_neutral">
 					{type === "SUCCESS" ? (
 						<MdCheckCircle className="h-8 w-8" />
 					) : (
