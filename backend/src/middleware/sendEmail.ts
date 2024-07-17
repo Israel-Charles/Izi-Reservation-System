@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend("re_JnX8i7sv_78B3Tnu6mMyvtPycGBgcZxHV");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 type Params = {
 	to: string;
@@ -12,7 +12,7 @@ type Params = {
 const getSender = () =>
 	process.env.NODE_ENV === "development"
 		? "onboarding@resend.dev"
-		: "services@4331book.com";
+		: (process.env.SENDER_EMAIL as string);
 
 const getReciever = (to: string) =>
 	process.env.NODE_ENV === "development" ? "delivered@resend.dev" : to;
