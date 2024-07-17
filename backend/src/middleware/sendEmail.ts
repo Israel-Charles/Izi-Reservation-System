@@ -12,7 +12,7 @@ type Params = {
 const getSender = () =>
 	process.env.NODE_ENV === "development"
 		? "onboarding@resend.dev"
-		: (process.env.SENDER_EMAIL as string);
+		: (process.env.EMAIL_SENDER as string);
 
 const getReciever = (to: string) =>
 	process.env.NODE_ENV === "development" ? "delivered@resend.dev" : to;
