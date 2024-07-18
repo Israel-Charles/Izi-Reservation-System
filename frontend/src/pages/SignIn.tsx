@@ -87,7 +87,7 @@ const SignIn = () => {
 							<div className="flex justify-between">
 								Password
 								<Link
-									to="/register"
+									to="/password/forgot"
 									className="text-link hover:text-link_hover hover:underline transition-all">
 									Forgot password?
 								</Link>

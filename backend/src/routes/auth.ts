@@ -8,6 +8,7 @@ import {
 	resetPassword,
 } from "../controllers/auth";
 import {
+	validateEmail,
 	validateLogin,
 	validateRegister,
 	validateResetPassword,
@@ -20,10 +21,10 @@ router.get("/", authenticate, (req: Request, res: Response) => {
 	res.status(200).json({ message: "Authenticated", userId: req.userId });
 });
 router.post("/register", validateRegister, register);
-router.get("/verify-email/:verificationToken", verifyEmail);
+router.get("/email/verify/:verificationToken", verifyEmail);
 router.post("/login", validateLogin, login);
 router.get("/logout", logout);
-router.post("/forgot-password", forgotPassword);
-router.put("/reset-password/:resetToken", validateResetPassword, resetPassword);
+router.post("/password/forgot", validateEmail, forgotPassword);
+router.put("/password/reset/:resetToken", validateResetPassword, resetPassword);
 
 export default router;

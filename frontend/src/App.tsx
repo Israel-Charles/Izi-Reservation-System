@@ -16,6 +16,8 @@ import About from "./pages/About";
 import EditResource from "./pages/EditResource";
 import Search from "./pages/Search";
 import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -63,10 +65,26 @@ const App = () => {
 					}
 				/>
 				<Route
-					path="/verify-email/:verificationToken"
+					path="/email/verify/:verificationToken"
 					element={
 						<Layout>
 							<VerifyEmail />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/password/forgot"
+					element={
+						<Layout>
+							<ForgotPassword />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/password/reset/:resetToken"
+					element={
+						<Layout>
+							<ResetPassword />
 						</Layout>
 					}
 				/>

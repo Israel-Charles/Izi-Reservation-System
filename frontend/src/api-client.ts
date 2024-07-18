@@ -1,3 +1,5 @@
+import { ForgotFormData } from "./pages/ForgotPassword";
+import { ResetFormData } from "./pages/ResetPassword";
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
 // import {
@@ -46,7 +48,7 @@ export const signIn = async (formData: SignInFormData) => {
 
 export const verifyEmail = async (verificationToken: string) => {
 	const response = await fetch(
-		`${API_BASE_URL}/api/auth/verify-email/${verificationToken}`,
+		`${API_BASE_URL}/api/auth/email/verify/${verificationToken}`,
 		{
 			method: "GET",
 		}
@@ -61,9 +63,47 @@ export const verifyEmail = async (verificationToken: string) => {
 	return responseBody;
 };
 
-// export const forgotPassword = async (email: string) => {
+export const forgotPassword = async (formData: ForgotFormData) => {
+	const response = await fetch(`${API_BASE_URL}/api/auth/password/forgot`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(formData),
+	});
 
-// export const resetPassword = async (resetToken: string, password: string) => {
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody;
+};
+
+export const resetPassword = async (
+	resetToken: string,
+	formData: ResetFormData
+) => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/auth/password/reset/${resetToken}`,
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(formData),
+		}
+	);
+
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody;
+};
 
 export const authenticate = async () => {
 	const response = await fetch(`${API_BASE_URL}/api/auth/`, {

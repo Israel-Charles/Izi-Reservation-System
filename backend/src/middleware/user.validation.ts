@@ -20,6 +20,14 @@ const validateNames = [
 		.withMessage("Username can be at most 50 characters long"),
 ];
 
+export const validateEmail = [
+	body("email")
+		.notEmpty()
+		.withMessage("Email is required")
+		.matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
+		.withMessage("Email is not valid"),
+];
+
 const validatePasswords = [
 	body("password")
 		.notEmpty()

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
 import { BiSolidError } from "react-icons/bi";
@@ -17,7 +17,6 @@ export type RegisterFormData = {
 };
 
 const Register = () => {
-	const navigate = useNavigate();
 	const { showToast } = useAppContext();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,7 +31,6 @@ const Register = () => {
 	const mutation = useMutation(apiClient.register, {
 		onSuccess: async (responseBody) => {
 			showToast({ message: responseBody.message, type: "SUCCESS" });
-			navigate("/sign-in");
 		},
 		onError: (error: Error) => {
 			showToast({ message: error.message, type: "ERROR" });

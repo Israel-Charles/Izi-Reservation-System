@@ -37,7 +37,7 @@ export const register = async (req: Request, res: Response) => {
 			verificationToken: crypto.randomBytes(16).toString("hex"),
 		});
 
-		const url = `${process.env.FRONTEND_URL}/verify-email/${newUser.verificationToken}`;
+		const url = `${process.env.FRONTEND_URL}/email/verify/${newUser.verificationToken}`;
 
 		const { error } = await sendEmail({
 			to: newUser.email,
@@ -64,7 +64,7 @@ export const register = async (req: Request, res: Response) => {
 	}
 };
 
-// /api/auth/verify-email/:verificationToken
+// /api/auth/email/verify/:verificationToken
 export const verifyEmail = async (req: Request, res: Response) => {
 	const { verificationToken } = req.params;
 
@@ -130,8 +130,13 @@ export const logout = async (req: Request, res: Response) => {
 	res.status(200).json({ message: "Logged out" });
 };
 
-// /api/auth/forgot-password
+// /api/auth/password/forgot
 export const forgotPassword = async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).json({ errors: errors.array() });
+	}
+
 	const { email } = req.body;
 
 	const user = await User.findOne({ email });
@@ -140,7 +145,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
 	}
 
 	user.resetToken = crypto.randomBytes(20).toString("hex");
-	const url = `${process.env.FRONTEND_URL}/password/reset?token=${user.resetToken}`;
+	const url = `${process.env.FRONTEND_URL}/password/reset/${user.resetToken}`;
 
 	const { error } = await sendEmail({
 		to: email,
@@ -163,7 +168,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
 	});
 };
 
-// /api/auth/reset-password/:resetToken
+// /api/auth/password/reset/:resetToken
 export const resetPassword = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {

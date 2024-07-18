@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 const VerifyEmail = () => {
 	const { showToast } = useAppContext();
-	const { verificationToken } = useParams();
+	const { verificationToken } = useParams<{ verificationToken: string }>();
 
 	const [verificationStatus, setVerificationStatus] = useState<
 		"pending" | "success" | "error"
