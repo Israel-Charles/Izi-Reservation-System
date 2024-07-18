@@ -2,6 +2,7 @@ import { ForgotFormData } from "./pages/ForgotPassword";
 import { ResetFormData } from "./pages/ResetPassword";
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
+import { ProfileFormData } from "./pages/Profile";
 // import {
 // 	ResourceSearchResponse,
 // 	ResourceType,
@@ -124,6 +125,40 @@ export const signOut = async () => {
 	const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
 		method: "GET",
 		credentials: "include",
+	});
+
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody;
+};
+
+export const getProfile = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
+		method: "GET",
+		credentials: "include",
+	});
+
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody.user;
+};
+
+export const updateProfile = async (formData: ProfileFormData) => {
+	const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
+		method: "PUT",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(formData),
 	});
 
 	const responseBody = await response.json();

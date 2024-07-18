@@ -18,6 +18,7 @@ import Search from "./pages/Search";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 const App = () => {
 	const { isLoggedIn } = useAppContext();
@@ -90,6 +91,14 @@ const App = () => {
 				/>
 				{isLoggedIn && (
 					<>
+						<Route
+							path="/profile"
+							element={
+								<Layout>
+									<Profile />
+								</Layout>
+							}
+						/>
 						<Route
 							path="/add-resource"
 							element={
