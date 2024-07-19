@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { BiSolidError } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa6";
+import { zoomies } from "ldrs";
+import { useEffect } from "react";
 
 export type ForgotFormData = {
 	email: string;
@@ -12,6 +14,10 @@ export type ForgotFormData = {
 
 const ForgotPassword = () => {
 	const { showToast } = useAppContext();
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	const {
 		register,
@@ -51,6 +57,7 @@ const ForgotPassword = () => {
 								type="email"
 								placeholder="email address"
 								autoComplete="email"
+								disabled={mutation.isLoading || mutation.isSuccess}
 								className={
 									!errors.email
 										? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -82,8 +89,22 @@ const ForgotPassword = () => {
 						</Link>
 						<button
 							type="submit"
-							className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background transition-all">
-							Get Reset Link
+							disabled={mutation.isLoading || mutation.isSuccess}
+							className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background disabled:bg-background disabled:pointer-events-none transition-all">
+							{mutation.isLoading ? (
+								<div className="py-1/2">
+									<l-zoomies
+										size="80"
+										stroke="15"
+										bg-opacity="0.1"
+										speed="1.4"
+										color="rgb(255, 125, 40)"></l-zoomies>
+								</div>
+							) : mutation.isSuccess ? (
+								<span>Email Sent</span>
+							) : (
+								<span>Send Email</span>
+							)}
 						</button>
 					</div>
 				</form>

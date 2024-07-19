@@ -5,7 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import { BiSolidError } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { zoomies } from "ldrs";
 
 export type ResetFormData = {
 	password: string;
@@ -17,6 +18,10 @@ const ResetPassword = () => {
 	const { resetToken } = useParams<{ resetToken: string }>();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	const {
 		register,
@@ -60,6 +65,7 @@ const ResetPassword = () => {
 								type={showPassword ? "text" : "password"}
 								placeholder="password"
 								autoComplete="off"
+								disabled={mutation.isLoading || mutation.isSuccess}
 								className={
 									!errors.password
 										? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -106,6 +112,7 @@ const ResetPassword = () => {
 								type={showConfirmPassword ? "text" : "password"}
 								placeholder="confirm password"
 								autoComplete="off"
+								disabled={mutation.isLoading || mutation.isSuccess}
 								className={
 									!errors.confirmPassword
 										? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -150,8 +157,22 @@ const ResetPassword = () => {
 						</Link>
 						<button
 							type="submit"
-							className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background transition-all">
-							Reset Password
+							disabled={mutation.isLoading || mutation.isSuccess}
+							className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background disabled:bg-background disabled:pointer-events-none transition-all">
+							{mutation.isLoading ? (
+								<div className="py-1/2">
+									<l-zoomies
+										size="125"
+										stroke="15"
+										bg-opacity="0.1"
+										speed="1.4"
+										color="rgb(255, 125, 40)"></l-zoomies>
+								</div>
+							) : mutation.isSuccess ? (
+								<span>Password Changed</span>
+							) : (
+								<span>Change Password</span>
+							)}
 						</button>
 					</div>
 				</form>

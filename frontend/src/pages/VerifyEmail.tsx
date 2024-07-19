@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { leapfrog } from "ldrs";
 
 const VerifyEmail = () => {
 	const { showToast } = useAppContext();
@@ -11,6 +12,10 @@ const VerifyEmail = () => {
 	const [verificationStatus, setVerificationStatus] = useState<
 		"pending" | "success" | "error"
 	>("pending");
+
+	useEffect(() => {
+		leapfrog.register();
+	}, []);
 
 	const mutation = useMutation(apiClient.verifyEmail, {
 		onSuccess: async (responseBody) => {
@@ -39,8 +44,12 @@ const VerifyEmail = () => {
 		<div className="container mx-auto max-w-xl">
 			<div className="px-6 flex flex-col">
 				{verificationStatus === "pending" && (
-					<div className="my-14 flex justify-center">
-						<p className="text-lg font-bold text-primary">Verifying...</p>
+					<div className="my-14 flex gap-4 justify-center">
+						<p className="text-lg font-bold text-primary">Verifying</p>
+						<l-leapfrog
+							size="40"
+							speed="2.5"
+							color="rgb(255, 125, 40)"></l-leapfrog>
 					</div>
 				)}
 				{verificationStatus === "error" && (
@@ -64,13 +73,12 @@ const VerifyEmail = () => {
 						<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">
 							Email Verified
 						</h2>
-						<p className="text-primary font-bold mt-2">
-							Your email address has been successfully verified. You can now
-							login to your account.
+						<p className="text-primary font-bold mt-1 mb-4">
+							You can now login to your account.
 						</p>
 						<Link
 							to="/sign-in"
-							className="block mt-4 text-link hover:text-link_hover hover:underline transition-all">
+							className="bg-background text-primary font-semibold px-4 py-2 rounded hover:bg-med_orange transition-all">
 							Return to login
 						</Link>
 					</div>

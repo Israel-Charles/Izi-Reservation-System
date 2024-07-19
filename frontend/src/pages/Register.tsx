@@ -4,8 +4,9 @@ import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 import { Link } from "react-router-dom";
 import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSolidError } from "react-icons/bi";
+import { zoomies } from "ldrs";
 
 export type RegisterFormData = {
 	firstName: string;
@@ -20,6 +21,10 @@ const Register = () => {
 	const { showToast } = useAppContext();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	const {
 		register,
@@ -69,6 +74,7 @@ const Register = () => {
 										type="text"
 										placeholder="first name"
 										autoComplete="given-name"
+										disabled={mutation.isLoading}
 										className={
 											!errors.firstName
 												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -94,6 +100,7 @@ const Register = () => {
 										type="text"
 										placeholder="last name"
 										autoComplete="family-name"
+										disabled={mutation.isLoading}
 										className={
 											!errors.lastName
 												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -120,6 +127,7 @@ const Register = () => {
 									type="text"
 									placeholder="user name"
 									autoComplete="username"
+									disabled={mutation.isLoading}
 									className={
 										!errors.userName
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -146,6 +154,7 @@ const Register = () => {
 									type="email"
 									placeholder="email address"
 									autoComplete="email"
+									disabled={mutation.isLoading}
 									className={
 										!errors.email
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -177,6 +186,7 @@ const Register = () => {
 									type={showPassword ? "text" : "password"}
 									placeholder="password"
 									autoComplete="off"
+									disabled={mutation.isLoading}
 									className={
 										!errors.password
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -223,6 +233,7 @@ const Register = () => {
 									type={showConfirmPassword ? "text" : "password"}
 									placeholder="confirm password"
 									autoComplete="off"
+									disabled={mutation.isLoading}
 									className={
 										!errors.confirmPassword
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -261,9 +272,23 @@ const Register = () => {
 						</label>
 						<button
 							type="submit"
-							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary">
-							Create Account
-							<FaArrowRightLong className="text-primay" />
+							disabled={mutation.isLoading}
+							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary disabled:bg-background d disabled:border-background disabled:pointer-events-none">
+							{mutation.isLoading ? (
+								<div className="py-1/2">
+									<l-zoomies
+										size="250"
+										stroke="15"
+										bg-opacity="0.1"
+										speed="1.4"
+										color="rgb(255, 125, 40)"></l-zoomies>
+								</div>
+							) : (
+								<>
+									Create Account
+									<FaArrowRightLong className="text-primay" />
+								</>
+							)}
 						</button>
 					</form>
 				</div>

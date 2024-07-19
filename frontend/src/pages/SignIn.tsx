@@ -5,7 +5,8 @@ import { useAppContext } from "../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { BiSolidError } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { zoomies } from "ldrs";
 
 export type SignInFormData = {
 	identifier: string;
@@ -17,6 +18,10 @@ const SignIn = () => {
 	const navigate = useNavigate();
 	const { showToast } = useAppContext();
 	const [showPassword, setShowPassword] = useState(false);
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	const {
 		register,
@@ -66,6 +71,7 @@ const SignIn = () => {
 									type="text"
 									placeholder="user name / email address"
 									autoComplete="username"
+									disabled={mutation.isLoading}
 									className={
 										!errors.identifier
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -97,6 +103,7 @@ const SignIn = () => {
 									type={showPassword ? "text" : "password"}
 									placeholder="password"
 									autoComplete="current-password"
+									disabled={mutation.isLoading}
 									className={
 										!errors.password
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1 pr-12"
@@ -130,9 +137,23 @@ const SignIn = () => {
 						</label>
 						<button
 							type="submit"
-							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary">
-							Login
-							<FaArrowRightLong className="text-primay" />
+							disabled={mutation.isLoading}
+							className="mt-2 gap-x-2 flex w-full justify-center items-center rounded-md bg-med_orange px-3 py-2 font-bold text-primary text-xl transition-all duration-200 hover:gap-x-4 border-2 border-background_alt hover:border-primary disabled:bg-background d disabled:border-background disabled:pointer-events-none">
+							{mutation.isLoading ? (
+								<div className="py-1/2">
+									<l-zoomies
+										size="250"
+										stroke="15"
+										bg-opacity="0.1"
+										speed="1.4"
+										color="rgb(255, 125, 40)"></l-zoomies>
+								</div>
+							) : (
+								<>
+									Login
+									<FaArrowRightLong className="text-primay" />
+								</>
+							)}
 						</button>
 					</form>
 				</div>
