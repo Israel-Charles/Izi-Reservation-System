@@ -59,7 +59,7 @@ const MyResources = () => {
 				</Link>
 			</span>
 			<div className="grid grid-cols-1 gap-8 bg-background rounded-lg shadow-lg">
-				{/* {resourceData.map((resource) => ( //
+				{/* {resourceData.map((resource) => (
 					<div
 						key={resource.name}
 						className="flex flex-col bg-background_alt text-primary justify-between rounded-lg p-6 gap-6">
