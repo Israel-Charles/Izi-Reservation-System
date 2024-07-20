@@ -8,7 +8,7 @@ const reservationSchema = new mongoose.Schema<ReservationType>(
 		comment: { type: String, required: true },
 		start: { type: Date, required: true },
 		end: { type: Date, required: true },
-		groupSize: { type: Number, required: true },
+		size: { type: Number, required: true },
 	},
 	{ timestamps: true, collection: "reservations" }
 );

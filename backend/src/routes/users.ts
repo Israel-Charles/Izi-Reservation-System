@@ -11,7 +11,6 @@ import {
 	editResource,
 	deleteResource,
 	getMyReservations,
-	cancelReservation,
 } from "../controllers/users";
 
 const router = express.Router();
@@ -29,10 +28,5 @@ router.put(
 );
 router.delete("/my-resources/:resourceId", authenticate, deleteResource);
 router.get("/my-reservations", authenticate, getMyReservations);
-router.delete(
-	"/my-reservations/:reservationId",
-	authenticate,
-	cancelReservation
-);
 
 export default router;

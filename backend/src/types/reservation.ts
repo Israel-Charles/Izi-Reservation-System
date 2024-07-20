@@ -5,5 +5,5 @@ export type ReservationType = {
 	comment: string;
 	start: Date;
 	end: Date;
-	groupSize: number;
+	size: number;
 };

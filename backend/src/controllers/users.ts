@@ -18,7 +18,9 @@ export const getProfile = async (req: Request, res: Response) => {
 export const updateProfile = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
+		return res
+			.status(400)
+			.json({ message: errors.array().map((error) => error.msg) });
 	}
 
 	const { firstName, lastName, userName } = req.body;
@@ -126,7 +128,9 @@ export const editResource = async (req: Request, res: Response) => {
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
+		return res
+			.status(400)
+			.json({ message: errors.array().map((error) => error.msg) });
 	}
 
 	const {
@@ -143,7 +147,7 @@ export const editResource = async (req: Request, res: Response) => {
 	} = req.body;
 
 	const existingName = await Resource.findOne({ name });
-	if (existingName) {
+	if (existingName && existingName._id !== resource._id) {
 		return res.status(400).json({ message: "Resource name taken" });
 	}
 
@@ -181,9 +185,6 @@ export const deleteResource = async (req: Request, res: Response) => {
 	if (!resource) {
 		return res.status(404).json({ message: "Resource not found" });
 	}
-	if (resource.userId.toString() !== req.userId) {
-		return res.status(403).json({ message: "Unauthorized" });
-	}
 
 	const deletedResource = await Resource.findByIdAndDelete(
 		req.params.resourceId
@@ -203,24 +204,4 @@ export const getMyReservations = async (req: Request, res: Response) => {
 	}
 
 	return res.status(200).json({ reservations });
-};
-
-// /api/users/my-reservations/:reservationId
-export const cancelReservation = async (req: Request, res: Response) => {
-	const reservation = await Reservation.findById(req.params.reservationId);
-	if (!reservation) {
-		return res.status(404).json({ message: "Reservation not found" });
-	}
-	if (reservation.userId.toString() !== req.userId) {
-		return res.status(403).json({ message: "Unauthorized" });
-	}
-
-	const deletedReservation = await Reservation.findByIdAndDelete(
-		req.params.reservationId
-	);
-	if (!deletedReservation) {
-		return res.status(404).json({ message: "Reservation not found" });
-	}
-
-	return res.status(200).json({ message: "Reservation canceled" });
 };
