@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import * as apiClient from "../api-client";
-import { useAppContext } from "../contexts/AppContext";
-import { Link, useNavigate } from "react-router-dom";
-import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
-import { BiSolidError } from "react-icons/bi";
-import { useEffect, useState } from "react";
 import { zoomies } from "ldrs";
+import { useForm } from "react-hook-form";
+import * as apiClient from "../api-client";
+import { BiSolidError } from "react-icons/bi";
+import { AppContext } from "../contexts/AppContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
 
 export type SignInFormData = {
 	identifier: string;
@@ -16,7 +16,7 @@ export type SignInFormData = {
 const SignIn = () => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ const SignIn = () => {
 			<div className="">
 				<div className="px-6 flex flex-col">
 					<form
-						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg"
+						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg shadow-lg"
 						onSubmit={onSubmit}>
 						<div>
 							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">

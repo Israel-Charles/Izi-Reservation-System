@@ -1,12 +1,12 @@
-import { useAppContext } from "../contexts/AppContext";
+import { leapfrog } from "ldrs";
 import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { leapfrog } from "ldrs";
+import { AppContext } from "../contexts/AppContext";
+import { useContext, useEffect, useRef, useState } from "react";
 
 const VerifyEmail = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 	const { verificationToken } = useParams<{ verificationToken: string }>();
 
 	const [verificationStatus, setVerificationStatus] = useState<

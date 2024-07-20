@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useContext } from "react";
 import * as apiClient from "../api-client";
+import { useParams } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { AppContext } from "../contexts/AppContext";
 import ManageResourceForm from "../forms/ManageResourceForm/ManageResourceForm";
-import { useAppContext } from "../contexts/AppContext";
 
 const EditResource = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 	const { resourceId } = useParams();
 	const { data: resource } = useQuery(
 		"getMyResourceById",

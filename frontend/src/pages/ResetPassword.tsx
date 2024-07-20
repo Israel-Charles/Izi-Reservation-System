@@ -1,12 +1,12 @@
-import { useAppContext } from "../contexts/AppContext";
+import { zoomies } from "ldrs";
+import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { BiSolidError } from "react-icons/bi";
 import { resetPassword } from "../api-client";
 import { Link, useParams } from "react-router-dom";
-import { BiSolidError } from "react-icons/bi";
-import { useForm } from "react-hook-form";
+import { AppContext } from "../contexts/AppContext";
+import { useContext, useEffect, useState } from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { zoomies } from "ldrs";
 
 export type ResetFormData = {
 	password: string;
@@ -14,7 +14,7 @@ export type ResetFormData = {
 };
 
 const ResetPassword = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 	const { resetToken } = useParams<{ resetToken: string }>();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);

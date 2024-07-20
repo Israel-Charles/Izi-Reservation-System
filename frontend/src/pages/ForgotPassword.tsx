@@ -1,19 +1,19 @@
-import { useAppContext } from "../contexts/AppContext";
+import { zoomies } from "ldrs";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
-import { Link } from "react-router-dom";
 import { BiSolidError } from "react-icons/bi";
-import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa6";
-import { zoomies } from "ldrs";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../contexts/AppContext";
 
 export type ForgotFormData = {
 	email: string;
 };
 
 const ForgotPassword = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 
 	useEffect(() => {
 		zoomies.register();

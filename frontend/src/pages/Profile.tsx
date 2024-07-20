@@ -1,11 +1,12 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
-import * as apiClient from "../api-client";
-import { useAppContext } from "../contexts/AppContext";
+import { zoomies } from "ldrs";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import * as apiClient from "../api-client";
+import { useContext, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { BiSolidError } from "react-icons/bi";
+import { useMutation, useQuery } from "react-query";
+import { AppContext } from "../contexts/AppContext";
 
 export type ProfileFormData = {
 	firstName: string;
@@ -15,7 +16,11 @@ export type ProfileFormData = {
 };
 
 const Profile = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	const {
 		register,
@@ -59,7 +64,7 @@ const Profile = () => {
 			<div className="">
 				<div className="px-6 flex flex-col">
 					<form
-						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg"
+						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg shadow-lg"
 						onSubmit={onSubmit}>
 						<div>
 							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">
@@ -74,6 +79,7 @@ const Profile = () => {
 										type="text"
 										placeholder="first name"
 										autoComplete="off"
+										disabled={mutation.isLoading}
 										className={
 											!errors.firstName
 												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -99,6 +105,7 @@ const Profile = () => {
 										type="text"
 										placeholder="last name"
 										autoComplete="off"
+										disabled={mutation.isLoading}
 										className={
 											!errors.lastName
 												? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -125,6 +132,7 @@ const Profile = () => {
 									type="text"
 									placeholder="user name"
 									autoComplete="off"
+									disabled={mutation.isLoading}
 									className={
 										!errors.userName
 											? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
@@ -183,8 +191,20 @@ const Profile = () => {
 							</Link>
 							<button
 								type="submit"
-								className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background transition-all">
-								Update Profile
+								disabled={mutation.isLoading}
+								className="mt-4 bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background disabled:bg-background disabled:pointer-events-none transition-all">
+								{mutation.isLoading ? (
+									<div className="py-1/2">
+										<l-zoomies
+											size="105"
+											stroke="10"
+											bg-opacity="0.1"
+											speed="1.4"
+											color="rgb(255, 125, 40)"></l-zoomies>
+									</div>
+								) : (
+									<span>Update Profile</span>
+								)}
 							</button>
 						</div>
 					</form>

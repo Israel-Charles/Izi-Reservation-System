@@ -1,12 +1,13 @@
+import { useContext } from "react";
 import { useMutation } from "react-query";
-import ManageResourceForm from "../forms/ManageResourceForm/ManageResourceForm";
-import { useAppContext } from "../contexts/AppContext";
 import * as apiClient from "../api-client";
+import { AppContext } from "../contexts/AppContext";
+import ManageResourceForm from "../forms/ManageResourceForm/ManageResourceForm";
 
 const AddResource = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 
-	const { mutate, isLoading } = useMutation(apiClient.addMyResource, {
+	const { mutate, isLoading } = useMutation(apiClient.addResource, {
 		onSuccess: (responseBody) => {
 			showToast({ message: responseBody.message, type: "SUCCESS" });
 		},

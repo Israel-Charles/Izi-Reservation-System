@@ -2,10 +2,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
 import TypeSection from "./TypeSection";
 import HoursSection from "./HoursSection";
-import ImagesSection from "./ImagesSection";
-import { ResourceType } from "../../../../backend/src/shared/types";
+// import ImagesSection from "./ImagesSection";
+import { ResourceType } from "../../../../backend/src/types/resource";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { zoomies } from "ldrs";
 
 export type ResourceFormData = {
 	_id: string;
@@ -19,8 +20,8 @@ export type ResourceFormData = {
 	open: string;
 	close: string;
 	days: string[];
-	imageFiles: FileList;
-	imageUrls: string[];
+	// imageFiles: FileList;
+	// imageUrls: string[];
 };
 
 type Props = {
@@ -32,6 +33,10 @@ type Props = {
 const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 	const formMethods = useForm<ResourceFormData>();
 	const { handleSubmit, reset } = formMethods;
+
+	useEffect(() => {
+		zoomies.register();
+	}, []);
 
 	useEffect(() => {
 		reset(resource);
@@ -53,28 +58,29 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 		formDataJson.days.forEach((day, index) => {
 			formData.append(`days[${index}]`, day);
 		});
-		if (formDataJson.imageUrls) {
-			formDataJson.imageUrls.forEach((url, index) => {
-				formData.append(`imageUrls[${index}]`, url);
-			});
-		}
-		Array.from(formDataJson.imageFiles).forEach((imageFile) => {
-			formData.append(`imageFiles`, imageFile);
-		});
+		// if (formDataJson.imageUrls) {
+		// 	formDataJson.imageUrls.forEach((url, index) => {
+		// 		formData.append(`imageUrls[${index}]`, url);
+		// 	});
+		// }
+		// Array.from(formDataJson.imageFiles).forEach((imageFile) => {
+		// 	formData.append(`imageFiles`, imageFile);
+		// });
 		onSave(formData);
+		console.log("saved", formData);
 	});
 
 	return (
 		<div className="rounded-lg bg-background_alt p-6">
 			<FormProvider {...formMethods}>
 				<form className="flex flex-col gap-10" onSubmit={onSubmit}>
-					<DetailsSection />
+					<DetailsSection isLoading={isLoading} />
 					<div className="border-b-2 border-background" />
-					<TypeSection />
+					<TypeSection isLoading={isLoading} />
 					<div className="border-b-2 border-background" />
-					<HoursSection />
-					<div className="border-b-2 border-background" />
-					<ImagesSection />
+					<HoursSection isLoading={isLoading} />
+					{/* <div className="border-b-2 border-background" /> */}
+					{/* <ImagesSection isLoading={isLoading} /> */}
 					<span className="flex justify-between">
 						<Link
 							to="/my-resources"
@@ -85,7 +91,18 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 							disabled={isLoading}
 							type="submit"
 							className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-light_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all">
-							{isLoading ? "Saving..." : "Save"}
+							{isLoading ? (
+								<div className="py-1/2">
+									<l-zoomies
+										size="70"
+										stroke="15"
+										bg-opacity="0.1"
+										speed="1.4"
+										color="rgb(255, 125, 40)"></l-zoomies>
+								</div>
+							) : (
+								<span>Create</span>
+							)}
 						</button>
 					</span>
 				</form>

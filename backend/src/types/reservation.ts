@@ -6,5 +6,4 @@ export type ReservationType = {
 	start: Date;
 	end: Date;
 	groupSize: number;
-	lastUpdated: Date;
 };

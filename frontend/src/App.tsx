@@ -4,24 +4,25 @@ import {
 	Route,
 	Navigate,
 } from "react-router-dom";
-import HeroLayout from "./layouts/HeroLayout";
-import Register from "./pages/Register";
-import SignIn from "./pages/SignIn";
-import Layout from "./layouts/Layout";
-import AddResource from "./pages/AddResource";
-import { useAppContext } from "./contexts/AppContext";
 import Home from "./pages/Home";
-import MyResources from "./pages/MyResources";
 import About from "./pages/About";
-import EditResource from "./pages/EditResource";
+import { useContext } from "react";
 import Search from "./pages/Search";
-import VerifyEmail from "./pages/VerifyEmail";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
+import Layout from "./layouts/Layout";
+import Register from "./pages/Register";
+import MyResources from "./pages/MyResources";
+import VerifyEmail from "./pages/VerifyEmail";
+import AddResource from "./pages/AddResource";
+import HeroLayout from "./layouts/HeroLayout";
+import EditResource from "./pages/EditResource";
+import ResetPassword from "./pages/ResetPassword";
+import { AppContext } from "./contexts/AppContext";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
-	const { isLoggedIn } = useAppContext();
+	const { isLoggedIn } = useContext(AppContext);
 	return (
 		<Router>
 			<Routes>
@@ -100,14 +101,6 @@ const App = () => {
 							}
 						/>
 						<Route
-							path="/add-resource"
-							element={
-								<Layout>
-									<AddResource />
-								</Layout>
-							}
-						/>
-						<Route
 							path="/my-resources"
 							element={
 								<Layout>
@@ -116,7 +109,15 @@ const App = () => {
 							}
 						/>
 						<Route
-							path="/edit-resource/:resourceId"
+							path="/my-resources/add"
+							element={
+								<Layout>
+									<AddResource />
+								</Layout>
+							}
+						/>
+						<Route
+							path="/my-resources/edit/:resourceId"
 							element={
 								<Layout>
 									<EditResource />

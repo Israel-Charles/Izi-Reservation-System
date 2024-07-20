@@ -10,7 +10,7 @@ declare global {
 }
 
 const authenticate: RequestHandler = (req, res, next) => {
-	const token = req.cookies["auth_token"];
+	const token = req.cookies.auth_token;
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized: no token provided" });
 	}

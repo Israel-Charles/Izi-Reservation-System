@@ -1,40 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { createContext, useState, useMemo, useCallback } from "react";
 import Toast from "../components/Toast";
 import { useQuery } from "react-query";
 import * as apiClient from "../api-client";
 
-type ToastMessage = {
-	message: string;
-	type: "SUCCESS" | "ERROR";
-};
+export const AppContext = createContext();
 
-type AppContext = {
-	showToast: (toastMessage: ToastMessage) => void;
-	isLoggedIn: boolean;
-};
-
-const AppContext = React.createContext<AppContext | undefined>(undefined);
-
-export const AppContextProvider = ({
+export function AppContextProvider({
 	children,
 }: {
 	children: React.ReactNode;
-}) => {
-	const [toast, setToast] = useState<ToastMessage | undefined>(undefined);
+}) {
+	const [toast, setToast] = useState(undefined);
 
 	const { isError } = useQuery("authenticate", apiClient.authenticate, {
 		retry: false,
 		enabled: true,
 	});
 
+	const showToast = useCallback((toastMessage) => {
+		setToast(toastMessage);
+	}, []);
+
+	const value = useMemo(
+		() => ({
+			showToast,
+			isLoggedIn: !isError,
+		}),
+		[showToast, isError]
+	);
+
 	return (
-		<AppContext.Provider
-			value={{
-				showToast: (toastMessage) => {
-					setToast(toastMessage);
-				},
-				isLoggedIn: !isError,
-			}}>
+		<AppContext.Provider value={value}>
 			{toast && (
 				<Toast
 					message={toast.message}
@@ -45,9 +41,4 @@ export const AppContextProvider = ({
 			{children}
 		</AppContext.Provider>
 	);
-};
-
-export const useAppContext = () => {
-	const context = useContext(AppContext);
-	return context as AppContext;
-};
+}

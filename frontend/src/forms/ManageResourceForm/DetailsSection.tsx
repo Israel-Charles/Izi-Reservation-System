@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { ResourceFormData } from "./ManageResourceForm";
 import { BiSolidError } from "react-icons/bi";
 
-const DetailsSection = () => {
+const DetailsSection = ({ isLoading }) => {
 	const {
 		register,
 		formState: { errors },
@@ -18,6 +18,7 @@ const DetailsSection = () => {
 						type="text"
 						placeholder="name"
 						autoComplete="off"
+						disabled={isLoading}
 						className={
 							!errors.name
 								? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
@@ -25,6 +26,7 @@ const DetailsSection = () => {
 						}
 						{...register("name", {
 							required: "Name is required",
+							maxLength: { value: 50, message: "Max 50 characters" },
 						})}
 					/>
 				</div>
@@ -42,6 +44,7 @@ const DetailsSection = () => {
 						type="text"
 						placeholder="location"
 						autoComplete="off"
+						disabled={isLoading}
 						className={
 							!errors.location
 								? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
@@ -49,6 +52,7 @@ const DetailsSection = () => {
 						}
 						{...register("location", {
 							required: "Location is required",
+							maxLength: { value: 75, message: "Max 75 characters" },
 						})}
 					/>
 				</div>
@@ -64,9 +68,9 @@ const DetailsSection = () => {
 				<div className="relative">
 					<textarea
 						rows={3}
-						type="text"
 						placeholder="description..."
 						autoComplete="off"
+						disabled={isLoading}
 						className={
 							!errors.description
 								? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
@@ -74,6 +78,7 @@ const DetailsSection = () => {
 						}
 						{...register("description", {
 							required: "Description is required",
+							maxLength: { value: 2000, message: "Max 2000 characters" },
 						})}
 					/>
 				</div>
@@ -95,13 +100,25 @@ const DetailsSection = () => {
 							step={15}
 							type="number"
 							placeholder="maximum length"
+							disabled={isLoading}
 							className={
 								!errors.maxResLen
 									? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
 									: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
 							}
 							{...register("maxResLen", {
-								required: "Maximum reservation length is required",
+								required: "Maximum res. length is required",
+								min: {
+									value: 15,
+									message: "Max res. length must be >= 15",
+								},
+								max: {
+									value: 300,
+									message: "Max res. length must be <= 300",
+								},
+								validate: (value) =>
+									value % 15 === 0 ||
+									"Max res. length must be an increment of 15",
 							})}
 						/>
 					</div>
@@ -121,13 +138,19 @@ const DetailsSection = () => {
 							max={50}
 							type="number"
 							placeholder="maximum size"
+							disabled={isLoading}
 							className={
 								!errors.maxResSize
 									? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
 									: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
 							}
 							{...register("maxResSize", {
-								required: "Maximum reservation group size is required",
+								required: "Maximum res. group size is required",
+								min: { value: 1, message: "Max res. group size must be >= 1" },
+								max: {
+									value: 50,
+									message: "Max res. group size must be <= 50",
+								},
 							})}
 						/>
 					</div>

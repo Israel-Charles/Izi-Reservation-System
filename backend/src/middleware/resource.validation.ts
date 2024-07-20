@@ -16,14 +16,11 @@ const validateDescription = [
 		.withMessage("Description is required")
 		.isLength({ max: 2000 })
 		.withMessage("Description can be at most 2000 characters long"),
-];
-
-const validateType = [
 	body("maxResLen")
 		.notEmpty()
 		.withMessage("Max reservation length is required")
-		.isInt({ min: 30, max: 300 })
-		.withMessage("Max reservation length must be between 30 and 300 minutes")
+		.isInt({ min: 15, max: 300 })
+		.withMessage("Max reservation length must be between 15 and 300 minutes")
 		.custom(
 			(value) =>
 				value % 15 === 0 ||
@@ -34,34 +31,43 @@ const validateType = [
 		.withMessage("Max reservation group size is required")
 		.isInt({ min: 1, max: 50 })
 		.withMessage("Max reservation group size must be between 1 and 50"),
-	body("type")
-		.notEmpty()
-		.withMessage("Type is required")
-		.isIn(["Restaurant", "Bar", "Cafe", "Pub"])
-		.withMessage("Type must be one of the give options"),
 ];
+
+const validateType = [body("type").notEmpty().withMessage("Type is required")];
 
 const validateHours = [
 	body("open").notEmpty().withMessage("Open time is required"),
 	body("close")
 		.notEmpty()
 		.withMessage("Close time is required")
-		.custom(
-			(close, { req }) =>
-				close > req.body.open || "Close time must be after open time"
-		),
+		.custom((close, { req }) => {
+			const { open } = req.body;
+			const [openHour, openMinute] = open.split(":").map(Number);
+			const [closeHour, closeMinute] = close.split(":").map(Number);
+			if (
+				closeHour > openHour ||
+				(closeHour === openHour && closeMinute > openMinute)
+			) {
+				return true;
+			} else if (closeHour === openHour && closeMinute === openMinute) {
+				return false;
+			} else {
+				return false;
+			}
+		})
+		.withMessage("Close time must be after open time"),
 	body("days")
 		.notEmpty()
-		.withMessage("At least one day of operation are required"),
+		.withMessage("At least one day of operation is required"),
 ];
 
-const validateImages = [
-	body("imageUrls").notEmpty().withMessage("At least one image is required"),
-];
+// const validateImages = [
+// 	body("imageUrls").notEmpty().withMessage("At least one image is required"),
+// ];
 
 export const validateResource = [
 	...validateDescription,
 	...validateType,
 	...validateHours,
-	...validateImages,
+	// ...validateImages,
 ];

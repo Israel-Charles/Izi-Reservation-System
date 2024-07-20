@@ -3,10 +3,8 @@ import { ResetFormData } from "./pages/ResetPassword";
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
 import { ProfileFormData } from "./pages/Profile";
-// import {
-// 	ResourceSearchResponse,
-// 	ResourceType,
-// } from "../../backend/src/types/resource";
+import { ResourceType } from "../../backend/src/types/resource";
+import { ResourceFormData } from "./forms/ManageResourceForm/ManageResourceForm";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -152,7 +150,7 @@ export const getProfile = async () => {
 };
 
 export const updateProfile = async (formData: ProfileFormData) => {
-	const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
+	const response = await fetch(`${API_BASE_URL}/api/users/profile/update`, {
 		method: "PUT",
 		credentials: "include",
 		headers: {
@@ -170,33 +168,41 @@ export const updateProfile = async (formData: ProfileFormData) => {
 	return responseBody;
 };
 
-// export const addMyResource = async (resourceFormData: FormData) => {
-// 	const response = await fetch(`${API_BASE_URL}/api/my-resources`, {
-// 		method: "POST",
-// 		credentials: "include",
-// 		body: resourceFormData,
-// 	});
+export const getMyResources = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/users/my-resources/`, {
+		method: "GET",
+		credentials: "include",
+	});
 
-// 	const responseBody = await response.json();
+	if (!response.ok) {
+		throw new Error("Error fetching resources");
+	}
 
-// 	if (!response.ok) {
-// 		throw new Error(responseBody.message);
-// 	}
+	return response.json();
+};
 
-// 	return responseBody;
-// };
+export const addResource = async (formData: ResourceFormData) => {
+	console.log(formData);
+	const response = await fetch(`${API_BASE_URL}/api/users/my-resources/add`, {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(formData),
+	});
 
-// export const getMyResources = async (): Promise<ResourceType[]> => {
-// 	const response = await fetch(`${API_BASE_URL}/api/my-resources`, {
-// 		credentials: "include",
-// 	});
+	// timeout promise to delay while testing loading state
+	await new Promise((resolve) => setTimeout(resolve, 10000));
 
-// 	if (!response.ok) {
-// 		throw new Error("Error fetching resources");
-// 	}
+	const responseBody = await response.json();
 
-// 	return response.json();
-// };
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody;
+};
 
 // export const getMyResourceById = async (
 // 	resourceId: string

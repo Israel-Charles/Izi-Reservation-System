@@ -8,7 +8,6 @@ const reservationSchema = new mongoose.Schema<ReservationType>({
 	start: { type: Date, required: true },
 	end: { type: Date, required: true },
 	groupSize: { type: Number, required: true },
-	lastUpdated: { type: Date, required: true },
 });
 
 const Reservation = mongoose.model<ReservationType>(

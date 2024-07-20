@@ -24,8 +24,8 @@ const HoursSection = () => {
 							type="time"
 							className={
 								!errors.open
-									? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-									: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+									? "bg-transparent border-2 border-primary placeholder-secondary text-primary rounded w-full py-2 px-3 font-normal my-1"
+									: "bg-transparent border-2 border-error placeholder-error text-error rounded w-full py-2 px-3 font-normal my-1"
 							}
 							{...register("open", {
 								required: "Open time is required",
@@ -46,8 +46,8 @@ const HoursSection = () => {
 							type="time"
 							className={
 								!errors.close
-									? "bg-transparent border-2 border-primary placeholder-secondary rounded w-full py-2 px-3 font-normal my-1"
-									: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
+									? "bg-transparent border-2 border-primary placeholder-secondary text-primary rounded w-full py-2 px-3 font-normal my-1"
+									: "bg-transparent border-2 border-error placeholder-error text-error rounded w-full py-2 px-3 font-normal my-1"
 							}
 							{...register("close", {
 								required: "Close time is required",

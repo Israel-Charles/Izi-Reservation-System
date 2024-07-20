@@ -1,12 +1,12 @@
+import { zoomies } from "ldrs";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
-import { useAppContext } from "../contexts/AppContext";
 import { Link } from "react-router-dom";
-import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useEffect, useState } from "react";
 import { BiSolidError } from "react-icons/bi";
-import { zoomies } from "ldrs";
+import { AppContext } from "../contexts/AppContext";
+import { useContext, useEffect, useState } from "react";
+import { FaArrowRightLong, FaEye, FaEyeSlash } from "react-icons/fa6";
 
 export type RegisterFormData = {
 	firstName: string;
@@ -18,7 +18,7 @@ export type RegisterFormData = {
 };
 
 const Register = () => {
-	const { showToast } = useAppContext();
+	const { showToast } = useContext(AppContext);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -51,7 +51,7 @@ const Register = () => {
 			<div className="">
 				<div className="px-6 flex flex-col">
 					<form
-						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg"
+						className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg shadow-lg"
 						onSubmit={onSubmit}>
 						<div>
 							<h2 className="text-4xl font-extrabold tracking-tight text-med_orange">

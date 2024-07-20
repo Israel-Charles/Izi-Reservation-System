@@ -31,7 +31,7 @@ const SearchBar = () => {
 		navigate("/search");
 	};
 	return (
-		<div className="z-50 container mx-auto -mt-8 -mb-24 px-6">
+		<div className="container mx-auto -mt-8 -mb-24 px-6">
 			<form
 				onSubmit={handleSubmit}
 				className="p-3 bg-gradient-to-r from-dark_orange to-light_orange rounded shadow-sm grid grid-cols-2 lg:grid-cols-3 items-center gap-4">

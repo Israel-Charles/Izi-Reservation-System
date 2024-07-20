@@ -10,6 +10,5 @@ export type ResourceType = {
 	open: string;
 	close: string;
 	days: string[];
-	imageUrls: string[];
-	lastUpdated: Date;
+	// imageUrls: string[];
 };
