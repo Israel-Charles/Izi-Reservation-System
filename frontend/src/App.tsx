@@ -1,9 +1,3 @@
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	Navigate,
-} from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import { useContext } from "react";
@@ -20,6 +14,13 @@ import EditResource from "./pages/EditResource";
 import ResetPassword from "./pages/ResetPassword";
 import { AppContext } from "./contexts/AppContext";
 import ForgotPassword from "./pages/ForgotPassword";
+import MyReservations from "./pages/MyReservations";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
 
 const App = () => {
 	const { isLoggedIn } = useContext(AppContext);
@@ -97,6 +98,14 @@ const App = () => {
 							element={
 								<Layout>
 									<Profile />
+								</Layout>
+							}
+						/>
+						<Route
+							path="/my-reservations"
+							element={
+								<Layout>
+									<MyReservations />
 								</Layout>
 							}
 						/>
