@@ -1,16 +1,15 @@
-import { FormProvider, useForm } from "react-hook-form";
-import DetailsSection from "./DetailsSection";
-import TypeSection from "./TypeSection";
-import HoursSection from "./HoursSection";
-// import ImagesSection from "./ImagesSection";
-import { ResourceType } from "../../../../backend/src/types/resource";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { zoomies } from "ldrs";
+import { useEffect } from "react";
+import TypeSection from "./TypeSection";
+import { Link } from "react-router-dom";
+import HoursSection from "./HoursSection";
+import DetailsSection from "./DetailsSection";
+import { FormProvider, useForm } from "react-hook-form";
+import { ResourceType } from "../../../../backend/src/types/resource";
+// import ImagesSection from "./ImagesSection";
 
 export type ResourceFormData = {
-	_id: string;
-	userId: string;
+	_id?: string;
 	name: string;
 	location: string;
 	description: string;
@@ -67,7 +66,6 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 		// 	formData.append(`imageFiles`, imageFile);
 		// });
 		onSave(formData);
-		console.log("saved", formData);
 	});
 
 	return (
@@ -90,7 +88,7 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
 						<button
 							disabled={isLoading}
 							type="submit"
-							className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-light_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all">
+							className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background hover:text-med_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all">
 							{isLoading ? (
 								<div className="py-1/2">
 									<l-zoomies

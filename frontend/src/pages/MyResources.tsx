@@ -49,16 +49,16 @@ const MyResources = () => {
 	console.log(resourceData);
 
 	return (
-		<div className="container mx-auto p-6 my-14 space-y-5 bg-background_alt rounded-lg shadow-lg">
-			<span className="flex justify-between">
+		<div className="container mx-auto p-6 my-14">
+			<span className="flex items-center justify-between">
 				<h1 className="text-3xl text-primary font-bold">My Resources</h1>
 				<Link
 					to="/my-resources/add"
-					className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background hover:text-med_orange hover:shadow-lg transition-all">
+					className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background_alt hover:text-med_orange hover:shadow-lg transition-all">
 					Add Resource
 				</Link>
 			</span>
-			<div className="grid grid-cols-1 gap-8">
+			<div className="grid grid-cols-1 gap-8 bg-background rounded-lg shadow-lg">
 				{/* {resourceData.map((resource) => (
 					<div
 						key={resource.name}

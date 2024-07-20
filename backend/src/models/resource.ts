@@ -15,7 +15,7 @@ const resourceSchema = new mongoose.Schema<ResourceType>(
 		days: { type: [String], required: true },
 		// imageUrls: { type: [String], required: true },
 	},
-	{ timestamps: true }
+	{ timestamps: true, collection: "resources" }
 );
 
 const Resource = mongoose.model<ResourceType>("Resource", resourceSchema);

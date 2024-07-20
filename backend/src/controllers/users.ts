@@ -1,6 +1,7 @@
 import User from "../models/user";
 import Resource from "../models/resource";
 import { Request, Response } from "express";
+import Reservation from "../models/reservation";
 import { validationResult } from "express-validator";
 
 // /api/users/profile
@@ -13,7 +14,7 @@ export const getProfile = async (req: Request, res: Response) => {
 	return res.status(200).json({ user });
 };
 
-// /api/users/profile/update
+// /api/users/profile
 export const updateProfile = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -44,8 +45,8 @@ export const updateProfile = async (req: Request, res: Response) => {
 	}
 };
 
-// /api/users/delete
-export const deleteUser = async (req: Request, res: Response) => {
+// /api/users/profile
+export const deleteProfile = async (req: Request, res: Response) => {
 	const user = await User.findByIdAndDelete(req.userId);
 	if (!user) {
 		return res.status(404).json({ message: "User not found" });
@@ -64,11 +65,13 @@ export const getMyResources = async (req: Request, res: Response) => {
 	return res.status(200).json({ resources });
 };
 
-// /api/users/my-resources/add
+// /api/users/my-resources
 export const addResource = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
+		return res
+			.status(400)
+			.json({ message: errors.array().map((error) => error.msg) });
 	}
 
 	const {
@@ -111,7 +114,7 @@ export const addResource = async (req: Request, res: Response) => {
 	}
 };
 
-// /api/users/my-resources/edit/:resourceId
+// /api/users/my-resources/:resourceId
 export const editResource = async (req: Request, res: Response) => {
 	const resource = await Resource.findById(req.params.resourceId);
 	if (!resource) {
@@ -172,7 +175,7 @@ export const editResource = async (req: Request, res: Response) => {
 	}
 };
 
-// /api/users/my-resources/delete/:resourceId
+// /api/users/my-resources/:resourceId
 export const deleteResource = async (req: Request, res: Response) => {
 	const resource = await Resource.findById(req.params.resourceId);
 	if (!resource) {
@@ -193,7 +196,31 @@ export const deleteResource = async (req: Request, res: Response) => {
 };
 
 // /api/users/my-reservations
-export const getMyReservations = async (req: Request, res: Response) => {};
+export const getMyReservations = async (req: Request, res: Response) => {
+	const reservations = await Reservation.find({ userId: req.userId });
+	if (!reservations) {
+		return res.status(404).json({ message: "No reservations found" });
+	}
 
-// /api/users/my-reservations/cancel/:reservationId
-export const cancelReservation = async (req: Request, res: Response) => {};
+	return res.status(200).json({ reservations });
+};
+
+// /api/users/my-reservations/:reservationId
+export const cancelReservation = async (req: Request, res: Response) => {
+	const reservation = await Reservation.findById(req.params.reservationId);
+	if (!reservation) {
+		return res.status(404).json({ message: "Reservation not found" });
+	}
+	if (reservation.userId.toString() !== req.userId) {
+		return res.status(403).json({ message: "Unauthorized" });
+	}
+
+	const deletedReservation = await Reservation.findByIdAndDelete(
+		req.params.reservationId
+	);
+	if (!deletedReservation) {
+		return res.status(404).json({ message: "Reservation not found" });
+	}
+
+	return res.status(200).json({ message: "Reservation canceled" });
+};

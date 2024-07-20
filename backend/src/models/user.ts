@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 import { UserType } from "../types/user";
 
 const userSchema = new mongoose.Schema<UserType>(
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema<UserType>(
 		verificationToken: { type: String, default: "" },
 		resetToken: { type: String, default: "" },
 	},
-	{ timestamps: true }
+	{ timestamps: true, collection: "users" }
 );
 
 userSchema.pre("save", async function (next) {

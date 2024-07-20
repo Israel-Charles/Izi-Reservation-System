@@ -130,7 +130,7 @@ const DetailsSection = ({ isLoading }) => {
 					)}
 				</label>
 				<label className="text-primary font-bold flex-1">
-					Maximum reservation group size{" "}
+					Maximum reservation groupsize{" "}
 					<span className="text-tertiary font-normal">( 1 - 50 )</span>
 					<div className="relative">
 						<input
@@ -145,11 +145,11 @@ const DetailsSection = ({ isLoading }) => {
 									: "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
 							}
 							{...register("maxResSize", {
-								required: "Maximum res. group size is required",
-								min: { value: 1, message: "Max res. group size must be >= 1" },
+								required: "Maximum res. groupsize is required",
+								min: { value: 1, message: "Max res. groupsize must be >= 1" },
 								max: {
 									value: 50,
-									message: "Max res. group size must be <= 50",
+									message: "Max res. groupsize must be <= 50",
 								},
 							})}
 						/>

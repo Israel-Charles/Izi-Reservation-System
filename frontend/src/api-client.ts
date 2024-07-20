@@ -1,8 +1,8 @@
-import { ForgotFormData } from "./pages/ForgotPassword";
-import { ResetFormData } from "./pages/ResetPassword";
-import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
 import { ProfileFormData } from "./pages/Profile";
+import { RegisterFormData } from "./pages/Register";
+import { ResetFormData } from "./pages/ResetPassword";
+import { ForgotFormData } from "./pages/ForgotPassword";
 import { ResourceType } from "../../backend/src/types/resource";
 import { ResourceFormData } from "./forms/ManageResourceForm/ManageResourceForm";
 
@@ -150,13 +150,28 @@ export const getProfile = async () => {
 };
 
 export const updateProfile = async (formData: ProfileFormData) => {
-	const response = await fetch(`${API_BASE_URL}/api/users/profile/update`, {
+	const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
 		method: "PUT",
 		credentials: "include",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(formData),
+	});
+
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
+
+	return responseBody;
+};
+
+export const deleteProfile = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
+		method: "DELETE",
+		credentials: "include",
 	});
 
 	const responseBody = await response.json();
@@ -182,18 +197,14 @@ export const getMyResources = async () => {
 };
 
 export const addResource = async (formData: ResourceFormData) => {
-	console.log(formData);
-	const response = await fetch(`${API_BASE_URL}/api/users/my-resources/add`, {
+	const response = await fetch(`${API_BASE_URL}/api/users/my-resources`, {
 		method: "POST",
 		credentials: "include",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(formData),
+		body: formData,
 	});
 
 	// timeout promise to delay while testing loading state
-	await new Promise((resolve) => setTimeout(resolve, 10000));
+	// await new Promise((resolve) => setTimeout(resolve, 10000));
 
 	const responseBody = await response.json();
 
@@ -204,62 +215,62 @@ export const addResource = async (formData: ResourceFormData) => {
 	return responseBody;
 };
 
-// export const getMyResourceById = async (
-// 	resourceId: string
-// ): Promise<ResourceType> => {
-// 	const response = await fetch(
-// 		`${API_BASE_URL}/api/my-resources/${resourceId}`,
-// 		{
-// 			credentials: "include",
-// 		}
-// 	);
+export const updateResource = async (resourceFormData: FormData) => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/my-resources/${resourceFormData.get("resourceId")}`,
+		{
+			method: "PUT",
+			credentials: "include",
+			body: resourceFormData,
+		}
+	);
 
-// 	if (!response.ok) {
-// 		throw new Error("Error fetching resource");
-// 	}
+	const responseBody = await response.json();
 
-// 	return response.json();
-// };
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
 
-// export const updateMyResourceById = async (resourceFormData: FormData) => {
-// 	const response = await fetch(
-// 		`${API_BASE_URL}/api/my-resources/${resourceFormData.get("resourceId")}`,
-// 		{
-// 			method: "PUT",
-// 			credentials: "include",
-// 			body: resourceFormData,
-// 		}
-// 	);
+	return responseBody;
+};
 
-// 	const responseBody = await response.json();
+export const deleteResource = async (resourceId: string) => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/my-resources/${resourceId}`,
+		{
+			method: "DELETE",
+			credentials: "include",
+		}
+	);
 
-// 	if (!response.ok) {
-// 		throw new Error(responseBody.message);
-// 	}
+	const responseBody = await response.json();
 
-// 	return responseBody;
-// };
+	if (!response.ok) {
+		throw new Error(responseBody.message);
+	}
 
-// export const deleteResource = async (resourceId: string) => {
-// 	const response = await fetch(
-// 		`${API_BASE_URL}/api/my-resources/delete/${resourceId}`,
-// 		{
-// 			method: "DELETE",
-// 			credentials: "include",
-// 			headers: {
-// 				"Content-Type": "application/json",
-// 			},
-// 		}
-// 	);
+	return responseBody;
+};
 
-// 	const responseBody = await response.json();
+export const getAllResources = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/resources`);
 
-// 	if (!response.ok) {
-// 		throw new Error(responseBody.message);
-// 	}
+	if (!response.ok) {
+		throw new Error("Error fetching resources");
+	}
 
-// 	return responseBody;
-// };
+	return response.json();
+};
+
+export const getResourceById = async (resourceId: string) => {
+	const response = await fetch(`${API_BASE_URL}/api/resources/${resourceId}`);
+
+	if (!response.ok) {
+		throw new Error("Error fetching resource");
+	}
+
+	return response.json();
+};
 
 // export type SearchParams = {
 // 	name?: string;

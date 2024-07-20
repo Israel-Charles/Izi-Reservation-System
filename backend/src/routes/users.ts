@@ -1,35 +1,38 @@
 import express from "express";
+import authenticate from "../middleware/authenticate";
+import { validateResource } from "../middleware/resource.validation";
+import { validateUpdateProfile } from "../middleware/user.validation";
 import {
 	getProfile,
 	updateProfile,
-	deleteUser,
+	deleteProfile,
 	getMyResources,
 	addResource,
 	editResource,
 	deleteResource,
+	getMyReservations,
+	cancelReservation,
 } from "../controllers/users";
-import authenticate from "../middleware/authenticate";
-import { validateUpdateProfile } from "../middleware/user.validation";
-import { validateResource } from "../middleware/resource.validation";
 
 const router = express.Router();
 
 router.get("/profile", authenticate, getProfile);
-router.put(
-	"/profile/update",
-	authenticate,
-	validateUpdateProfile,
-	updateProfile
-);
-router.delete("/delete", authenticate, deleteUser);
+router.put("/profile", authenticate, validateUpdateProfile, updateProfile);
+router.delete("/profile", authenticate, deleteProfile);
 router.get("/my-resources", authenticate, getMyResources);
-router.post("/my-resources/add", authenticate, validateResource, addResource);
+router.post("/my-resources", authenticate, validateResource, addResource);
 router.put(
-	"/my-resources/edit/:resourceId",
+	"/my-resources/:resourceId",
 	authenticate,
 	validateResource,
 	editResource
 );
-router.delete("/my-resources/delete/:resourceId", authenticate, deleteResource);
+router.delete("/my-resources/:resourceId", authenticate, deleteResource);
+router.get("/my-reservations", authenticate, getMyReservations);
+router.delete(
+	"/my-reservations/:reservationId",
+	authenticate,
+	cancelReservation
+);
 
 export default router;

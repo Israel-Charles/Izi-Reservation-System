@@ -1,15 +1,18 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
 import "dotenv/config";
-import mongoose from "mongoose";
-import cookieParser from "cookie-parser";
+import cors from "cors";
 import path from "path";
+import helmet from "helmet";
+import mongoose from "mongoose";
 import connectDB from "./config/db";
-import { v2 as cloudinary } from "cloudinary";
 import authRoutes from "./routes/auth";
-import reservationsRoutes from "./routes/reservations";
-import resourcesRoutes from "./routes/resources";
 import usersRoutes from "./routes/users";
+import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from "cloudinary";
+import resourcesRoutes from "./routes/resources";
+import reservationsRoutes from "./routes/reservations";
+import express, { Request, Response, NextFunction } from "express";
+
+connectDB();
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,18 +20,18 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-connectDB();
-
 const app = express();
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(helmet());
 app.use(
 	cors({
 		origin: process.env.FRONTEND_URL,
 		credentials: true,
 	})
 );
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
@@ -41,15 +44,13 @@ app.get("*", (req: Request, res: Response) => {
 	res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+	console.error(err.stack);
+	res.status(500).send("Something broke!");
+});
+
 const PORT = process.env.PORT || 7000;
 
-if (process.env.NODE_ENV === "development") {
-	app.listen(PORT, () => {
-		console.log(`Server is running on http://localhost:${PORT}`);
-	});
-} else {
-	// Production or other environments configuration
-	app.listen(PORT, () => {
-		console.log(`Server is running on port ${PORT}`);
-	});
-}
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+});

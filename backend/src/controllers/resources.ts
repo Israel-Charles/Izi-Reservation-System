@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import Resource from "../models/resource";
+import { Request, Response } from "express";
 
 // /api/resources
 export const getAllResources = async (req: Request, res: Response) => {
