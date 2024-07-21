@@ -3,21 +3,29 @@ const About = () => {
 		<div className="rounded-lg container mx-auto p-6 my-14 bg-background_alt shadow-lg">
 			<span className="text-3xl font-bond text-primary">About Us</span>
 			<p className="font-semibold text-primary">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Sed nisi lacus sed
-				viverra. Gravida quis blandit turpis cursus in hac habitasse. Sed
-				viverra ipsum nunc aliquet bibendum. Ut consequat semper viverra nam
-				libero justo laoreet. Vivamus arcu felis bibendum ut tristique et
-				egestas quis. Accumsan in nisl nisi scelerisque eu ultrices vitae auctor
-				eu. Odio facilisis mauris sit amet massa vitae. Interdum consectetur
-				libero id faucibus nisl tincidunt eget nullam non. Nibh nisl condimentum
-				id venenatis a condimentum. Pharetra diam sit amet nisl suscipit.
-				Quisque egestas diam in arcu cursus euismod quis. Dignissim suspendisse
-				in est ante. Purus sit amet luctus venenatis lectus. Nulla malesuada
-				pellentesque elit eget gravida cum sociis natoque. Ornare suspendisse
-				sed nisi lacus sed viverra tellus in hac. Posuere morbi leo urna
-				molestie at elementum. Nascetur ridiculus mus mauris vitae ultricies.
-			</p>
+				<br></br>
+				Welcome to 4331Booking, a versatile scheduling software designed to streamline 
+				the reservation process for resources. Our software aims to enhance resource 
+				management by providing an intuitive interface for users to book, view, and 
+				manage reservations efficiently.
+				</p>
+				<p className="font-semibold text-primary">
+				<br></br>
+					Project Contributors:
+				</p>
+				<ul className="font-semibold text-primary list-disc pl-10">
+					<li>Alamoudi, Faris</li>
+					<li>Charles, Israel</li>
+					<li>Chengalasetty, Eswanth Sriram</li>
+					<li>Devireddy, Mahica</li>
+					<li>Hagler, Jeremy</li>
+					<li>Mathew, Milan</li>
+					<li>Sane, Keating</li>
+				</ul>
+				<p className="font-semibold text-primary">
+				<br></br>
+					Our goal is to provide a seamless and efficient booking experience, helping users optimize the use of their resources and improve productivity.
+				</p>
 		</div>
 	);
 };
