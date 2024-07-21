@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import { validationResult } from "express-validator";
-import User from "../models/user";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import User from "../models/user";
+import { Request, Response } from "express";
 import { sendEmail } from "../middleware/sendEmail";
-import crypto from "crypto";
+import { validationResult } from "express-validator";
 
 // /api/auth/register
 export const register = async (req: Request, res: Response) => {
@@ -64,9 +64,9 @@ export const register = async (req: Request, res: Response) => {
 
 // /api/auth/email/verify/:verificationToken
 export const verifyEmail = async (req: Request, res: Response) => {
-	const { verificationToken } = req.params;
-
-	const user = await User.findOne({ verificationToken });
+	const user = await User.findOne({
+		verificationToken: req.params.verificationToken,
+	});
 	if (!user) {
 		return res.status(404).json({ message: "Invalid verification token" });
 	}

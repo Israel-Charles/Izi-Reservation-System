@@ -11,6 +11,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import AddResource from "./pages/AddResource";
 import HeroLayout from "./layouts/HeroLayout";
 import EditResource from "./pages/EditResource";
+import ViewResource from "./pages/ViewResource";
 import ResetPassword from "./pages/ResetPassword";
 import { AppContext } from "./contexts/AppContext";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -40,6 +41,14 @@ const App = () => {
 					element={
 						<Layout>
 							<Search />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/resource/:resourceId"
+					element={
+						<Layout>
+							<ViewResource />
 						</Layout>
 					}
 				/>
@@ -126,7 +135,7 @@ const App = () => {
 							}
 						/>
 						<Route
-							path="/my-resources/edit/:resourceId"
+							path="/my-resources/:resourceId"
 							element={
 								<Layout>
 									<EditResource />
