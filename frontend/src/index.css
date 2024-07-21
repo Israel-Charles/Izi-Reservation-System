@@ -4,10 +4,10 @@
 
 :root {
 	--background: 255, 255, 255;
-	--background-alt: 250, 250, 250;
+	--background-alt: 240, 240, 240;
 	--primary: 0, 0, 0;
 	--secondary: 120, 120, 120;
-	--tertiary: 210, 210, 210;
+	--tertiary: 150, 150, 150;
 	--light-neutral: 250, 250, 250;
 	--dark-neutral: 5, 5, 5;
 	--dark-orange: 255, 60, 0;
