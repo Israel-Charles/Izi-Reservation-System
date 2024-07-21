@@ -17,137 +17,145 @@ import { AppContext } from "./contexts/AppContext";
 import ForgotPassword from "./pages/ForgotPassword";
 import MyReservations from "./pages/MyReservations";
 import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	Navigate,
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
 } from "react-router-dom";
 
 const App = () => {
-	const { isLoggedIn } = useContext(AppContext);
-	return (
-		<Router>
-			<Routes>
-				<Route
-					path="/"
-					element={
-						<HeroLayout>
-							<Home />
-						</HeroLayout>
-					}
-				/>
-				<Route
-					path="/search"
-					element={
-						<Layout>
-							<Search />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/resource/:resourceId"
-					element={
-						<Layout>
-							<ViewResource />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/about"
-					element={
-						<Layout>
-							<About />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/sign-in"
-					element={
-						<Layout>
-							<SignIn />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/register"
-					element={
-						<Layout>
-							<Register />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/email/verify/:verificationToken"
-					element={
-						<Layout>
-							<VerifyEmail />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/password/forgot"
-					element={
-						<Layout>
-							<ForgotPassword />
-						</Layout>
-					}
-				/>
-				<Route
-					path="/password/reset/:resetToken"
-					element={
-						<Layout>
-							<ResetPassword />
-						</Layout>
-					}
-				/>
-				{isLoggedIn && (
-					<>
-						<Route
-							path="/profile"
-							element={
-								<Layout>
-									<Profile />
-								</Layout>
-							}
-						/>
-						<Route
-							path="/my-reservations"
-							element={
-								<Layout>
-									<MyReservations />
-								</Layout>
-							}
-						/>
-						<Route
-							path="/my-resources"
-							element={
-								<Layout>
-									<MyResources />
-								</Layout>
-							}
-						/>
-						<Route
-							path="/my-resources/add"
-							element={
-								<Layout>
-									<AddResource />
-								</Layout>
-							}
-						/>
-						<Route
-							path="/my-resources/:resourceId"
-							element={
-								<Layout>
-									<EditResource />
-								</Layout>
-							}
-						/>
-					</>
-				)}
-				<Route path="*" element={<Navigate to="/" />} />
-			</Routes>
-		</Router>
-	);
+    const { isLoggedIn } = useContext(AppContext);
+    return (
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <HeroLayout>
+                            <Home />
+                        </HeroLayout>
+                    }
+                />
+                <Route
+                    path="/search"
+                    element={
+                        <Layout>
+                            <Search />
+                        </Layout>
+                    }
+                />
+                <Route
+                    path="/resource/:resourceId"
+                    element={
+                        <Layout>
+                            <ViewResource />
+                        </Layout>
+                    }
+                />
+                <Route
+                    path="/about"
+                    element={
+                        <Layout>
+                            <About />
+                        </Layout>
+                    }
+                />
+                <Route
+                    path="/sign-in"
+                    element={
+                        isLoggedIn ? (
+                            <Navigate to="/" />
+                        ) : (
+                            <Layout>
+                                <SignIn />
+                            </Layout>
+                        )
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        isLoggedIn ? (
+                            <Navigate to="/" />
+                        ) : (
+                            <Layout>
+                                <Register />
+                            </Layout>
+                        )
+                    }
+                />
+                <Route
+                    path="/email/verify/:verificationToken"
+                    element={
+                        <Layout>
+                            <VerifyEmail />
+                        </Layout>
+                    }
+                />
+                <Route
+                    path="/password/forgot"
+                    element={
+                        <Layout>
+                            <ForgotPassword />
+                        </Layout>
+                    }
+                />
+                <Route
+                    path="/password/reset/:resetToken"
+                    element={
+                        <Layout>
+                            <ResetPassword />
+                        </Layout>
+                    }
+                />
+                {isLoggedIn && (
+                    <>
+                        <Route
+                            path="/profile"
+                            element={
+                                <Layout>
+                                    <Profile />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-reservations"
+                            element={
+                                <Layout>
+                                    <MyReservations />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-resources"
+                            element={
+                                <Layout>
+                                    <MyResources />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-resources/add"
+                            element={
+                                <Layout>
+                                    <AddResource />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-resources/:resourceId"
+                            element={
+                                <Layout>
+                                    <EditResource />
+                                </Layout>
+                            }
+                        />
+                    </>
+                )}
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
+    );
 };
 
 export default App;
