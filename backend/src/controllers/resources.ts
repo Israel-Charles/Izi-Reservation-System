@@ -11,9 +11,7 @@ export const searchResources = async (req: Request, res: Response) => {
             req.query.page ? req.query.page.toString() : "1"
         );
         const skip = (pageNumber - 1) * pageSize;
-
         const resources = await Resource.find().skip(skip).limit(pageSize);
-
         const total = await Resource.countDocuments();
 
         const response: ResourceSearchResponse = {
@@ -24,7 +22,6 @@ export const searchResources = async (req: Request, res: Response) => {
                 pages: Math.ceil(total / pageSize),
             },
         };
-
         return res.status(200).json(response);
     } catch (error) {
         console.log("search error:", error);

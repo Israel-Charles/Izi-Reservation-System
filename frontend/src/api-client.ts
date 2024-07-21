@@ -4,7 +4,10 @@ import { RegisterFormData } from "./pages/Register";
 import { ResetFormData } from "./pages/ResetPassword";
 import { ForgotFormData } from "./pages/ForgotPassword";
 import { UserType } from "../../backend/src/types/user";
-import { ResourceType } from "../../backend/src/types/resource";
+import {
+    ResourceSearchResponse,
+    ResourceType,
+} from "../../backend/src/types/resource";
 import { ReservationType } from "../../backend/src/types/reservation";
 import { ReservationFormData } from "./forms/MakeReservationForm/MakeReservationForm";
 
@@ -290,8 +293,35 @@ export const getMyReservations = async (): Promise<ReservationType[]> => {
 };
 
 // resources
-export const searchResources = async (): Promise<ResourceType[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/resources`);
+export type SearchParams = {
+    name?: string;
+    location?: string;
+    maxResLen?: number;
+    maxResSize?: number;
+    type?: string;
+    open?: string;
+    close?: string;
+    days?: string[];
+    page?: string;
+};
+
+export const searchResources = async (
+    searchParams: SearchParams
+): Promise<ResourceSearchResponse> => {
+    const queryParams = new URLSearchParams();
+    queryParams.append("name", searchParams.name || "");
+    queryParams.append("location", searchParams.location || "");
+    queryParams.append("maxResLen", searchParams.maxResLen?.toString() || "");
+    queryParams.append("maxResSize", searchParams.maxResSize?.toString() || "");
+    queryParams.append("type", searchParams.type || "");
+    queryParams.append("open", searchParams.open || "");
+    queryParams.append("close", searchParams.close || "");
+    queryParams.append("days", searchParams.days?.join(",") || "");
+    queryParams.append("page", searchParams.page || "");
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/resources/search?${queryParams}`
+    );
 
     if (!response.ok) {
         throw new Error("Error fetching resources");
@@ -380,40 +410,3 @@ export const cancelReservation = async (reservationId: string) => {
 
     return responseBody;
 };
-
-// export type SearchParams = {
-// 	name?: string;
-// 	location?: string;
-// 	maxResLen?: number;
-// 	maxResSize?: number;
-// 	type?: string;
-// 	open?: string;
-// 	close?: string;
-// 	days?: string[];
-// 	page?: string;
-// };
-
-// export const searchResources = async (
-// 	searchParams: SearchParams
-// ): Promise<ResourceSearchResponse> => {
-// 	const queryParams = new URLSearchParams();
-// 	queryParams.append("name", searchParams.name || "");
-// 	queryParams.append("location", searchParams.location || "");
-// 	queryParams.append("maxResLen", searchParams.maxResLen.toString() || "");
-// 	queryParams.append("maxResSize", searchParams.maxResSize.toString() || "");
-// 	queryParams.append("type", searchParams.type || "");
-// 	queryParams.append("open", searchParams.open || "");
-// 	queryParams.append("close", searchParams.close || "");
-// 	queryParams.append("days", searchParams.days.join(",") || "");
-// 	queryParams.append("page", searchParams.page || "");
-
-// 	const response = await fetch(
-// 		`${API_BASE_URL}/api/resources/search?${queryParams}`
-// 	);
-
-// 	if (!response.ok) {
-// 		throw new Error("Failed to search resources");
-// 	}
-
-// 	return response.json();
-// };

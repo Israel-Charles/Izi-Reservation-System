@@ -39,9 +39,9 @@ const App = () => {
                 <Route
                     path="/search"
                     element={
-                        <Layout>
+                        <HeroLayout>
                             <Search />
-                        </Layout>
+                        </HeroLayout>
                     }
                 />
                 <Route
