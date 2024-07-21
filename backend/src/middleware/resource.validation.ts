@@ -63,17 +63,8 @@ const validateHours = [
         .withMessage("At least one day of operation is required"),
 ];
 
-// const validateImages = [
-//   body("imageUrls")
-//     .isArray({ min: 1 })
-//     .withMessage("At least one image URL is required")
-//     .custom((imageUrls) => imageUrls.length < 6)
-//     .withMessage("There must be less than 6 image URLs"),
-// ];
-
 export const validateResource = [
     ...validateDescription,
     ...validateType,
     ...validateHours,
-    // ...validateImages,
 ];

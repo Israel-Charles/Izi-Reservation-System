@@ -6,39 +6,36 @@ import * as apiClient from "../api-client";
 export const AppContext = createContext();
 
 export function AppContextProvider({
-	children,
+    children,
 }: {
-	children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-	const [toast, setToast] = useState(undefined);
+    const [toast, setToast] = useState(null);
 
-	const { isError } = useQuery("authenticate", apiClient.authenticate, {
-		retry: false,
-		enabled: true,
-	});
+    const { isError } = useQuery("authenticate", apiClient.authenticate);
 
-	const showToast = useCallback((toastMessage) => {
-		setToast(toastMessage);
-	}, []);
+    const showToast = useCallback((toastMessage) => {
+        setToast(toastMessage);
+    }, []);
 
-	const value = useMemo(
-		() => ({
-			showToast,
-			isLoggedIn: !isError,
-		}),
-		[showToast, isError]
-	);
+    const value = useMemo(
+        () => ({
+            showToast,
+            isLoggedIn: !isError,
+        }),
+        [showToast, isError]
+    );
 
-	return (
-		<AppContext.Provider value={value}>
-			{toast && (
-				<Toast
-					message={toast.message}
-					type={toast.type}
-					onClose={() => setToast(undefined)}
-				/>
-			)}
-			{children}
-		</AppContext.Provider>
-	);
+    return (
+        <AppContext.Provider value={value}>
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
+            {children}
+        </AppContext.Provider>
+    );
 }

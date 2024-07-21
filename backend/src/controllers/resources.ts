@@ -6,13 +6,36 @@ import { ResourceSearchResponse } from "../types/resource";
 // /api/resources/search
 export const searchResources = async (req: Request, res: Response) => {
     try {
+        const query = constructSearchQuery(req.query);
+
+        let sortOptions = {};
+        switch (req.query.sortOption) {
+            case "maxResLen":
+                sortOptions = { maxResLen: 1 };
+                break;
+            case "maxResSize":
+                sortOptions = { maxResSize: 1 };
+                break;
+            case "open":
+                sortOptions = { open: 1 };
+                break;
+            case "close":
+                sortOptions = { close: 1 };
+                break;
+        }
+
         const pageSize = 5;
         const pageNumber = parseInt(
             req.query.page ? req.query.page.toString() : "1"
         );
         const skip = (pageNumber - 1) * pageSize;
-        const resources = await Resource.find().skip(skip).limit(pageSize);
-        const total = await Resource.countDocuments();
+
+        const resources = await Resource.find(query)
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(pageSize);
+
+        const total = await Resource.countDocuments(query);
 
         const response: ResourceSearchResponse = {
             data: resources,
@@ -25,6 +48,17 @@ export const searchResources = async (req: Request, res: Response) => {
         return res.status(200).json(response);
     } catch (error) {
         console.log("search error:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
+
+// api/resources
+export const getResources = async (req: Request, res: Response) => {
+    try {
+        const resources = await Resource.find().sort({ createdAt: -1 });
+        return res.status(200).json(resources);
+    } catch (error) {
+        console.log("getResources error:", error);
         return res.status(500).json({ message: "Server error" });
     }
 };
@@ -49,4 +83,50 @@ export const getResourceReservations = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json(reservations);
+};
+
+const constructSearchQuery = (queryParams: any) => {
+    let searchQuery: any = {};
+
+    if (queryParams.name) {
+        searchQuery.name = new RegExp(queryParams.name.toString(), "i");
+    }
+
+    if (queryParams.location) {
+        searchQuery.location = new RegExp(queryParams.location.toString(), "i");
+    }
+
+    if (queryParams.type) {
+        searchQuery.type = {
+            $in: Array.isArray(queryParams.type)
+                ? queryParams.type
+                : [queryParams.type],
+        };
+    }
+
+    if (queryParams.maxResLen) {
+        searchQuery.maxResLen = { $gte: queryParams.maxResLen };
+    }
+
+    if (queryParams.maxResSize) {
+        searchQuery.maxResSize = { $gte: queryParams.maxResSize };
+    }
+
+    if (queryParams.days) {
+        searchQuery.days = {
+            $all: Array.isArray(queryParams.days)
+                ? queryParams.days
+                : [queryParams.days],
+        };
+    }
+
+    // if (queryParams.open) {
+    //     searchQuery.open = { $lte: queryParams.open };
+    // }
+
+    // if (queryParams.close) {
+    //     searchQuery.close = { $gte: queryParams.close };
+    // }
+
+    return searchQuery;
 };

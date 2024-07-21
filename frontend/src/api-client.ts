@@ -296,13 +296,13 @@ export const getMyReservations = async (): Promise<ReservationType[]> => {
 export type SearchParams = {
     name?: string;
     location?: string;
-    maxResLen?: number;
-    maxResSize?: number;
     type?: string;
+    page?: string;
+    maxResLen?: string;
+    maxResSize?: string;
+    days?: string[];
     open?: string;
     close?: string;
-    days?: string[];
-    page?: string;
 };
 
 export const searchResources = async (
@@ -311,16 +311,22 @@ export const searchResources = async (
     const queryParams = new URLSearchParams();
     queryParams.append("name", searchParams.name || "");
     queryParams.append("location", searchParams.location || "");
-    queryParams.append("maxResLen", searchParams.maxResLen?.toString() || "");
-    queryParams.append("maxResSize", searchParams.maxResSize?.toString() || "");
     queryParams.append("type", searchParams.type || "");
+    queryParams.append("page", searchParams.page || "");
+    queryParams.append("maxResLen", searchParams.maxResLen || "");
+    queryParams.append("maxResSize", searchParams.maxResSize || "");
+    searchParams.days?.forEach((day) => {
+        queryParams.append("days", day);
+    });
+
     queryParams.append("open", searchParams.open || "");
     queryParams.append("close", searchParams.close || "");
-    queryParams.append("days", searchParams.days?.join(",") || "");
-    queryParams.append("page", searchParams.page || "");
 
     const response = await fetch(
-        `${API_BASE_URL}/api/resources/search?${queryParams}`
+        `${API_BASE_URL}/api/resources/search?${queryParams}`,
+        {
+            method: "GET",
+        }
     );
 
     if (!response.ok) {
