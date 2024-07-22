@@ -3,7 +3,7 @@ import { ResourceType } from "../types/resource";
 
 const resourceSchema = new mongoose.Schema<ResourceType>(
     {
-        userId: { type: String, required: true, index: true },
+        userId: { type: String, required: true },
         name: { type: String, required: true },
         location: { type: String, required: true },
         description: { type: String, required: true },

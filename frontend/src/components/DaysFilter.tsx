@@ -7,8 +7,10 @@ type Props = {
 
 const DaysFilter = ({ selectedDays, onChange }: Props) => {
     return (
-        <div className="col-span-full grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-1 border-b-2 border-background pb-6 text-primary">
-            <h4 className="col-span-full text-lg font-semibold mb-2 text-center lg:text-left">Days Open</h4>
+        <div className="col-span-full grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-1 text-primary">
+            <h4 className="col-span-full text-lg font-semibold mb-2 text-center lg:text-left">
+                Days Open
+            </h4>
             {dayTypes.map((day) => (
                 <label
                     className={`flex cursor-pointer rounded font-semibold px-4 py-2 text-sm ${

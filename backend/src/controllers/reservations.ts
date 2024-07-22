@@ -2,6 +2,7 @@ import Resource from "../models/resource";
 import { Request, Response } from "express";
 import Reservation from "../models/reservation";
 import { validationResult } from "express-validator";
+import { convertTimeToMinutes } from "../middleware/time";
 
 // /api/reservations/:resourceId
 export const makeReservation = async (req: Request, res: Response) => {
@@ -24,7 +25,9 @@ export const makeReservation = async (req: Request, res: Response) => {
             resourceId: req.params.resourceId,
             comment,
             start,
+            startMinutes: convertTimeToMinutes(start),
             end,
+            endMinutes: convertTimeToMinutes(end),
             size,
         });
 

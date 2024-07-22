@@ -6,7 +6,11 @@ type Props = {
 const LengthFilter = ({ length, onChange }: Props) => {
     return (
         <div className="border-b-2 border-background pb-6 text-primary">
-            <h4 className="text-base font-semibold mb-2">Duration (in mns)</h4>
+            <div className="flex items-center gap-1 mb-2">
+                <h4 className="text-lg font-semibold">Duration</h4>
+                <span className="text-sm text-secondary">(in minutes)</span>
+            </div>
+
             <label className="flex items-center gap-2 placeholder-secondary">
                 <input
                     id="lengthFilter"

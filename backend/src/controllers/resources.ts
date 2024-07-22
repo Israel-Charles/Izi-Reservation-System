@@ -36,7 +36,7 @@ export const searchResources = async (req: Request, res: Response) => {
                 sortOptions = { closeMinutes: -1 };
         }
 
-        const pageSize = 5;
+        const pageSize = 8;
         const pageNumber = parseInt(
             req.query.page ? req.query.page.toString() : "1"
         );

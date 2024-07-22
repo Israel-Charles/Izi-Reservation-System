@@ -30,7 +30,7 @@ const MyResources = () => {
     }
 
     return (
-        <div className="container mx-auto p-6 my-14">
+        <div className="container mx-auto p-6 my-8">
             <div className="flex items-center justify-between mb-8">
                 <h1 className="text-3xl text-primary font-bold">
                     My Resources
@@ -80,10 +80,10 @@ const MyResources = () => {
                         </div>
                         <div className="flex items-center justify-between">
                             <Link
-                                to={`/reservations/${resource._id}`}
+                                to={`/reserve/${resource._id}`}
                                 className="rounded text-xl text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
                             >
-                                Reservations
+                                View
                             </Link>
                             <Link
                                 to={`/my-resources/${resource._id}`}

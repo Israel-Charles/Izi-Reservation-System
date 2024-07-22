@@ -5,7 +5,7 @@ type Props = {
 
 const CloseFilter = ({ close, onChange }: Props) => {
     return (
-        <div className="pb-3 text-primary">
+        <div className="pb-6 text-primary border-b-2 border-background">
             <h4 className="text-lg font-semibold mb-2">Close Time</h4>
             <label className="flex items-center gap-2 placeholder-secondary">
                 <input

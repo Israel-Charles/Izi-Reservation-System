@@ -39,13 +39,14 @@ const validateType = [body("type").notEmpty().withMessage("Type is required")];
 
 const validateHours = [
     body("open").notEmpty().withMessage("Open time is required"),
-    body("close")
-        .notEmpty()
-        .withMessage("Close time is required")
-        .custom((value, { req }) => {
-            return value > req.body.open;
-        })
-        .withMessage("Close time must be after open time"),
+    body("close").notEmpty().withMessage("Close time is required"),
+    body("closeMinutes").custom((value, { req }) => {
+        if (req.body.openMinutes >= value) {
+            throw new Error("Close time must be after open time");
+        }
+        return true;
+    }),
+
     body("days")
         .notEmpty()
         .withMessage("At least one day of operation is required"),

@@ -61,9 +61,7 @@ const SearchBar = () => {
                         value={type}
                         onChange={(event) => setType(event.target.value)}
                     >
-                        <option className="bg-background_alt" value="">
-                            What type is it?
-                        </option>
+                        <option value="">What type is it?</option>
                         {resourceTypes.map((type) => (
                             <option key={type} value={type}>
                                 {type}

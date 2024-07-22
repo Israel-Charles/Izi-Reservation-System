@@ -6,7 +6,7 @@ type Props = {
 const SizeFilter = ({ size, onChange }: Props) => {
     return (
         <div className="border-b-2 border-background pb-6 text-primary">
-            <h4 className="text-base font-semibold mb-2">Group Size</h4>
+            <h4 className="text-lg font-semibold mb-2">Group Size</h4>
             <label className="flex items-center gap-2 placeholder-secondary">
                 <input
                     id="sizeFilter"
