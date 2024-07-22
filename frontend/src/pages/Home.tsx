@@ -15,7 +15,7 @@ const Home = () => {
 					* Available on all Platform *
 				</p>
 			</div>
-			<div className="mb-12 flex w-full md:mb-16 lg:w-2/3 ">
+			<div className="mb-12 flex w-full md:mb-16 lg:mt-5 lg:w-2/3 ">
 				<div className="relative left-12 top-12 z-10 -ml-12 overflow-hidden rounded-lg shadow-xl md:left-16 md:top-16 lg:ml-0">
 					<img
 						src={imageBack}

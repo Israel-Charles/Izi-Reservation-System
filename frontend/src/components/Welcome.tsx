@@ -12,7 +12,7 @@ const Welcome = () => {
 					</span>
 				</h2>
 				<p className="mt-2 md:text-lg lg:text-xl text-secondary">
-					You have 4 Upcoming Reservation(s)
+					Looking to Reserve Something?
 				</p>
 			</div>
 		</div>
