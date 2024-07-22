@@ -82,7 +82,7 @@ const Search = () => {
                 </div>
                 <div className="flex flex-col gap-6">
                     <div className="flex justify-between items-center">
-                        <div className="flex text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange">
+                        <div className="p-2 flex flex-wrap text-lg sm:text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange">
                             <span>{resourceData?.pagination.total}</span>
                             <span className="font-semibold text-primary">
                                 Resource(s) found
@@ -117,9 +117,9 @@ const Search = () => {
                                 id="sortBy"
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
-                                className="rounded-lg p-3 shadow-lg font-semibold bg-background_alt lg:text-lg text-primary"
+                                className="w-20 sm:w-40 md:w-60 lg:w-auto rounded-lg p-2 shadow-lg font-semibold bg-background_alt lg:text-lg text-primary"
                             >
-                                <option value="">Sort By</option>
+                                <option value="">Sort</option>
                                 <option value="maxResLenAsc">
                                     Max. Res. Length (low to high)
                                 </option>

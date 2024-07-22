@@ -12,7 +12,7 @@ const Pagination = ({ page, pages, onPageChange }: Props) => {
 
     return (
         <div className="flex justify-center">
-            <ul className="flex gap-1 cursor-pointer">
+            <ul className="flex gap-2 cursor-pointer">
                 {pageNumbers.map((number) => (
                     <li
                         key={number}
