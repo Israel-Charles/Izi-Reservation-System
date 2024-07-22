@@ -1,12 +1,12 @@
 import { zoomies } from "ldrs";
 import { useEffect } from "react";
 import TypeSection from "./TypeSection";
-import { Link } from "react-router-dom";
 import HoursSection from "./HoursSection";
 import ImagesSection from "./ImagesSection";
 import DetailsSection from "./DetailsSection";
 import { FormProvider, useForm } from "react-hook-form";
 import { ResourceType } from "../../../../backend/src/types/resource";
+import { BackButton } from "../../components/Buttons";
 
 export type ResourceFormData = {
     _id?: string;
@@ -69,7 +69,7 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
     });
 
     return (
-        <div className="rounded-lg bg-background_alt p-6">
+        <div className="rounded-lg bg-background_alt p-6 shadow-lg">
             <FormProvider {...formMethods}>
                 <form className="flex flex-col gap-10" onSubmit={onSubmit}>
                     <DetailsSection isLoading={isLoading} />
@@ -80,12 +80,7 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
                     <div className="border-b-2 border-background" />
                     <ImagesSection isLoading={isLoading} />
                     <span className="flex justify-between">
-                        <Link
-                            to="/my-resources"
-                            className="rounded text-xl text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
-                        >
-                            Back
-                        </Link>
+                        <BackButton />
                         <button
                             disabled={isLoading}
                             type="submit"

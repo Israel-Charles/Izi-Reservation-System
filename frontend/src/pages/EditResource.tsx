@@ -52,7 +52,9 @@ const EditResource = () => {
     );
 
     const handleDelete = () => {
-        const isConfirmed = window.confirm("Are you sure you want to delete?");
+        const isConfirmed = window.confirm(
+            "Are you sure you want to delete this resource? This action cannot be undone."
+        );
         if (isConfirmed) {
             deleteResource();
         }

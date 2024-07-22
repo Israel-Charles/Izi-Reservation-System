@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AppContext } from "../contexts/AppContext";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -6,6 +6,7 @@ import { LogoButton, SignOutButton, ThemeButton } from "./Buttons";
 
 const Navbar = () => {
     const menuRef = useRef(null);
+    const location = useLocation();
     const { isLoggedIn } = useContext(AppContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -33,19 +34,31 @@ const Navbar = () => {
                         <ThemeButton />
                         <Link
                             to="/my-reservations"
-                            className="rounded text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+                            className={`rounded font-bold px-3 py-2 hover:shadow-lg ${
+                                location.pathname === "/my-reservations"
+                                    ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                    : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                            } transition-all`}
                         >
                             My Reservations
                         </Link>
                         <Link
                             to="/my-resources"
-                            className="rounded text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+                            className={`rounded font-bold px-3 py-2 hover:shadow-lg ${
+                                location.pathname === "/my-resources"
+                                    ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                    : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                            } transition-all`}
                         >
                             My Resources
                         </Link>
                         <Link
                             to="/profile"
-                            className="rounded text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+                            className={`rounded font-bold px-3 py-2 hover:shadow-lg ${
+                                location.pathname === "/profile"
+                                    ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                    : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                            } transition-all`}
                         >
                             Profile
                         </Link>
@@ -56,13 +69,21 @@ const Navbar = () => {
                         <ThemeButton />
                         <Link
                             to="/sign-in"
-                            className="rounded text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+                            className={`rounded font-bold px-3 py-2 hover:shadow-lg ${
+                                location.pathname === "/sign-in"
+                                    ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                    : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                            } transition-all`}
                         >
                             Sign In
                         </Link>
                         <Link
                             to="/register"
-                            className="rounded text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+                            className={`rounded font-bold px-3 py-2 hover:shadow-lg ${
+                                location.pathname === "/register"
+                                    ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                    : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                            } transition-all`}
                         >
                             Register
                         </Link>
@@ -82,29 +103,45 @@ const Navbar = () => {
                             <>
                                 <Link
                                     to="/my-reservations"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/my-reservations"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     My Reservations
                                 </Link>
                                 <Link
                                     to="/my-resources"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/my-resources"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     My Resources
                                 </Link>
                                 <Link
                                     to="/profile"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/profile"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     Profile
                                 </Link>
                                 <Link
                                     to="/about"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/about"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     About
                                 </Link>
@@ -117,15 +154,23 @@ const Navbar = () => {
                             <>
                                 <Link
                                     to="/sign-in"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/sign-in"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     Sign In
                                 </Link>
                                 <Link
                                     to="/register"
-                                    className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                     onClick={toggleMenu}
+                                    className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                        location.pathname === "/register"
+                                            ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                            : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                    } transition-all`}
                                 >
                                     Register
                                 </Link>
@@ -134,8 +179,12 @@ const Navbar = () => {
                                     <ThemeButton />
                                     <Link
                                         to="/about"
-                                        className="rounded bg-background w-full text-primary font-semibold px-4 py-2 hover:bg-med_orange hover:text-light_neutral transition-all"
                                         onClick={toggleMenu}
+                                        className={`rounded w-full font-semibold px-4 py-2 hover:shadow-lg ${
+                                            location.pathname === "/about"
+                                                ? "bg-med_orange text-light_neutral hover:bg-light_orange"
+                                                : "bg-background text-med_orange hover:bg-med_orange hover:text-light_neutral"
+                                        } transition-all`}
                                     >
                                         About
                                     </Link>

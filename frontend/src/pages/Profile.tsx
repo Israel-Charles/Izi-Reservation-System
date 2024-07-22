@@ -1,12 +1,12 @@
 import { zoomies } from "ldrs";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as apiClient from "../api-client";
 import { useContext, useEffect } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import { BiSolidError } from "react-icons/bi";
 import { useMutation, useQuery } from "react-query";
 import { AppContext } from "../contexts/AppContext";
+import { BackButton } from "../components/Buttons";
 
 export type ProfileFormData = {
     firstName: string;
@@ -75,7 +75,9 @@ const Profile = () => {
     const handleDelete = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const isConfirmed = window.confirm("Are you sure you want to delete?");
+        const isConfirmed = window.confirm(
+            "Are you sure you want to delete your 4331Booking account? This action cannot be undone."
+        );
         if (isConfirmed) {
             deleteMutation.mutate();
         }
@@ -213,12 +215,7 @@ const Profile = () => {
                             </div>
                         </label>
                         <div className="flex justify-between items-center">
-                            <Link
-                                to="/"
-                                className="hover:shadow-lg bg-background text-primary font-semibold px-4 py-2 rounded hover:bg-med_orange transition-all flex items-center gap-2"
-                            >
-                                <FaArrowLeft /> Home
-                            </Link>
+                            <BackButton />
                             <div className="flex gap-4">
                                 <button
                                     onClick={(event) => handleDelete(event)}
