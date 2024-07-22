@@ -52,17 +52,6 @@ export const searchResources = async (req: Request, res: Response) => {
     }
 };
 
-// api/resources
-export const getResources = async (req: Request, res: Response) => {
-    try {
-        const resources = await Resource.find().sort({ createdAt: -1 });
-        return res.status(200).json(resources);
-    } catch (error) {
-        console.log("getResources error:", error);
-        return res.status(500).json({ message: "Server error" });
-    }
-};
-
 // /api/resources/:resourceId
 export const getResourceById = async (req: Request, res: Response) => {
     const resource = await Resource.findById(req.params.resourceId);

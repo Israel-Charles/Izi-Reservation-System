@@ -26,7 +26,7 @@ const MyResources = () => {
     );
 
     if (!resourceData) {
-        return <div>Loading...</div>;
+        return <></>;
     }
 
     return (
