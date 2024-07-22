@@ -51,9 +51,9 @@ const Search = () => {
         <div className="container mx-auto mt-2 lg:mt-8 p-6">
             <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-6">
                 <div className="bg-background_alt rounded-lg shadow-lg p-5 h-fit lg:sticky top-28">
-                    <div className="space-y-5">
-                        <h3 className="text-2xl text-primary font-semibold">
-                            Filter by:
+                    <div className="space-y-3 grid gap-x-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-1">
+                        <h3 className="col-span-full text-xl text-center text-primary font-semibold pb-3">
+                            Filter
                         </h3>
                         <LengthFilter
                             length={length}
@@ -65,10 +65,6 @@ const Search = () => {
                             size={size}
                             onChange={(value?: number) => setSize(value || 1)}
                         />
-                        <DaysFilter
-                            selectedDays={selectedDays}
-                            onChange={handleDaysChange}
-                        />
                         <OpenFilter
                             open={open}
                             onChange={(value?: string) => setOpen(value)}
@@ -77,7 +73,12 @@ const Search = () => {
                             close={close}
                             onChange={(value?: string) => setClose(value)}
                         />
+                        <DaysFilter
+                            selectedDays={selectedDays}
+                            onChange={handleDaysChange}
+                        />
                     </div>
+
                 </div>
                 <div className="flex flex-col gap-6">
                     <div className="flex justify-between items-center">
