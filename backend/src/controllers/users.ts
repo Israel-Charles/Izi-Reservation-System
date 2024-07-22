@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import Reservation from "../models/reservation";
 import { ResourceType } from "../types/resource";
 import { validationResult } from "express-validator";
+import { convertTimeToMinutes } from "../middleware/time";
 
 // /api/users/profile
 export const getProfile = async (req: Request, res: Response) => {
@@ -94,6 +95,8 @@ export const addResource = async (req: Request, res: Response) => {
 
         const imageUrls = await uploadImages(imageFiles);
         newResource.imageUrls = imageUrls;
+        newResource.openMinutes = convertTimeToMinutes(req.body.open);
+        newResource.closeMinutes = convertTimeToMinutes(req.body.close);
         newResource.userId = req.userId;
         const resource = new Resource(newResource);
 
@@ -116,6 +119,8 @@ export const updateResource = async (req: Request, res: Response) => {
 
     try {
         const updatedResource: ResourceType = req.body;
+        updatedResource.openMinutes = convertTimeToMinutes(req.body.open);
+        updatedResource.closeMinutes = convertTimeToMinutes(req.body.close);
         const resource = await Resource.findOneAndUpdate(
             {
                 _id: req.params.resourceId,
@@ -130,6 +135,7 @@ export const updateResource = async (req: Request, res: Response) => {
 
         const files = req.files as Express.Multer.File[];
         const updatedImageUrls = await uploadImages(files);
+
         resource.imageUrls = [
             ...updatedImageUrls,
             ...(updatedResource.imageUrls || []),

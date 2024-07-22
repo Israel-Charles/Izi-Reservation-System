@@ -7,28 +7,28 @@ import Pagination from "../components/Pagination";
 import LengthFilter from "../components/LengthFilter";
 import SizeFilter from "../components/SizeFilter";
 import DaysFilter from "../components/DaysFilter";
-// import OpenFilter from "../components/OpenFilter";
-// import CloseFilter from "../components/CloseFilter";
+import OpenFilter from "../components/OpenFilter";
+import CloseFilter from "../components/CloseFilter";
 
 const Search = () => {
     const search = useContext(SearchContext);
     const [page, setPage] = useState<number>(1);
-    const [length, setLength] = useState<number>(1);
+    const [length, setLength] = useState<number>(15);
     const [size, setSize] = useState<number>(1);
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
-    // const [open, setOpen] = useState<string>("");
-    // const [close, setClose] = useState<string>("");
+    const [open, setOpen] = useState<string>("");
+    const [close, setClose] = useState<string>("");
 
     const searchParams = {
         name: search.name,
         location: search.location,
         type: search.type,
         page: page.toString(),
-        length: search.length,
-        size: search.size,
+        maxResLen: length,
+        maxResSize: size,
         days: selectedDays,
-        // open: search.open,
-        // close: search.close,
+        open,
+        close,
     };
 
     const { data: resourceData } = useQuery(
@@ -61,14 +61,20 @@ const Search = () => {
                         />
                         <SizeFilter
                             size={size}
-                            onchange={(value?: number) => setSize(value || 1)}
+                            onChange={(value?: number) => setSize(value || 1)}
                         />
                         <DaysFilter
                             selectedDays={selectedDays}
                             onChange={handleDaysChange}
                         />
-                        {/* <OpenFilter />
-                        <CloseFilter /> */}
+                        <OpenFilter
+                            open={open}
+                            onChange={(value?: string) => setOpen(value)}
+                        />
+                        <CloseFilter
+                            close={close}
+                            onChange={(value?: string) => setClose(value)}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col gap-6">

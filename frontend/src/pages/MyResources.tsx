@@ -45,7 +45,7 @@ const MyResources = () => {
             <div className="grid grid-cols-1 gap-8">
                 {resourceData.map((resource) => (
                     <div
-                        key={resource.name}
+                        key={resource._id}
                         className="flex flex-col bg-background_alt text-primary justify-between rounded-lg p-6 gap-6 shadow-lg"
                     >
                         <h2 className="text-2xl font-bold">{resource.name}</h2>

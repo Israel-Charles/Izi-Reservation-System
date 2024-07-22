@@ -9,12 +9,14 @@ const SizeFilter = ({ size, onChange }: Props) => {
             <h4 className="text-lg font-semibold mb-2">Group Size</h4>
             <label className="flex items-center gap-2 placeholder-secondary">
                 <input
-                    type="text"
-                    placeholder="# of people"
+                    id="sizeFilter"
+                    type="number"
                     value={size}
-                    className="rounded-lg bg-background p-2"
+                    min={1}
+                    className="w-full rounded-lg bg-background p-2"
                     onChange={(e) => onChange(parseInt(e.target.value))}
                 />
+                <span>person(s)</span>
             </label>
         </div>
     );

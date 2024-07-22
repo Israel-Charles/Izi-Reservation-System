@@ -8,7 +8,9 @@ export type ResourceType = {
     maxResSize: number;
     type: string;
     open: string;
+    openMinutes: number;
     close: string;
+    closeMinutes: number;
     days: string[];
     imageUrls: string[];
 };

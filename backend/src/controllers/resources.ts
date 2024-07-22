@@ -2,6 +2,7 @@ import Resource from "../models/resource";
 import { Request, Response } from "express";
 import Reservation from "../models/reservation";
 import { ResourceSearchResponse } from "../types/resource";
+import { convertTimeToMinutes } from "../middleware/time";
 
 // /api/resources/search
 export const searchResources = async (req: Request, res: Response) => {
@@ -16,11 +17,11 @@ export const searchResources = async (req: Request, res: Response) => {
             case "maxResSize":
                 sortOptions = { maxResSize: 1 };
                 break;
-            case "open":
-                sortOptions = { open: 1 };
+            case "openMinutes":
+                sortOptions = { openMinutes: 1 };
                 break;
-            case "close":
-                sortOptions = { close: 1 };
+            case "closeMinutes":
+                sortOptions = { closeMinutes: 1 };
                 break;
         }
 
@@ -109,13 +110,17 @@ const constructSearchQuery = (queryParams: any) => {
         };
     }
 
-    // if (queryParams.open) {
-    //     searchQuery.open = { $lte: queryParams.open };
-    // }
+    if (queryParams.open) {
+        searchQuery.openMinutes = {
+            $gte: convertTimeToMinutes(queryParams.open),
+        };
+    }
 
-    // if (queryParams.close) {
-    //     searchQuery.close = { $gte: queryParams.close };
-    // }
+    if (queryParams.close) {
+        searchQuery.closeMinutes = {
+            $gte: convertTimeToMinutes(queryParams.close),
+        };
+    }
 
     return searchQuery;
 };

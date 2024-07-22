@@ -42,20 +42,8 @@ const validateHours = [
     body("close")
         .notEmpty()
         .withMessage("Close time is required")
-        .custom((close, { req }) => {
-            const { open } = req.body;
-            const [openHour, openMinute] = open.split(":").map(Number);
-            const [closeHour, closeMinute] = close.split(":").map(Number);
-            if (
-                closeHour > openHour ||
-                (closeHour === openHour && closeMinute > openMinute)
-            ) {
-                return true;
-            } else if (closeHour === openHour && closeMinute === openMinute) {
-                return false;
-            } else {
-                return false;
-            }
+        .custom((value, { req }) => {
+            return value > req.body.open;
         })
         .withMessage("Close time must be after open time"),
     body("days")
