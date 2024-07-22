@@ -51,6 +51,8 @@ export const signIn = async (formData: SignInFormData) => {
         throw new Error(responseBody.message);
     }
 
+    localStorage.setItem("user", JSON.stringify(responseBody.user));
+
     return responseBody;
 };
 
@@ -82,6 +84,8 @@ export const signOut = async () => {
     if (!response.ok) {
         throw new Error(responseBody.message);
     }
+
+    localStorage.removeItem("user");
 
     return responseBody;
 };
@@ -263,7 +267,7 @@ export const updateResource = async (resourceFormData: FormData) => {
 
 export const deleteResource = async (resourceId: string) => {
     const response = await fetch(
-        `${API_BASE_URL}/api/my-resources/${resourceId}`,
+        `${API_BASE_URL}/api/users/my-resources/${resourceId}`,
         {
             method: "DELETE",
             credentials: "include",

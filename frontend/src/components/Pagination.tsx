@@ -16,7 +16,7 @@ const Pagination = ({ page, pages, onPageChange }: Props) => {
                 {pageNumbers.map((number) => (
                     <li
                         key={number}
-                        className={`rounded px-2 py-1 font-semibold hover:bg-light_orange transition ${
+                        className={`shadow-lg rounded px-2 py-1 font-semibold hover:bg-light_orange transition ${
                             page === number
                                 ? "bg-med_orange text-light_neutral"
                                 : "bg-background_alt text-primary"

@@ -7,7 +7,7 @@ type Props = {
 
 const SearchResult = ({ resource }: Props) => {
     return (
-        <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] rounded-lg gap-6 bg-background_alt p-3">
+        <div className="shadow-lg grid grid-cols-1 xl:grid-cols-[2fr_3fr] rounded-lg gap-6 bg-background_alt p-3">
             <div className="w-full h-[320px]">
                 <img
                     src={resource.imageUrls[0]}

@@ -6,6 +6,7 @@ import Reservation from "../models/reservation";
 import { ResourceType } from "../types/resource";
 import { validationResult } from "express-validator";
 import { convertTimeToMinutes } from "../middleware/time";
+import e from "cors";
 
 // /api/users/profile
 export const getProfile = async (req: Request, res: Response) => {
@@ -25,6 +26,7 @@ export const updateProfile = async (req: Request, res: Response) => {
             .status(400)
             .json({ message: errors.array().map((error) => error.msg) });
     }
+
     try {
         const existingUser = await User.findOne({
             userName: req.body.userName,
@@ -32,8 +34,7 @@ export const updateProfile = async (req: Request, res: Response) => {
         if (existingUser && existingUser._id.toString() !== req.userId) {
             return res.status(400).json({ message: "Username taken" });
         }
-
-        const user = await User.findByIdAndUpdate(req.userId, ...req.body, {
+        const user = await User.findByIdAndUpdate(req.userId, req.body, {
             new: true,
         });
         if (!user) {
@@ -129,9 +130,13 @@ export const updateResource = async (req: Request, res: Response) => {
             updatedResource,
             { new: true }
         );
+
         if (!resource) {
             return res.status(404).json({ message: "Resource not found" });
         }
+        const currentImagePublicIds = resource.imageUrls.map((url) =>
+            extractPublicIdFromUrl(url)
+        );
 
         const files = req.files as Express.Multer.File[];
         const updatedImageUrls = await uploadImages(files);
@@ -140,6 +145,14 @@ export const updateResource = async (req: Request, res: Response) => {
             ...updatedImageUrls,
             ...(updatedResource.imageUrls || []),
         ];
+
+        for (const publicId of currentImagePublicIds) {
+            try {
+                await cloudinary.v2.uploader.destroy(publicId);
+            } catch (error) {
+                console.error(`Failed to delete image ${publicId}:`, error);
+            }
+        }
 
         await resource.save();
         return res.status(200).json({ message: "Resource updated" });
@@ -153,8 +166,21 @@ export const deleteResource = async (req: Request, res: Response) => {
     const deletedResource = await Resource.findByIdAndDelete(
         req.params.resourceId
     );
+
     if (!deletedResource) {
         return res.status(404).json({ message: "Resource not found" });
+    }
+
+    const imagePublicIds = deletedResource.imageUrls.map((url) =>
+        extractPublicIdFromUrl(url)
+    );
+
+    for (const publicId of imagePublicIds) {
+        try {
+            await cloudinary.v2.uploader.destroy(publicId);
+        } catch (error) {
+            console.error(`Failed to delete image ${publicId}:`, error);
+        }
     }
 
     return res.status(200).json({ message: "Resource deleted" });
@@ -180,4 +206,11 @@ async function uploadImages(imageFiles: Express.Multer.File[]) {
 
     const imageUrls = await Promise.all(uploadPromises);
     return imageUrls;
+}
+
+function extractPublicIdFromUrl(url: string): string {
+    const parts = url.split("/");
+    const lastPart = parts[parts.length - 1];
+    const publicId = lastPart.split(".")[0];
+    return publicId;
 }

@@ -29,7 +29,7 @@ const ImagesSection = () => {
             <div className="text-primary font-bold flex-1">
                 Upload Images{" "}
                 <span className="text-tertiary font-normal">
-                    ( select 1 - 6 )
+                    ( select 1 - 6, max 5MB each )
                 </span>
                 <div
                     className={`mt-2 relative rounded-lg border-2 border-dashed border-${
@@ -37,13 +37,13 @@ const ImagesSection = () => {
                     }`}
                 >
                     {existingImages && (
-                        <div className="grid grid-cols-6 gap-4">
+                        <div className="p-3 bg-background grid grid-cols-6 gap-4">
                             {existingImages.map((imageUrl) => (
                                 <div key={imageUrl} className="relative group">
                                     <img
                                         src={imageUrl}
                                         alt="Resource"
-                                        className="h-full w-24 object-cover rounded-lg"
+                                        className="h-full object-cover rounded-lg"
                                     />
                                     <button
                                         type="button"

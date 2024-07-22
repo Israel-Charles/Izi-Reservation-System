@@ -31,7 +31,7 @@ const SearchBar = () => {
         <div className="container mx-auto -mt-12 lg:-mt-8 lg:-mb-[25px] px-6 z-10">
             <form
                 onSubmit={handleSubmit}
-                className="p-3 bg-background_alt rounded shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-center gap-4 "
+                className="p-3 bg-background_alt rounded shadow-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-center gap-4 "
             >
                 <div className="flex flex-row items-center flex-1 bg-background p-2 rounded">
                     <TbInputSearch size={25} className="text-primary mr-2" />

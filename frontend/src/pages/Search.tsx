@@ -84,7 +84,7 @@ const Search = () => {
                         <div className="flex text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange">
                             <span>{resourceData?.pagination.total}</span>
                             <span className="font-semibold text-primary">
-                                Resources found
+                                Resource(s) found
                             </span>
                             {search.name && (
                                 <>
