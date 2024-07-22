@@ -303,6 +303,7 @@ export type SearchParams = {
     days?: string[];
     open?: string;
     close?: string;
+    sortOption?: string;
 };
 
 export const searchResources = async (
@@ -318,9 +319,9 @@ export const searchResources = async (
     searchParams.days?.forEach((day) => {
         queryParams.append("days", day);
     });
-
     queryParams.append("open", searchParams.open || "");
     queryParams.append("close", searchParams.close || "");
+    queryParams.append("sortOption", searchParams.sortOption || "");
 
     const response = await fetch(
         `${API_BASE_URL}/api/resources/search?${queryParams}`,

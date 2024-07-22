@@ -18,6 +18,7 @@ const Search = () => {
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [open, setOpen] = useState<string>("");
     const [close, setClose] = useState<string>("");
+    const [sortOption, setSortOption] = useState<string>("");
 
     const searchParams = {
         name: search.name,
@@ -29,6 +30,7 @@ const Search = () => {
         days: selectedDays,
         open,
         close,
+        sortOption,
     };
 
     const { data: resourceData } = useQuery(
@@ -50,7 +52,7 @@ const Search = () => {
             <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-6">
                 <div className="bg-background_alt rounded-lg shadow-lg p-5 h-fit lg:sticky top-28">
                     <div className="space-y-5">
-                        <h3 className="text-lg text-primary font-semibold pb-3">
+                        <h3 className="text-2xl text-primary font-semibold">
                             Filter by:
                         </h3>
                         <LengthFilter
@@ -79,7 +81,7 @@ const Search = () => {
                 </div>
                 <div className="flex flex-col gap-6">
                     <div className="flex justify-between items-center">
-                        <div className="flex text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange -mb-8">
+                        <div className="flex text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange">
                             <span>{resourceData?.pagination.total}</span>
                             <span className="font-semibold text-primary">
                                 Resources found
@@ -109,8 +111,43 @@ const Search = () => {
                                 </>
                             )}
                         </div>
+                        <div className="">
+                            <select
+                                id="sortBy"
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                                className="rounded-lg p-3 shadow-lg font-semibold bg-background_alt lg:text-lg text-primary"
+                            >
+                                <option value="">Sort By</option>
+                                <option value="maxResLenAsc">
+                                    Max. Res. Length (low to high)
+                                </option>
+                                <option value="maxResLenDesc">
+                                    Max. Res. Length (high to low)
+                                </option>
+                                <option value="maxResSizeAsc">
+                                    Max. Res. Size (low to high)
+                                </option>
+
+                                <option value="maxResSizeDesc">
+                                    Max. Res. Size (high to low)
+                                </option>
+                                <option value="openAsc">
+                                    Open Time (low to high)
+                                </option>
+                                <option value="openDesc">
+                                    Open Time (high to low)
+                                </option>
+                                <option value="closeAsc">
+                                    Close Time (low to high)
+                                </option>
+                                <option value="closeDesc">
+                                    Close Time (high to low)
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {resourceData?.data.map((resource) => (
                             <SearchResult
                                 resource={resource}

@@ -11,18 +11,29 @@ export const searchResources = async (req: Request, res: Response) => {
 
         let sortOptions = {};
         switch (req.query.sortOption) {
-            case "maxResLen":
+            case "maxResLenAsc":
                 sortOptions = { maxResLen: 1 };
                 break;
-            case "maxResSize":
+            case "maxResLenDesc":
+                sortOptions = { maxResLen: -1 };
+                break;
+            case "maxResSizeAsc":
                 sortOptions = { maxResSize: 1 };
                 break;
-            case "openMinutes":
+            case "maxResSizeDesc":
+                sortOptions = { maxResSize: -1 };
+                break;
+            case "openAsc":
                 sortOptions = { openMinutes: 1 };
                 break;
-            case "closeMinutes":
+            case "openDesc":
+                sortOptions = { openMinutes: -1 };
+                break;
+            case "closeAsc":
                 sortOptions = { closeMinutes: 1 };
                 break;
+            case "closeDesc":
+                sortOptions = { closeMinutes: -1 };
         }
 
         const pageSize = 5;
