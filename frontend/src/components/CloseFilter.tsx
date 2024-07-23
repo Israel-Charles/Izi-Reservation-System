@@ -11,6 +11,7 @@ const CloseFilter = ({ close, onChange }: Props) => {
                 <input
                     id="CloseFilter"
                     type="time"
+                    step="900"
                     value={close}
                     className="w-full rounded-lg bg-background p-2"
                     onChange={(e) => onChange(e.target.value)}

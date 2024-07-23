@@ -11,6 +11,7 @@ const OpenFilter = ({ open, onChange }: Props) => {
                 <input
                     id="OpenFilter"
                     type="time"
+                    step="900"
                     value={open}
                     className="w-full rounded-lg bg-background p-2"
                     onChange={(e) => onChange(e.target.value)}
