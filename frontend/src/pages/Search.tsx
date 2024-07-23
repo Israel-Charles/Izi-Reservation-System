@@ -48,10 +48,10 @@ const Search = () => {
     };
 
     return (
-        <div className="container mx-auto mt-2 lg:mt-8 p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-6">
-                <div className="bg-background_alt rounded-lg shadow-lg p-5 h-fit lg:sticky top-28">
-                    <div className="space-y-3 grid gap-x-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-1">
+        <div className="container mx-auto mt-2 lg:mt-8 pt-6 pb-6 px-2 lg:px-0">
+            <div className="grid grid-cols-1 lg:grid-cols-[160px_1fr] gap-3">
+                <div className="bg-background_alt rounded-lg shadow-lg p-3 h-fit lg:w-fit lg:sticky top-28">
+                    <div className="space-y-3 grid gap-x-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 lg:w-fit">
                         <h3 className="col-span-full text-xl text-center text-primary font-semibold pb-3">
                             Filter
                         </h3>
@@ -80,7 +80,7 @@ const Search = () => {
                     </div>
 
                 </div>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-3">
                     <div className="flex justify-between items-center">
                         <div className="p-2 flex flex-wrap text-lg sm:text-xl lg:text-2xl gap-1 lg:gap-2 font-bold text-med_orange">
                             <span>{resourceData?.pagination.total}</span>
@@ -121,34 +121,34 @@ const Search = () => {
                             >
                                 <option value="">Sort</option>
                                 <option value="maxResLenAsc">
-                                    Max. Res. Length (low to high)
+                                    Duration (Shortest to Longest)
                                 </option>
                                 <option value="maxResLenDesc">
-                                    Max. Res. Length (high to low)
+                                    Duration (Longest to Shortest)
                                 </option>
                                 <option value="maxResSizeAsc">
-                                    Max. Res. Size (low to high)
+                                    Group Size (Smallest to Biggest)
                                 </option>
 
                                 <option value="maxResSizeDesc">
-                                    Max. Res. Size (high to low)
+                                    Group Size (Biggest to Smallest)
                                 </option>
                                 <option value="openAsc">
-                                    Open Time (low to high)
+                                    Open Time (Earliest to Latest)
                                 </option>
                                 <option value="openDesc">
-                                    Open Time (high to low)
+                                    Open Time (Latest to Earliest)
                                 </option>
                                 <option value="closeAsc">
-                                    Close Time (low to high)
+                                    Close Time (Earliest to Latest)
                                 </option>
                                 <option value="closeDesc">
-                                    Close Time (high to low)
+                                    Close Time (Latest to Earliest)
                                 </option>
                             </select>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                         {resourceData?.data.map((resource) => (
                             <SearchResult
                                 resource={resource}

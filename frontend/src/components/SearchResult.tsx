@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 import { ResourceType } from "../../../backend/src/types/resource";
 
+import {
+    FaMapPin,
+    FaUsers,
+    FaRegClock,
+    FaCalendarAlt,
+} from "react-icons/fa";
+
+import { LuTimer } from "react-icons/lu";
+
 type Props = {
     resource: ResourceType;
 };
@@ -8,15 +17,15 @@ type Props = {
 const SearchResult = ({ resource }: Props) => {
     return (
         <div className="shadow-lg grid grid-cols-1 md:grid-cols-2 rounded-lg gap-3 bg-background_alt p-3">
-            <div className="relative w-full h-40 md:h-80 lg:h-full">
+            <div className="container flex place-items-center w-full h-40 md:h-full lg:h-full">
                 <img
                     src={resource.imageUrls[0]}
                     alt="resource"
                     loading="lazy"
-                    className="w-full h-full object-cover object-center rounded-lg"
+                    className="w-full h-full md:h-80 object-cover object-center rounded-lg p-"
                 />
             </div>
-            <div className="grid grid-rows-2">
+            <div className="grid grid-rows-2 h-fit">
                 <div>
                     <div className="grid grid-cols-2 gap-2">
                         <Link
@@ -27,8 +36,11 @@ const SearchResult = ({ resource }: Props) => {
                         </Link>
                         <span className="flex flex-row-reverse text-secondary text-right">{resource.type}</span>
                     </div>
-                    <span className="flex flex-wrap text-lg text-secondary italic">
-                        {resource.location}
+                    <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary italic">
+                        <FaMapPin className="row-span-2 mr-2 pt-1 size-6" />
+                        <span className="flex flex-wrap">
+                            {resource.location}
+                        </span>
                     </span>
                 </div>
 
@@ -39,21 +51,28 @@ const SearchResult = ({ resource }: Props) => {
                 </div>
 
                 <div className="">
-                    <span className="flex flex-wrap text-lg text-secondary mb-2">
+                    <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary mb-2">
+                        <FaCalendarAlt className="row-span-2 mr-2 pt-1 size-6" />
+                        <span className="flex flex-wrap">
                         {resource.days.slice(0, 7).map((day) => (
                             <span key={day} className="mr-2">
                                 {day}
                             </span>
                         ))}
+                        </span>
+                        
                     </span>
-                    <span className="text-lg text-secondary">
+                    <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary">
+                        <FaRegClock className="row-span-2 mr-2 pt-1 size-6" />
                         {resource.open} to {resource.close}
                     </span>
                     <div className="grid grid-rows-2 grid-flow-col items-center justify-between mt-2">
-                        <span className="text-lg text-secondary">
-                            {resource.maxResLen} max time length
+                        <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary">
+                            <LuTimer className="row-span-2 mr-2 pt-1 size-6" />
+                            {resource.maxResLen} mins Max
                         </span>
-                        <span className="text-lg text-secondary">
+                        <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary">
+                            <FaUsers className="row-span-2 mr-2 pt-1 size-6" />
                             {resource.maxResSize} person max
                         </span>
                         <Link

@@ -28,10 +28,10 @@ const MyReservations = () => {
                     My Reservations
                 </h1>
                 <Link
-                    to="/"
+                    to="/search"
                     className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background_alt hover:text-med_orange hover:shadow-lg transition-all"
                 >
-                    Reserve More
+                    Add Reservation
                 </Link>
             </div>
             <div className="grid grid-cols-1 gap-8">
