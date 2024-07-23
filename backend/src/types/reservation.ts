@@ -4,8 +4,6 @@ export type ReservationType = {
     resourceId: string;
     comment: string;
     start: Date;
-    startMinutes: number;
     end: Date;
-    endMinutes: number;
     size: number;
 };

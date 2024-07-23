@@ -7,9 +7,7 @@ const reservationSchema = new mongoose.Schema<ReservationType>(
         resourceId: { type: String, required: true },
         comment: { type: String, required: true },
         start: { type: Date, required: true },
-        startMinutes: { type: Number, required: true },
         end: { type: Date, required: true },
-        endMinutes: { type: Number, required: true },
         size: { type: Number, required: true },
     },
     { timestamps: true, collection: "reservations" }

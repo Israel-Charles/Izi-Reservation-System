@@ -25,9 +25,7 @@ export const makeReservation = async (req: Request, res: Response) => {
             resourceId: req.params.resourceId,
             comment,
             start,
-            startMinutes: convertTimeToMinutes(start),
             end,
-            endMinutes: convertTimeToMinutes(end),
             size,
         });
 

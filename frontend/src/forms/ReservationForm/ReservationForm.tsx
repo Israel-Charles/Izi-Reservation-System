@@ -55,7 +55,7 @@ const ReservationForm = ({ resourceId }: Props) => {
                 })}
                 className="flex flex-col gap-4"
             >
-                <span className="text-lg font-semibold">Reservation form</span>
+                <span className="text-lg font-semibold">Reserve your spot</span>
                 <label className="text-primary font-bold">
                     Comment
                     <div className="relative">
