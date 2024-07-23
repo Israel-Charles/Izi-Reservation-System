@@ -1,60 +1,78 @@
 import { zoomies } from "ldrs";
 import { useForm } from "react-hook-form";
 import { BackButton } from "../../components/Buttons";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiSolidError } from "react-icons/bi";
 import { convertTimeToMinutes } from "../../../../backend/src/middleware/time";
 import { useMutation } from "react-query";
 import * as apiClient from "../../api-client";
+import { AppContext } from "../../contexts/AppContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
+    open: string;
+    close: string;
+    maxResSize: number;
     resourceId: string;
 };
 
 type ReservationFormData = {
     comment: string;
     start: string;
-    startMinutes: number;
     end: string;
-    endMinutes: number;
     size: number;
 };
 
-const ReservationForm = ({ resourceId }: Props) => {
+const ReservationForm = ({ open, close, maxResSize, resourceId }: Props) => {
+    const [dayOfWeek, setDayOfWeek] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const { showToast } = useContext(AppContext);
     const {
-        watch,
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<ReservationFormData>();
+
+    const convertTimeToDate = (timeString: string) => {
+        const [hours, minutes] = timeString.split(":").map(Number);
+        const time = new Date();
+        time.setHours(hours, minutes, 0);
+        return time;
+    };
+
+    useEffect(() => {
+        register("startDate");
+        register("endDate");
+    }, [register]);
+
+    const openTime = convertTimeToDate(open);
+    const closeTime = convertTimeToDate(close);
 
     useEffect(() => {
         zoomies.register();
     }, []);
 
-    const startValue = watch("start");
-    const endValue = watch("end");
-
-    const startMinutes = startValue
-        ? convertTimeToMinutes(startValue)
-        : undefined;
-    const endMinutes = endValue ? convertTimeToMinutes(endValue) : undefined;
-
-    const mutation = useMutation(apiClient.makeReservation, {
-        onSuccess: () => {},
-        onError: (error: Error) => {
-            showToast("error", error.message);
+    const mutation = useMutation({
+        mutationFn: (formData: ReservationFormData) =>
+            apiClient.makeReservation(formData, resourceId),
+        onSuccess: (responseBody) => {
+            showToast({ message: responseBody.message, type: "SUCCESS" });
         },
+        onError: (error: Error) => {
+            showToast({ message: error.message, type: "ERROR" });
+        },
+    });
+
+    const onSubmit = handleSubmit((data) => {
+        mutation.mutate(data);
     });
 
     return (
         <div className="flex flex-col gap-6">
-            <form
-                onSubmit={handleSubmit((data) => {
-                    console.log(data);
-                })}
-                className="flex flex-col gap-4"
-            >
+            <form onSubmit={onSubmit} className="flex flex-col gap-6">
                 <span className="text-lg font-semibold">Reserve your spot</span>
                 <label className="text-primary font-bold">
                     Comment
@@ -63,7 +81,7 @@ const ReservationForm = ({ resourceId }: Props) => {
                             rows={3}
                             placeholder="comment..."
                             autoComplete="off"
-                            // disabled={isLoading}
+                            disabled={mutation.isLoading}
                             className={
                                 !errors.comment
                                     ? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal mt-1"
@@ -86,44 +104,104 @@ const ReservationForm = ({ resourceId }: Props) => {
                     )}
                 </label>
 
-                <div className="flex justify-start gap-x-2 items-center">
+                <div className="flex flex-col md:flex-row justify-start gap-6 items-center">
                     <label className="text-primary font-bold">
-                        Start
+                        Day:
                         <div className="relative">
-                            <input
-                                id="reservation-start"
-                                type="time"
-                                // disabled={isLoading}
+                            <select
+                                value={dayOfWeek}
+                                onChange={(e) => setDayOfWeek(e.target.value)}
+                                disabled={mutation.isLoading}
+                                className={
+                                    !errors.dayOfWeek
+                                        ? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal mt-1"
+                                        : "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal mt-1"
+                                }
+                                {...register("dayOfWeek", {
+                                    required: "Day is required",
+                                })}
+                            >
+                                <option
+                                    className="bg-background text-primary"
+                                    value=""
+                                >
+                                    Select a Day
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Monday"
+                                >
+                                    Monday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Tuesday"
+                                >
+                                    Tuesday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Wednesday"
+                                >
+                                    Wednesday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Thursday"
+                                >
+                                    Thursday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Friday"
+                                >
+                                    Friday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Saturday"
+                                >
+                                    Saturday
+                                </option>
+                                <option
+                                    className="bg-background text-primary"
+                                    value="Sunday"
+                                >
+                                    Sunday
+                                </option>
+                            </select>
+                        </div>
+                        {errors.dayOfWeek && (
+                            <span className="flex items-center gap-x-1 absolute text-error">
+                                <BiSolidError size={16} />
+                                {errors.dayOfWeek.message}
+                            </span>
+                        )}
+                    </label>
+                    <label className="text-primary font-bold">
+                        Start Time:
+                        <div className="relative">
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => {
+                                    setStartDate(date);
+                                    setValue("startDate", date);
+                                }}
+                                showTimeSelect
+                                showTimeSelectOnly
+                                timeIntervals={15}
+                                disabled={mutation.isLoading}
+                                timeCaption="Time"
+                                dateFormat="h:mm aa"
+                                minTime={openTime}
+                                maxTime={closeTime}
                                 className={
                                     !errors.start
-                                        ? "bg-transparent border-2 border-primary placeholder-secondary text-primary rounded w-full py-2 px-3 font-normal my-1"
-                                        : "bg-transparent border-2 border-error placeholder-error text-error rounded w-full py-2 px-3 font-normal my-1"
+                                        ? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal mt-1"
+                                        : "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal mt-1"
                                 }
                                 {...register("start", {
-                                    required: "Start time is required",
-                                    validate: (start) => {
-                                        if (start && endMinutes)
-                                            return (
-                                                startMinutes < endMinutes ||
-                                                "Start time must be before end time"
-                                            );
-                                    },
-                                    validate: (start) => {
-                                        if (start && resourceId.open)
-                                            return (
-                                                startMinutes >
-                                                    resourceId.openMinutes ||
-                                                "Start time must be after open time"
-                                            );
-                                    },
-                                    validate: (start) => {
-                                        if (start && resourceId.close)
-                                            return (
-                                                startMinutes <
-                                                    resourceId.closeMinutes ||
-                                                "Start time must be before close time"
-                                            );
-                                    },
+                                    required: "Start is required",
                                 })}
                             />
                         </div>
@@ -135,42 +213,29 @@ const ReservationForm = ({ resourceId }: Props) => {
                         )}
                     </label>
                     <label className="text-primary font-bold">
-                        End
+                        End Time:
                         <div className="relative">
-                            <input
-                                id="reservation-end"
-                                type="time"
-                                // disabled={isLoading}
+                            <DatePicker
+                                selected={endDate}
+                                onChange={(date) => {
+                                    setEndDate(date);
+                                    setValue("endDate", date); // Manually update the value using setValue
+                                }}
+                                showTimeSelect
+                                showTimeSelectOnly
+                                disabled={mutation.isLoading}
+                                timeIntervals={15}
+                                timeCaption="Time"
+                                dateFormat="h:mm aa"
+                                minTime={openTime}
+                                maxTime={closeTime}
                                 className={
                                     !errors.end
-                                        ? "bg-transparent border-2 border-primary placeholder-secondary text-primary rounded w-full py-2 px-3 font-normal my-1"
-                                        : "bg-transparent border-2 border-error placeholder-error text-error rounded w-full py-2 px-3 font-normal my-1"
+                                        ? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal mt-1"
+                                        : "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal mt-1"
                                 }
                                 {...register("end", {
-                                    required: "End time is required",
-                                    validate: (end) => {
-                                        if (end && startMinutes)
-                                            return (
-                                                endMinutes > startMinutes ||
-                                                "End time must be after start time"
-                                            );
-                                    },
-                                    validate: (end) => {
-                                        if (end && resourceId.open)
-                                            return (
-                                                endMinutes >
-                                                    resourceId.openMinutes ||
-                                                "End time must be after open time"
-                                            );
-                                    },
-                                    validate: (end) => {
-                                        if (end && resourceId.close)
-                                            return (
-                                                endMinutes <
-                                                    resourceId.closeMinutes ||
-                                                "End time must be before close time"
-                                            );
-                                    },
+                                    required: "End is required",
                                 })}
                             />
                         </div>
@@ -182,29 +247,28 @@ const ReservationForm = ({ resourceId }: Props) => {
                         )}
                     </label>
                     <label className="text-primary font-bold">
-                        Group Size:
+                        Group:
                         <div className="relative">
                             <input
                                 min={1}
-                                max={50}
+                                max={maxResSize}
                                 type="number"
-                                placeholder="1-50"
-                                // disabled={isLoading}
+                                disabled={mutation.isLoading}
                                 className={
                                     !errors.size
                                         ? "bg-transparent border-2 border-primary placeholder-tertiary rounded w-full py-2 px-3 font-normal my-1"
                                         : "bg-transparent border-2 border-error placeholder-error rounded w-full py-2 px-3 font-normal my-1"
                                 }
                                 {...register("size", {
-                                    required: "Group size is required",
+                                    required: "Required",
                                     min: {
                                         value: 1,
-                                        message: "Group size must be >= 1",
+                                        message: "Must be >= 1",
                                     },
                                     max: {
                                         value: resourceId.maxResSize,
                                         message:
-                                            "Group size must be <= " +
+                                            "Must be <= " +
                                             resourceId.maxResSize,
                                     },
                                 })}
@@ -218,29 +282,29 @@ const ReservationForm = ({ resourceId }: Props) => {
                         )}
                     </label>
                 </div>
+                <span className="flex justify-between mt-2">
+                    <BackButton />
+                    <button
+                        disabled={mutation.isLoading}
+                        type="submit"
+                        className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background hover:text-med_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all"
+                    >
+                        {mutation.isLoading ? (
+                            <div className="py-1/2">
+                                <l-zoomies
+                                    size="50"
+                                    stroke="15"
+                                    bg-opacity="0.1"
+                                    speed="1.4"
+                                    color="rgb(255, 125, 40)"
+                                ></l-zoomies>
+                            </div>
+                        ) : (
+                            "Reserve"
+                        )}
+                    </button>
+                </span>
             </form>
-            <span className="flex justify-between">
-                <BackButton />
-                <button
-                    // disabled={isLoading}
-                    type="submit"
-                    className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-background hover:text-med_orange hover:shadow-lg disabled:bg-tertiary disabled:text-secondary transition-all"
-                >
-                    {/* { ? ( */}
-                    <div className="py-1/2">
-                        <l-zoomies
-                            size="50"
-                            stroke="15"
-                            bg-opacity="0.1"
-                            speed="1.4"
-                            color="rgb(255, 125, 40)"
-                        ></l-zoomies>
-                    </div>
-                    {/* ) : (
-                        <span>Save</span>
-                    )} */}
-                </button>
-            </span>
         </div>
     );
 };

@@ -377,7 +377,9 @@ export const makeReservation = async (
         {
             method: "POST",
             credentials: "include",
-            body: formData,
+            headers: {
+                "Content-Type": "application/json",
+            },
         }
     );
 
