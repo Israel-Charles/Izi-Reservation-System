@@ -10,11 +10,13 @@ const Footer = () => {
 					<a
 						href="https://github.com/keatsane/big-project-4331"
 						target="_blank"
+						name="Github"
 						rel="noopener noreferrer">
 						<FaGithub
 							size={30}
 							className="text-primary hover:text-secondary transition-all"
 						/>
+
 					</a>
 					<LogoButton />
 				</div>
