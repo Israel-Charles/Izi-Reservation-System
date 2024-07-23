@@ -52,8 +52,25 @@ const validateHours = [
         .withMessage("At least one day of operation is required"),
 ];
 
+const validateImages = [
+    body("imageFiles")
+        .custom((value) => {
+            if (!value) {
+                throw new Error("Atleast one image required");
+            }
+            return true;
+        })
+        .custom((value) => {
+            if (value.length > 6) {
+                throw new Error("Only 6 images can be uploaded");
+            }
+            return true;
+        }),
+];
+
 export const validateResource = [
     ...validateDescription,
     ...validateType,
     ...validateHours,
+    ...validateImages,
 ];

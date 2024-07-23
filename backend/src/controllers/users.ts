@@ -6,7 +6,6 @@ import Reservation from "../models/reservation";
 import { ResourceType } from "../types/resource";
 import { validationResult } from "express-validator";
 import { convertTimeToMinutes } from "../middleware/time";
-import e from "cors";
 
 // /api/users/profile
 export const getProfile = async (req: Request, res: Response) => {
