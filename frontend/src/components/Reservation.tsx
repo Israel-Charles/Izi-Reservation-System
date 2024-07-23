@@ -26,6 +26,8 @@ const ReservationItem = ({ reservation }) => {
 
     const formattedStart = format(new Date(reservation.start), "p");
     const formattedEnd = format(new Date(reservation.end), "p");
+    const formattedDate = format(new Date(reservation.start), "EEEE, MMMM do, yyyy");
+
 
     return (
         <div
@@ -33,9 +35,14 @@ const ReservationItem = ({ reservation }) => {
             className="flex flex-row justify-between bg-background_alt text-primary rounded-lg p-6 gap-6 shadow-lg"
         >
             <div className="flex flex-col justify-between">
-                <h2 className="whitespace-pre-line">{reservation.comment}</h2>
+                <h2 className="whitespace-pre-line font-semibold">{resource?.name}</h2>
+                <br></br>
+                <h2 className="whitespace-pre-line italic">{reservation.comment}</h2>
+                <br></br>
+                <h2 className="whitespace-pre-line">{formattedDate}</h2>
+
                 <div className="whitespace-pre-line">
-                    From {formattedStart} to {formattedEnd} at {resource?.name}
+                    From {formattedStart} to {formattedEnd}
                 </div>
             </div>
             {resource?.imageUrls && (
