@@ -93,7 +93,12 @@ const Reserve = () => {
                     close={resource.close}
                     resourceId={resourceId}
                 />
-                <ReservationForm resourceId={resourceId} />
+                <ReservationForm
+                    open={resource.open}
+                    close={resource.close}
+                    maxResSize={resource.maxResSize}
+                    resourceId={resourceId}
+                />
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { AppContext } from "../contexts/AppContext";
 import { useContext } from "react";
+import ReservationItem from "../components/Reservation";
 
 const MyReservations = () => {
     const { showToast } = useContext(AppContext);
@@ -34,39 +35,12 @@ const MyReservations = () => {
                     Add Reservation
                 </Link>
             </div>
-            <div className="grid grid-cols-1 gap-8">
+            <div className="grid grid-cols-2 gap-8">
                 {reservationData.map((reservation) => (
-                    <div
+                    <ReservationItem
                         key={reservation._id}
-                        className="flex flex-col bg-background_alt text-primary justify-between rounded-lg p-6 gap-6 shadow-lg"
-                    >
-                        <h2 className="whitespace-pre-line">
-                            {reservation.comment}
-                        </h2>
-                        <div className="whitespace-pre-line">
-                            {reservation.start}
-                        </div>
-                        <div className="whitespace-pre-line">
-                            {reservation.end}
-                        </div>
-                        <div className="whitespace-pre-line">
-                            {reservation.size}
-                        </div>
-                        {/* <div className="flex items-center justify-between">
-                            <Link
-                                to={`/reserve/${resource._id}`}
-                                className="rounded text-xl text-med_orange bg-background font-bold px-3 py-2 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
-                            >
-                                View
-                            </Link>
-                            <Link
-                                to={`/my-resources/${resource._id}`}
-                                className="rounded text-xl text-light_neutral bg-med_orange font-bold px-3 py-2 hover:bg-light_orange hover:shadow-lg transition-all"
-                            >
-                                Edit
-                            </Link>
-                        </div> */}
-                    </div>
+                        reservation={reservation}
+                    />
                 ))}
             </div>
         </div>
