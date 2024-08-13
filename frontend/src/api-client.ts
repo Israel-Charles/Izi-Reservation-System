@@ -380,6 +380,7 @@ export const makeReservation = async (
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify(formData)
         }
     );
 
@@ -414,6 +415,22 @@ export const cancelReservation = async (reservationId: string) => {
             credentials: "include",
         }
     );
+
+    const responseBody = await response.json();
+
+    if (!response.ok) {
+        throw new Error(responseBody.message);
+    }
+
+    return responseBody;
+};
+
+// New API client function to get user name by ID
+export const getUserNameById = async (userId: string) => {
+    const response = await fetch(`${API_BASE_URL}/api/resources/${userId}/name`, {
+        method: "GET",
+        credentials: "include",
+    });
 
     const responseBody = await response.json();
 

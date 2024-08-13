@@ -77,7 +77,7 @@ const HoursSection = () => {
                 <div
                     className={`mt-2 relative rounded-lg border-2 border-${
                         errors.days ? "error" : "primary"
-                    } p-3 grid grid-cols-4 gap-2`}
+                    } p-3 grid grid-cols-3 md:grid-cols-4 gap-2`}
                 >
                     {dayTypes.map((day) => (
                         <label

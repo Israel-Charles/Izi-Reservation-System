@@ -44,11 +44,11 @@ export const timeTypes = [
 ];
 
 export const dayTypes = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
 ];

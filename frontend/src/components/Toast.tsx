@@ -3,7 +3,7 @@ import { MdCheckCircle, MdError } from "react-icons/md";
 
 type ToastProps = {
 	message: string;
-	type: "SUCCESS" | "ERROR";
+	type: "SUCCESS" | "ERROR" | "INFO";
 	onClose: () => void;
 };
 
@@ -18,8 +18,10 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
 
 	const styles =
 		type === "SUCCESS"
-			? "fixed top-4 right-4 z-50 p-4 rounded-md bg-success text-light_neutral max-w-md shadow-lg"
-			: "fixed top-4 right-4 z-50 p-4 rounded-md bg-error text-light_neutral max-w-md shadow-lg";
+			? "fixed top-20 right-4 z-50 p-4 rounded-md bg-success text-light_neutral max-w-md shadow-lg"
+			: (type === "ERROR"
+				? "fixed top-20 right-4 z-50 p-4 rounded-md bg-error text-light_neutral max-w-md shadow-lg"
+				: "fixed top-20 right-4 z-50 p-4 rounded-md bg-background text-primary max-w-md shadow-lg");
 
 	return (
 		<div className={styles} onClick={onClose}>
@@ -27,9 +29,11 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
 				<span className="text-light_neutral">
 					{type === "SUCCESS" ? (
 						<MdCheckCircle className="h-8 w-8" />
-					) : (
+					) : (type === "ERROR" ? (
 						<MdError className="h-8 w-8" />
-					)}
+					) : (
+						<></>
+					))}
 				</span>
 				<span className="text-lg font-semibold">{message}</span>
 			</div>

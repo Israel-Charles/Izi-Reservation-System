@@ -84,9 +84,7 @@ const Profile = () => {
     };
 
     return (
-        <div className="container mx-auto max-w-3xl">
-            <div className="">
-                <div className="px-6 flex flex-col">
+                <div className="p-1 sm:px-6 flex flex-col container sm:mx-auto max-w-3xl">
                     <form
                         className="flex flex-col gap-y-8 my-14 bg-background_alt p-6 rounded-lg shadow-lg"
                         onSubmit={onSubmit}
@@ -216,11 +214,11 @@ const Profile = () => {
                         </label>
                         <div className="flex justify-between items-center">
                             <BackButton />
-                            <div className="flex gap-4">
+                            <div className="flex gap-2 sm:gap-4">
                                 <button
                                     onClick={(event) => handleDelete(event)}
                                     disabled={deleteMutation.isLoading}
-                                    className="rounded text-lg text-light_neutral bg-error font-semibold px-4 py-2 hover:bg-background_alt hover:text-error hover:shadow-lg transition-all disabled:bg-background_alt disabled:pointer-events-none"
+                                    className="rounded text-light_neutral bg-error font-semibold px-2 py-2 hover:bg-background_alt hover:text-error hover:shadow-lg transition-all disabled:bg-background_alt disabled:pointer-events-none"
                                 >
                                     {deleteMutation.isLoading ? (
                                         <div className="py-1/2">
@@ -239,7 +237,7 @@ const Profile = () => {
                                 <button
                                     type="submit"
                                     disabled={mutation.isLoading}
-                                    className="bg-med_orange text-primary font-semibold px-4 py-2 rounded hover:bg-background disabled:bg-background hover:shadow-lg disabled:pointer-events-none transition-all"
+                                    className="bg-med_orange text-primary font-semibold px-2 py-2 rounded hover:bg-background disabled:bg-background hover:shadow-lg disabled:pointer-events-none transition-all"
                                 >
                                     {mutation.isLoading ? (
                                         <div className="py-1/2">
@@ -259,8 +257,6 @@ const Profile = () => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
     );
 };
 

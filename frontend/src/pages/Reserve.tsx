@@ -1,10 +1,20 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
-import WeeklyView from "../components/WeeklyView";
-import ReservationForm from "../forms/ReservationForm/ReservationForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import ReserveCalendarView from "../components/ReserveCalendarView";
+import { BackButton } from "../components/Buttons";
+import {
+    FaMapPin,
+    FaUsers,
+    FaRegClock,
+    FaCalendarAlt,
+} from "react-icons/fa";
+
+import { LuTimer } from "react-icons/lu";
+import { stringToTime } from "../utilFunction";
+
 
 const Reserve = () => {
     const { resourceId } = useParams();
@@ -21,6 +31,11 @@ const Reserve = () => {
         );
     };
 
+    // Reset scroll position when the component is mounted or when resourceId changes
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [resourceId]);
+
     const prevImage = () => {
         setCurrentImageIndex(
             (prevIndex) =>
@@ -34,11 +49,11 @@ const Reserve = () => {
     }
 
     return (
-        <div className="container mx-auto p-6 my-14">
-            <div className="flex flex-col gap-y-6 bg-background_alt rounded-lg shadow-lg p-6 text-primary">
-                <div className="flex flex-row gap-6 justify-between">
-                    <div>
-                        <div className="flex justify-start items-center gap-3">
+        <div className="container mx-auto p-0 my-6">
+            <div className="flex flex-col gap-y-6 bg-background_alt rounded-lg shadow-lg p-4 text-primary">
+                <div className="hidden md:flex flex-row gap-6 justify-between">
+                    <div className="flex flex-col justify-between gap-1 w-1/2">
+                        <div className="flex justify-between items-center gap-3 pb-3">
                             <span className="text-xl md:text-2xl lg:text-3xl font-bold">
                                 {resource.name}
                             </span>
@@ -46,58 +61,157 @@ const Reserve = () => {
                                 {resource.type}
                             </span>
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <span className="text-base md:text-lg lg:text-xl text-secondary">
+                        <span className="grid grid-rows-1 grid-flow-col justify-start text-base md:text-lg lg:text-xl text-secondary">
+                            <FaMapPin className="mr-2 pt-1 size-6" />
+                            <span className="flex flex-wrap">
                                 {resource.location}
                             </span>
-                            <div className="flex justify-start items-center gap-3">
-                                <span className="text-sm md:text-base text-secondary">
+                        </span>
+                        <div className="flex justify-start items-center gap-3">
+                            <span className="grid grid-rows-1 grid-flow-col justify-start text-sm md:text-base text-secondary">
+                                <FaCalendarAlt className="mr-2 pt-1 size-6" />
+                                <span className="flex flex-wrap">
                                     {resource.days.join(", ")}
                                 </span>
-                                <span className="text-sm md:text-base text-secondary">
-                                    {resource.open} - {resource.close}
-                                </span>
-                            </div>
-                            <span className="text-sm md:text-base text-secondary">
-                                {resource.description}
                             </span>
                         </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-3">
+                            <span className="grid grid-rows-1 grid-flow-col justify-start text-sm md:text-base text-secondary">
+                                <FaRegClock className="mr-2 pt-1 size-6" />
+                                <span className="flex flex-wrap">
+                                    {stringToTime(resource.open)} - {stringToTime(resource.close)}
+                                </span>
+                            </span>
+                            <span className="grid grid-rows-1 grid-flow-col justify-end lg:justify-center text-sm md:text-base text-secondary">
+                                <LuTimer className="mr-2 pt-1 size-6" />
+                                <span className="flex flex-wrap">
+                                    {resource.maxResLen} mins Max
+                                </span>
+                            </span>
+                            <span className="grid grid-rows-1 grid-flow-col justify-start lg:justify-end text-sm md:text-base text-secondary">
+                                <FaUsers className="mr-2 pt-1 size-6" />
+                                <span className="flex flex-wrap">
+                                    {resource.maxResSize} person max
+                                </span>
+                            </span>
+                        </div>
+                        <span className="text-sm md:text-base text-secondary py-2">
+                            {resource.description}
+                        </span>
+                        <span className="flex justify-between mt-2 ">
+                            <BackButton />
+                            <button>
+                            </button>
+                        </span>
                     </div>
-                    <div className="relative">
+                    <div className="relative container flex place-items-center w-1/2 md:h-80 lg:h-72">
                         {resource.imageUrls.length > 1 && (
-                            <>
+                            <div className="h-full">
                                 <button
                                     onClick={prevImage}
-                                    className="absolute left-3 top-3 z-10"
+                                    className="absolute bg-white bg-opacity-10 h-full top-1/2 transform -translate-y-1/2 left-3 z-10"
                                 >
-                                    <FaArrowAltCircleLeft className="text-light_neutral size-6" />
+                                    <FaArrowAltCircleLeft className="p-1 text-light_neutral size-10" />
                                 </button>
                                 <button
                                     onClick={nextImage}
-                                    className="absolute right-3 top-3 z-10"
+                                    className="absolute bg-white bg-opacity-10 h-full top-1/2 transform -translate-y-1/2 right-3 z-10"
                                 >
-                                    <FaArrowAltCircleRight className="text-light_neutral size-6" />
+                                    <FaArrowAltCircleRight className="p-1 text-light_neutral size-10" />
                                 </button>
-                            </>
+                            </div>
                         )}
                         <img
                             key={resource.imageUrls[currentImageIndex]}
                             src={resource.imageUrls[currentImageIndex]}
                             alt="Resource"
-                            className="rounded-lg w-[300px] h-[200px] object-cover"
+                            className="w-full h-full object-cover object-center rounded-lg"
                         />
                     </div>
                 </div>
-                <WeeklyView
-                    open={resource.open}
-                    close={resource.close}
-                    resourceId={resourceId}
-                />
-                <ReservationForm
-                    open={resource.open}
-                    close={resource.close}
+                <div className="md:hidden ">
+                    <div className="relative container flex place-items-center w-full h-36">
+                        {resource.imageUrls.length > 1 && (
+                            <div className="h-full">
+                                <button
+                                    onClick={prevImage}
+                                    className="absolute bg-white bg-opacity-10 h-full top-1/2 transform -translate-y-1/2 left-3 z-10"
+                                >
+                                    <FaArrowAltCircleLeft className="p-1 text-light_neutral size-10" />
+                                </button>
+                                <button
+                                    onClick={nextImage}
+                                    className="absolute bg-white bg-opacity-10 h-full top-1/2 transform -translate-y-1/2 right-3 z-10"
+                                >
+                                    <FaArrowAltCircleRight className="p-1 text-light_neutral size-10" />
+                                </button>
+                            </div>
+                        )}
+                        <img
+                            key={resource.imageUrls[currentImageIndex]}
+                            src={resource.imageUrls[currentImageIndex]}
+                            alt="Resource"
+                            className="w-full h-full object-cover object-center rounded-lg"
+                        />
+                    </div>
+                    <div className="flex justify-between items-center gap-3 pt-4 pb-1">
+                        <span className="text-xl md:text-2xl lg:text-3xl font-bold">
+                            {resource.name}
+                        </span>
+                        <span className="text-sm md:text-base lg:text-lg text-secondary">
+                            {resource.type}
+                        </span>
+                    </div>
+                    <span className="grid grid-rows-1 grid-flow-col justify-start text-base md:text-lg lg:text-xl text-secondary">
+                        <FaMapPin className="mr-2 pt-1 size-6" />
+                        <span className="flex flex-wrap">
+                            {resource.location}
+                        </span>
+                    </span>
+                    <div className="flex justify-start items-center gap-3">
+                        <span className="grid grid-rows-1 grid-flow-col justify-start text-sm md:text-base text-secondary">
+                            <FaCalendarAlt className="mr-2 pt-1 size-6" />
+                            <span className="flex flex-wrap">
+                                {resource.days.join(", ")}
+                            </span>
+                        </span>
+                    </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-3">
+                        <span className="grid grid-rows-1 grid-flow-col justify-start text-sm md:text-base text-secondary">
+                            <FaRegClock className="mr-2 pt-1 size-6" />
+                            <span className="flex flex-wrap">
+                                {stringToTime(resource.open)} - {stringToTime(resource.close)}
+                            </span>
+                        </span>
+                        <span className="grid grid-rows-1 grid-flow-col justify-end lg:justify-center text-sm md:text-base text-secondary">
+                            <LuTimer className="mr-2 pt-1 size-6" />
+                            <span className="flex flex-wrap">
+                                {resource.maxResLen} mins Max
+                            </span>
+                        </span>
+                        <span className="grid grid-rows-1 grid-flow-col justify-start lg:justify-end text-sm md:text-base text-secondary">
+                            <FaUsers className="mr-2 pt-1 size-6" />
+                            <span className="flex flex-wrap">
+                                {resource.maxResSize} person max
+                            </span>
+                        </span>
+                    </div>
+                    <span className="text-sm md:text-base text-secondary py-2">
+                        {resource.description}
+                    </span>
+                    <span className="flex justify-between pt-5">
+                        <BackButton />
+                        <button>
+                        </button>
+                    </span>
+                </div>
+                <ReserveCalendarView
+                    openTime={resource.open}
+                    closeTime={resource.close}
                     maxResSize={resource.maxResSize}
                     resourceId={resourceId}
+                    openDays={resource.days}
+                    maxDuration={resource.maxResLen}
                 />
             </div>
         </div>

@@ -91,7 +91,7 @@ const DetailsSection = ({ isLoading }) => {
 			</label>
 			<div className="flex flex-col md:flex-row gap-5">
 				<label className="text-primary font-bold flex-1">
-					Maximum reservation time{" "}
+					Maximum duration{" "}
 					<span className="text-tertiary font-normal">( 15 - 300 )</span>
 					<div className="relative">
 						<input
@@ -130,7 +130,7 @@ const DetailsSection = ({ isLoading }) => {
 					)}
 				</label>
 				<label className="text-primary font-bold flex-1">
-					Maximum reservation groupsize{" "}
+					Maximum groupsize{" "}
 					<span className="text-tertiary font-normal">( 1 - 50 )</span>
 					<div className="relative">
 						<input

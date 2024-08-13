@@ -69,7 +69,7 @@ const ManageResourceForm = ({ onSave, isLoading, resource }: Props) => {
     });
 
     return (
-        <div className="rounded-lg bg-background_alt p-6 shadow-lg">
+        <div className="rounded-lg bg-background_alt p-4 sm:p-6 shadow-lg">
             <FormProvider {...formMethods}>
                 <form className="flex flex-col gap-10" onSubmit={onSubmit}>
                     <DetailsSection isLoading={isLoading} />

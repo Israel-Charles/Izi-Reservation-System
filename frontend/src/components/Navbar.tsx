@@ -28,7 +28,7 @@ const Navbar = () => {
     return (
         <div className="sticky top-0 z-20 bg-background_alt flex justify-between items-center shadow-xl p-6">
             <LogoButton />
-            <div className="hidden md:flex items-center gap-x-4">
+            <div className="hidden lg:flex items-center gap-x-4">
                 {isLoggedIn ? (
                     <>
                         <ThemeButton />
@@ -90,15 +90,16 @@ const Navbar = () => {
                     </>
                 )}
             </div>
-            <div ref={menuRef} className="md:hidden">
+            <div ref={menuRef} className="lg:hidden items-center gap-x-2 flex">
+            <ThemeButton />
                 <button
                     className="rounded-lg p-2 text-primary hover:bg-background transition"
                     onClick={toggleMenu}
                 >
-                    <AiOutlineMenu size={30} />
+                    <AiOutlineMenu size={34} />
                 </button>
                 {isMenuOpen && (
-                    <div className="absolute z-20 top-20 right-0 rounded-lg bg-background_alt shadow-xl p-4 flex flex-col items-start md:hidden gap-y-2">
+                    <div className="absolute z-20 top-20 right-0 rounded-lg bg-background_alt shadow-xl p-4 flex flex-col items-start lg:hidden gap-y-2">
                         {isLoggedIn ? (
                             <>
                                 <Link
@@ -145,10 +146,7 @@ const Navbar = () => {
                                 >
                                     About
                                 </Link>
-                                <div className="flex justify-between w-full gap-4">
-                                    <ThemeButton />
-                                    <SignOutButton onClick={toggleMenu} />
-                                </div>
+                                <SignOutButton onClick={toggleMenu} />
                             </>
                         ) : (
                             <>
@@ -176,7 +174,6 @@ const Navbar = () => {
                                 </Link>
 
                                 <div className="flex justify-between w-full gap-4">
-                                    <ThemeButton />
                                     <Link
                                         to="/about"
                                         onClick={toggleMenu}

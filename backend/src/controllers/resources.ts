@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import Reservation from "../models/reservation";
 import { ResourceSearchResponse } from "../types/resource";
 import { convertTimeToMinutes } from "../middleware/time";
+import User from "../models/user";
+
 
 // /api/resources/search
 export const searchResources = async (req: Request, res: Response) => {
@@ -134,4 +136,18 @@ const constructSearchQuery = (queryParams: any) => {
     }
 
     return searchQuery;
+};
+
+// API to get user name by user id
+export const getUserNameById = async (req: Request, res: Response) => {
+    try {
+        const user = await User.findById(req.params.userId).select("firstName lastName");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.status(200).json({ firstName: user.firstName, lastName: user.lastName });
+    } catch (error) {
+        return res.status(500).json({ message: "Server error", error });
+    }
 };

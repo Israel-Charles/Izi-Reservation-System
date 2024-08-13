@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { ResourceType } from "../../../backend/src/types/resource";
+import { stringToTime } from "../utilFunction";
+
 
 import {
     FaMapPin,
@@ -22,7 +24,7 @@ const SearchResult = ({ resource }: Props) => {
                     src={resource.imageUrls[0]}
                     alt="resource"
                     loading="lazy"
-                    className="w-full h-full md:h-80 object-cover object-center rounded-lg p-"
+                    className="w-full h-full md:h-80 object-cover object-center rounded-lg"
                 />
             </div>
             <div className="grid grid-rows-2 h-fit">
@@ -64,7 +66,7 @@ const SearchResult = ({ resource }: Props) => {
                     </span>
                     <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary">
                         <FaRegClock className="row-span-2 mr-2 pt-1 size-6" />
-                        {resource.open} to {resource.close}
+                        {stringToTime(resource.open)} - {stringToTime(resource.close)}
                     </span>
                     <div className="grid grid-rows-2 grid-flow-col items-center justify-between mt-2">
                         <span className="grid grid-rows-1 grid-flow-col justify-start text-lg text-secondary">

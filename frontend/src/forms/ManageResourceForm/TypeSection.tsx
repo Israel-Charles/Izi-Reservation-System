@@ -20,14 +20,14 @@ const TypeSection = () => {
 				<div
 					className={`mt-2 relative rounded-lg border-2 border-${
 						errors.type ? "error" : "primary"
-					} p-3 grid grid-cols-4 gap-2`}>
+					} p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2`}>
 					{resourceTypes.map((type) => (
 						<label
 							key={type}
 							className={`${
 								typeWatch === type
-									? "flex justify-center cursor-pointer rounded bg-med_orange text-sm px-4 py-2 font-semibold hover:bg-light_orange transition-all"
-									: "flex justify-center cursor-pointer rounded bg-background text-sm px-4 py-2 font-semibold hover:bg-transparent transition-all"
+									? "flex justify-center cursor-pointer rounded bg-med_orange text-sm text-center items-center px-4 py-2 font-semibold hover:bg-light_orange transition-all"
+									: "flex justify-center cursor-pointer rounded bg-background text-sm text-center items-center px-4 py-2 font-semibold hover:bg-transparent transition-all"
 							} ${errors.type ? "text-error" : ""}`}>
 							<input
 								type="radio"

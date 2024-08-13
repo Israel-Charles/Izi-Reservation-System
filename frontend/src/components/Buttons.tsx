@@ -46,7 +46,7 @@ export const SignOutButton = () => {
     return (
         <button
             onClick={handleClick}
-            className="rounded text-primary font-bold px-3 py-2 hover:bg-med_orange hover:shadow-lg transition-all"
+            className="rounded text-primary w-full text-start lg:w-auto font-bold px-3 py-2 hover:bg-med_orange hover:shadow-lg transition-all"
         >
             Sign Out
         </button>
@@ -58,7 +58,7 @@ export const ThemeButton = () => {
 
     return (
         <button
-            className="rounded text-med_orange bg-background font-bold p-2.5 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
+            className="rounded text-med_orange bg-background font-bold p-2 sm:p-2.5 hover:bg-med_orange hover:text-light_neutral hover:shadow-lg transition-all"
             onClick={toggleTheme}
         >
             {theme === "dark" ? <FaMoon size={20} /> : <FaSun size={20} />}
