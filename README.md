@@ -1,6 +1,6 @@
-# Izi-Sceduling-System
+# Izi-Reservation-System
 
-This project is a versatile scheduling software designed to streamline the reservation process for resources. The software aims to enhance resource management by providing an intuitive interface for users to book, view, and manage reservations efficiently.
+This project is a versatile reservation/scheduling software designed to streamline the reservation process for resources. The software aims to enhance resource management by providing an intuitive interface for users to book, view, and manage reservations efficiently.
 
 ### Web App Link: https://4331booking.com/
 
